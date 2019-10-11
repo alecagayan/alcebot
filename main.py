@@ -1,3 +1,5 @@
+#https://hastebin.com/gibojuteda.py
+
 import discord
 import asyncio
 import re
