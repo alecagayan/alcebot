@@ -17,23 +17,23 @@ async def on_ready():
 
 #add
 @bot.command()
-async def add(ctx, a: int, b: int):
+async def add(ctx, a: float, b: float):
     await ctx.send(a+b)
 #subtract
 @bot.command()
-async def subtract(ctx, a: int, b: int):
+async def subtract(ctx, a: float, b: float):
     await ctx.send(a-b)
 #multiply
 @bot.command()
-async def multiply(ctx, a: int, b: int):
+async def multiply(ctx, a: float, b: float):
     await ctx.send(a*b)
 #divide
 @bot.command()
-async def divide(ctx, a: int, b: int):
+async def divide(ctx, a: float, b: float):
     await ctx.send(a/b)
 #exponent
 @bot.command()
-async def power(ctx, a: int, b: int):
+async def power(ctx, a: float, b: float):
     await ctx.send(a**b)
 
 @bot.command()
@@ -96,4 +96,4 @@ async def help(ctx):
 
 
 #token
-bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XaDkaA.cZQLwkHEfmBdnQwwD4UVV50g0Eg')
+bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XaJa5g.X4AksDCN5OuHGdMIyZTfv_WN-JE')
