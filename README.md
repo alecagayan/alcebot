@@ -13,4 +13,4 @@ Make a multifunction discord bot
 4. asyncio
 5. re
 
-Copyright (c) 2019 oopsie1412
+```Copyright (c) 2019 oopsie1412```
