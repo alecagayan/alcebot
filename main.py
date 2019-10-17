@@ -25,7 +25,6 @@ async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
-    print('token valid')
     print('------')
 
 #add
@@ -86,9 +85,11 @@ async def translate(ctx, a: str, b: str):
 
 #sentiment detector using nlp
 @bot.command()
-async def sentiment(ctx, *, die: str):
+async def sentiment(ctx, die: str):
     await ctx.send(die)
     opinion = TextBlob(die)
+    await ctx.send(opinion.sentiment)
+
 
 #info
 @bot.command()
@@ -123,6 +124,7 @@ async def help(ctx):
     embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
 
     await ctx.send(embed=embed)
+
 
 #token
 bot.run('token')
