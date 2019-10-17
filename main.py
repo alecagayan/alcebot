@@ -86,11 +86,9 @@ async def translate(ctx, a: str, b: str):
 #sentiment detector using nlp
 @bot.command()
 async def sentiment(ctx, die: str):
-    print(die)
     await ctx.send(die)
     opinion = TextBlob(die)
     await ctx.send(opinion.sentiment)
-    await ctx.send(opinion.translate(to="ru"))
 
 
 #info
