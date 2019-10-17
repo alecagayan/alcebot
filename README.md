@@ -13,4 +13,11 @@ Make a multifunction discord bot
 4. asyncio
 5. re
 
-Copyright (c) 2019 oopsie1412
+## How to install a package
+```pip install <package>```
+
+
+## Legal
+If you're going to use this code, please credit me! Thank You!
+
+```Copyright (c) 2019 oopsie1412```
