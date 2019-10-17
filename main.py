@@ -3,12 +3,12 @@ import random
 import textblob
 import asyncio
 import re
-
-from discord.ext import commands
-
+import logging
 
 from discord.ext import commands
 from textblob import TextBlob
+
+
 
 bot = commands.Bot(command_prefix='$')
 
@@ -22,11 +22,20 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game('with your emotions',))
 
     #says who its logged in as
+
+    logging.basicConfig(level=logging.CRITICAL)
+    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.ERROR)
+    print('------')
+    logging.basicConfig(level=logging.DEBUG)
+    print('------')
+    logging.basicConfig(level=logging.INFO)
+    print('------')   
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
+    print('valid token')
     print('------')
-
 #add
 @bot.command()
 async def add(ctx, a: float, b: float):
@@ -71,29 +80,26 @@ async def die(ctx):
 @bot.command()
 async def roll(ctx):
     await ctx.send(die_url[random.randint(1,6)-1])
-
-#ping
+    
 @bot.command()
 async def ping(ctx):
+    print(bot.latency)
     await ctx.send('Pong! {0}'.format(round(bot.latency, 1)))
 
-#translator
 @bot.command()
-async def translate(ctx, a: str, b: str):
+async def translate(ctx, a: str, *, b: str):
     opinion = TextBlob(b)
     await ctx.send(opinion.translate(to=a))
 
-#sentiment detector using nlp
 @bot.command()
-async def sentiment(ctx, die: str):
-    await ctx.send(die)
-    opinion = TextBlob(die)
+async def sentiment(ctx, *, arg):
+    print(arg)
+    await ctx.send(arg)
+    opinion = TextBlob(arg)
     await ctx.send(opinion.sentiment)
 
-
-#info
 @bot.command()
-async def info(ctx):
+async def info(ctx): 
     embed = discord.Embed(title="alcebot", description="worst bot lol", color=0x7289da)
 
     # give info about you here
@@ -127,4 +133,4 @@ async def help(ctx):
 
 
 #token
-bot.run('token')
+bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XaJ7ZA.T2z7Hxen-SBclxCYBx5FDcHmyco')
