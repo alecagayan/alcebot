@@ -1,5 +1,9 @@
-just submit a pr with something useful
+## How To:
 
-write at least a 2 sentence desc. with a reason why you think this code will help
+If you have a issue, make a issue.
 
-don't submit a pr just to get contributor status
+Write a detailed explaination on what the issue is, what you did, and what this will affect.
+
+If you are to attempt to make a "dumb"* commit just to get a contributor badge, you will be either warned or banned.
+
+*Note, any terms like this depend on the contributor flagging and may vary.
