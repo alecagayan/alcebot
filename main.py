@@ -145,7 +145,9 @@ async def weather(ctx, a):
     embed.add_field(name="Temperature :thermometer:", value=weather.get_temperature('celsius')['temp'], inline=False)
     embed.add_field(name="Conditions " + wheathr, value=status, inline=False)
     embed.add_field(name="Wind :wind_blowing_face:", value=round(weather.get_wind('miles_hour')['speed'], 3), inline=False)
-    embed.add_field(name="Pressure :timer:", value=weather.get_pressure(), inline=False)
+    embed.add_field(name="Visibility :eye:", value=weather.get_visibility(), inline=False)
+    embed.add_field(name="Humidity :droplet:", value=weather.get_humidity(), inline=False)
+    embed.set_footer(text=weather.get_reception_time(timeformat='iso'))
     await ctx.send(embed=embed)
     
 @bot.command()
@@ -186,4 +188,4 @@ async def help(ctx):
 
 
 #token
-bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XajrSA.pXN3YbSdeV_YszM8po9fUtF4BOI')
+bot.run('token')
