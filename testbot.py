@@ -150,7 +150,7 @@ async def weather(ctx, a):
     embed.add_field(name="Wind :wind_blowing_face:", value=round(weather.get_wind('miles_hour')['speed'], 3), inline=False) #wind speed
     embed.add_field(name="Visibility :eye:", value=weather.get_visibility(), inline=False) #visibility
     embed.add_field(name="Humidity :droplet:", value=weather.get_humidity(), inline=False) #humidity
-    embed.set_footer(text=weather.get_reception_time(timeformat='iso') + j.get_lat() + j.get_lon()) #prints time in ISO6081 instead of UNIX
+    embed.set_footer(text='Time of reception: ' + str(weather.get_reception_time(timeformat='iso')) + j.get_lat() + j.get_lon()) #prints time in ISO6081 instead of UNIX
 
     await ctx.send(embed=embed)
     
