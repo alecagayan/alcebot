@@ -12,6 +12,8 @@ Make a multifunction discord bot
 3. textblob
 4. asyncio
 5. re
+6. logging
+7. pyowwm
 
 ## How to install a package
 ```pip install <package>```
