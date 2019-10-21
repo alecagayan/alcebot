@@ -4,11 +4,15 @@ import textblob
 import asyncio
 import re
 import logging
+import pyowm
+
+owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
 from discord.ext import commands
 from textblob import TextBlob
 
-
+wheathr = ''
+wheathrWord = ''
 
 bot = commands.Bot(command_prefix='$')
 
@@ -21,8 +25,7 @@ async def on_ready():
     #sets status    
     await bot.change_presence(status=discord.Status.online, activity=discord.Game('with your emotions',))
 
-    #says who its logged in as
-
+    #says who its logged in as and gives logs
     logging.basicConfig(level=logging.CRITICAL)
     logging.basicConfig(level=logging.WARNING)
     logging.basicConfig(level=logging.ERROR)
@@ -36,6 +39,7 @@ async def on_ready():
     print(bot.user.id)
     print('valid token')
     print('------')
+
 #add
 @bot.command()
 async def add(ctx, a: float, b: float):
@@ -84,7 +88,7 @@ async def roll(ctx):
 @bot.command()
 async def ping(ctx):
     print(bot.latency)
-    await ctx.send('Pong! {0}'.format(round(bot.latency, 1)))
+    await ctx.send('Pong! {0}ms'.format(round(bot.latency*1000, 0)))
 
 @bot.command()
 async def translate(ctx, a: str, *, b: str):
@@ -99,8 +103,55 @@ async def sentiment(ctx, *, arg):
     await ctx.send(opinion.sentiment)
 
 @bot.command()
+async def mayb(ctx):
+    await ctx.send("hmmm")
+    await ctx.send("mayb")
+    await ctx.send("what tiem")
+
+@bot.command()
+async def belsontrump(ctx):
+    await ctx.send("https://imagen.click/i/b8626b.jpg")
+    await ctx.send("https://imagen.click/i/846a0e.jpg")
+
+@bot.command()
+async def weather(ctx, a):
+    regex= re.compile(r"(\b\d{5}-\d{4}\b|\b\d{5}\b\s)")
+    if not re.findall(regex, a):
+        await ctx.send("Not a valid zipcode!")
+        return
+
+    wethr = owm.weather_at_zip_code(a,'US')
+    weather = wethr.get_weather()
+    la = owm.three_hours_forecast(a + ', US')
+
+    if (la.will_have_storm()):
+        wheathr = ':thunder_cloud_rain:'
+    elif (la.will_have_snow()):
+        wheathr = ':snowflake:'
+    elif (la.will_have_rain()):
+        wheathr = ':cloud_rain:'
+    elif (la.will_have_fog()):
+        wheathr = ':fogblob:'
+    elif (la.will_have_clouds()):
+        wheathr = ':cloud:'
+    elif (la.will_have_clear()):
+        wheathr = ':sunny:'
+
+    embedColor = random.randint(0, 0xffffff)
+
+    status = weather.get_detailed_status()
+
+    embed = discord.Embed(title="Weather in " + a + " right now:", color=embedColor)
+    embed.add_field(name="Temperature :thermometer:", value=weather.get_temperature('celsius')['temp'], inline=False)
+    embed.add_field(name="Conditions " + wheathr, value=status, inline=False)
+    embed.add_field(name="Wind :wind_blowing_face:", value=round(weather.get_wind('miles_hour')['speed'], 3), inline=False)
+    embed.add_field(name="Pressure :timer:", value=weather.get_pressure(), inline=False)
+    await ctx.send(embed=embed)
+    
+@bot.command()
 async def info(ctx): 
-    embed = discord.Embed(title="alcebot", description="worst bot lol", color=0x7289da)
+    embedColor = random.randint(0, 0xffffff)
+    embed = discord.Embed(title="alcebot", description="worst bot lol", color=embedColor)
 
     # give info about you here
     embed.add_field(name="Author", value="oopsie#1412")
@@ -115,7 +166,9 @@ bot.remove_command('help')
  #adds help command with embed. embed for big brain
 @bot.command()
 async def help(ctx):
-    embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=0x7289da)
+    embedColor = random.randint(0, 0xffffff)
+
+    embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=embedColor)
 
     embed.add_field(name="$add X Y", value="Gives the sum of **X** and **Y**.", inline=False)
     embed.add_field(name="$subtract X Y", value="Gives the difference of **X** and **Y**.", inline=False)
@@ -133,4 +186,4 @@ async def help(ctx):
 
 
 #token
-bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XaJ7ZA.T2z7Hxen-SBclxCYBx5FDcHmyco')
+bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XajrSA.pXN3YbSdeV_YszM8po9fUtF4BOI')
