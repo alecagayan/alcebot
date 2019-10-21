@@ -20,4 +20,4 @@ Make a multifunction discord bot
 ## Legal
 If you're going to use this code, please credit me! Thank You!
 
-```Copyright (c) 2019 oopsie1412```
+Copyright © 2019 oopsie1412
