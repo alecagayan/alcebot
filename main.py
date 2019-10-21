@@ -186,4 +186,4 @@ async def help(ctx):
 
 
 #token
-bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XajrSA.pXN3YbSdeV_YszM8po9fUtF4BOI')
+bot.run('token')
