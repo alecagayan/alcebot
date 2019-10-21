@@ -115,10 +115,16 @@ async def belsontrump(ctx):
 
 @bot.command()
 async def weather(ctx, a):
+    regex= re.compile(r"(\b\d{5}-\d{4}\b|\b\d{5}\b\s)")
+    if not re.findall(regex, a):
+        await ctx.send("Not a valid zipcode!")
+        return
 
     wethr = owm.weather_at_zip_code(a,'US')
     weather = wethr.get_weather()
     la = owm.three_hours_forecast(a + ', US')
+    j = wethr.get_location()
+
 
     if (la.will_have_storm()):
         wheathr = ':thunder_cloud_rain:'
@@ -143,7 +149,7 @@ async def weather(ctx, a):
     embed.add_field(name="Wind :wind_blowing_face:", value=round(weather.get_wind('miles_hour')['speed'], 3), inline=False)
     embed.add_field(name="Visibility :eye:", value=weather.get_visibility(), inline=False)
     embed.add_field(name="Humidity :droplet:", value=weather.get_humidity(), inline=False)
-    embed.set_footer(text=weather.get_reception_time(timeformat='iso'))
+    embed.set_footer(text=weather.get_reception_time(timeformat='iso') + j.get_lat() + j.get_lon())
     await ctx.send(embed=embed)
     
 @bot.command()
@@ -181,6 +187,7 @@ async def help(ctx):
     embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
 
     await ctx.send(embed=embed)
+
 
 #token
 bot.run('token')
