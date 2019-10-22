@@ -202,4 +202,4 @@ async def help(ctx):
 
 
 #token
-bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.Xa4XuQ.HCPhwGSXrg8o86LkezW4VsjBgyc')
+bot.run('token')
