@@ -13,7 +13,8 @@ Make a multifunction discord bot
 4. asyncio
 5. re
 6. logging
-7. pyowwm
+7. pyowm
+8. time
 
 ## How to install a package
 ```pip install <package>```
