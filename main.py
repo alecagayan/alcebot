@@ -5,6 +5,7 @@ import asyncio
 import re
 import logging
 import pyowm
+import time
 
 owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
@@ -20,7 +21,7 @@ die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.p
 async def on_ready():
 
     #sets status    
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game('with your emotions',))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game('$'))
 
     #says who its logged in as and gives logs
     logging.basicConfig(level=logging.CRITICAL)
@@ -81,17 +82,20 @@ async def die(ctx):
 @bot.command()
 async def roll(ctx):
     await ctx.send(die_url[random.randint(1,6)-1])
-    
+
+#ping
 @bot.command()
 async def ping(ctx):
     print(bot.latency)
-    await ctx.send('Pong! {0}ms'.format(round(bot.latency*1000, 0)))
+    await ctx.send('Pong! {0}ms websocket latency'.format(round(bot.latency*1000, 3)))
 
+#translate
 @bot.command()
 async def translate(ctx, a: str, *, b: str):
     opinion = TextBlob(b)
     await ctx.send(opinion.translate(to=a))
 
+#sentiment
 @bot.command()
 async def sentiment(ctx, *, arg):
     print(arg)
@@ -100,10 +104,8 @@ async def sentiment(ctx, *, arg):
     await ctx.send(opinion.sentiment)
 
 @bot.command()
-async def mayb(ctx):
-    await ctx.send("hmmm")
-    await ctx.send("mayb")
-    await ctx.send("what tiem")
+async def test(ctx):
+    await ctx.send("The quick brown fox jumps over the lazy dog")
 
 @bot.command()
 async def belsontrump(ctx):
@@ -112,6 +114,8 @@ async def belsontrump(ctx):
 
 @bot.command()
 async def weather(ctx, a):
+
+    print('{0}ms'.format(round(bot.latency*1000, 3)))
 
     wheathr1 = ''
     wheathr2 = ''
@@ -128,20 +132,18 @@ async def weather(ctx, a):
     v = str(weather.get_weather_icon_url())
     k = str(j.get_name())
 
-
     if (la.will_have_storm()):
         wheathr1 = ':thunder_cloud_rain:'
     if (la.will_have_snow()):
         wheathr2 = ':snowflake:'
     if (la.will_have_fog()):
         wheathr3 = ':fogblob:'
-    if (la.will_have_clear()):
-        wheathr6 = ':sunny:'
-    elif (la.will_have_rain()):
+    if (la.will_have_rain()):
         wheathr5 = ':cloud_rain:'
     elif (la.will_have_clouds()):
         wheathr4 = ':cloud:'
-
+    elif (la.will_have_clear()):
+        wheathr6 = ':sunny:'
 
     embedColor = random.randint(0, 0xffffff)
 
@@ -150,19 +152,25 @@ async def weather(ctx, a):
     embed = discord.Embed(title="Weather in " + k + " right now:", color=embedColor) #embed title with zip
     embed.add_field(name="Temperature :thermometer:", value=str(weather.get_temperature('celsius')['temp']) + ' C', inline=False) #temperature
     embed.add_field(name="Conditions " + wheathr1 + wheathr2 + wheathr3 + wheathr4 + wheathr5 + wheathr6, value=status, inline=False) #conditions header with emoji conditions
-    embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 3)) + ' mph', inline=False) #wind speed
+    embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 1)) + ' mph', inline=False) #wind speed
     embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
-    embed.set_footer(text='alcebot') #prints location
+    embed.add_field(name="Visibility :eye:", value=str(round(weather.get_visibility_distance()/1609.344, 1)) + ' miles', inline=False) #visibility
+    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location
 
     await ctx.send(embed=embed)
     
 @bot.command()
 async def info(ctx): 
+
     embedColor = random.randint(0, 0xffffff)
     embed = discord.Embed(title="alcebot", description="worst bot lol", color=embedColor)
 
     # give info about you here
     embed.add_field(name="Author", value="oopsie#1412")
+
+    embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
+
+    embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
 
     # give users a link to invite bot to their server
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
@@ -194,4 +202,4 @@ async def help(ctx):
 
 
 #token
-bot.run('token')
+bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.Xa4XuQ.HCPhwGSXrg8o86LkezW4VsjBgyc')
