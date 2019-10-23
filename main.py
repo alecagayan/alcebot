@@ -171,6 +171,8 @@ async def info(ctx):
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
 
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
+    
+    embed.add_field(name="Support server", value='https://discord.gg/MJejP9q', inline=False)
 
     # give users a link to invite bot to their server
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
@@ -185,7 +187,7 @@ async def help(ctx):
     embedColor = random.randint(0, 0xffffff)
 
     embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=embedColor)
-
+    embed.add_field(name="Support Server", value='https://discord.gg/MJejP9q', inline=False)
     embed.add_field(name="$info", value="Gives a little info about the bot.", inline=False)
     embed.add_field(name="$add <x y>", value="Gives the sum of **X** and **Y**.", inline=False)
     embed.add_field(name="$subtract <x y>", value="Gives the difference of **X** and **Y**.", inline=False)
@@ -199,7 +201,7 @@ async def help(ctx):
     embed.add_field(name="$sentiment <sentence>", value="Gives this message. HEEEEEELP!", inline=False)
     embed.add_field(name="$weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
-
+    
     await ctx.send(embed=embed)
 
 
