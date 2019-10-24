@@ -6,11 +6,18 @@ import re
 import logging
 import pyowm
 import time
+import platform
+import sys
+import requests
+import urllib.request
+import json
 
 owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
 from discord.ext import commands
 from textblob import TextBlob
+from discord.ext.commands import Bot
+from pyfiglet import figlet_format, FontNotFound
 
 bot = commands.Bot(command_prefix='$')
 
