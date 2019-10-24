@@ -24,14 +24,12 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game('$'))
 
     #says who its logged in as and gives logs
-    logging.basicConfig(level=logging.CRITICAL)
-    logging.basicConfig(level=logging.WARNING)
-    logging.basicConfig(level=logging.ERROR)
-    print('------')
-    logging.basicConfig(level=logging.DEBUG)
-    print('------')
-    logging.basicConfig(level=logging.INFO)
-    print('------')   
+    logger = logging.getLogger('discord')
+    logger.setLevel(logging.DEBUG)
+    handler = logging.FileHandler(filename='discord_alcebot.log', encoding='utf-8', mode='w')
+    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+    logger.addHandler(handler)
+  
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -162,6 +160,7 @@ async def weather(ctx, a):
 @bot.command()
 async def info(ctx): 
 
+    guilds = len(list(bot.guilds))
     embedColor = random.randint(0, 0xffffff)
     embed = discord.Embed(title="alcebot", description="worst bot lol", color=embedColor)
 
@@ -171,8 +170,11 @@ async def info(ctx):
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
 
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
+
+    embed.add_field(name="Server Count", value=guilds, inline=False)
     
     embed.add_field(name="Support server", value='https://discord.gg/MJejP9q', inline=False)
+
 
     # give users a link to invite bot to their server
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
@@ -198,7 +200,7 @@ async def help(ctx):
     embed.add_field(name="$die", value="Gives a dead body dragging across the floor.", inline=False)
     embed.add_field(name="$roll", value="Roll a random number from 1 to 6.", inline=False)
     embed.add_field(name="$translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
-    embed.add_field(name="$sentiment <sentence>", value="Gives this message. HEEEEEELP!", inline=False)
+    embed.add_field(name="$sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
     embed.add_field(name="$weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
     
