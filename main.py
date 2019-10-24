@@ -4,6 +4,7 @@ import textblob
 import asyncio
 import re
 import logging
+import logger
 import pyowm
 import time
 import platform
@@ -27,21 +28,75 @@ die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.p
 @bot.event
 async def on_ready():
 
+    #starts logs on bot startup
+    def init_logging(shard_id, bot):
+	logging.root.setLevel(logging.INFO)
+	logger = logging.getLogger('AlceBot #{0}'.format(shard_id))
+	logger.setLevel(logging.INFO)
+	log = logging.getLogger()
+	log.setLevel(logging.INFO)
+	handler = logging.FileHandler(filename='alcebot_{0}.log'.format(shard_id), encoding='utf-8', mode='a')
+	log.addHandler(handler)
+	bot.logger = logger
+	bot.log = log
+
     #sets status    
     await bot.change_presence(status=discord.Status.online, activity=discord.Game('$'))
 
-    #says who its logged in as and gives logs
-    logger = logging.getLogger('discord')
-    logger.setLevel(logging.DEBUG)
-    handler = logging.FileHandler(filename='discord_alcebot.log', encoding='utf-8', mode='w')
-    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-    logger.addHandler(handler)
-  
+    #says who its logged in as
+    print('------')   
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('valid token')
     print('------')
+
+#deletes specified amount of messages in a channel
+@bot.command(aliases=['remove', 'delete'])
+async def purge(ctx, number: int):
+    """Bulk-deletes messages from the channel."""
+    try:
+        if ctx.message.author.guild_permissions.administrator:
+        
+            deleted = await ctx.channel.purge(limit=number)
+            print('Deleted {} message(s)'.format(len(deleted)))
+            logger.info('Deleted {} message(s)'.format(len(deleted)))
+
+        else:
+            await ctx.send(config.err_mesg_permission)
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+#hug person on the server
+@bot.command()
+async def hug(ctx, *, member: discord.Member = None):
+    """Hug someone on the server <3"""
+    try:
+        if member is None:
+            await ctx.send(ctx.message.author.mention + " has been hugged!")
+        else:
+            if member.id == ctx.message.author.id:
+                await ctx.send(ctx.message.author.mention + " has hugged themself!")
+            else:
+                await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
+
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+#lists active servers
+@client.command()
+async def serverlist(ctx):
+    """List the servers that the bot is active on."""
+    x = ', '.join([str(server) for server in bot.guilds])
+    y = len(bot.guilds)
+    print("Server list: " + x)
+    if y > 40:
+        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
+        return await ctx.send(embed=embed)
+    elif y < 40:
+        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
+        return await ctx.send(embed=embed)
+
 
 #add
 @bot.command()
@@ -160,14 +215,13 @@ async def weather(ctx, a):
     embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 1)) + ' mph', inline=False) #wind speed
     embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
     embed.add_field(name="Visibility :eye:", value=str(round(weather.get_visibility_distance()/1609.344, 1)) + ' miles', inline=False) #visibility
-    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location
+    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location and time
 
     await ctx.send(embed=embed)
     
 @bot.command()
 async def info(ctx): 
 
-    guilds = len(list(bot.guilds))
     embedColor = random.randint(0, 0xffffff)
     embed = discord.Embed(title="alcebot", description="worst bot lol", color=embedColor)
 
@@ -177,11 +231,6 @@ async def info(ctx):
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
 
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
-
-    embed.add_field(name="Server Count", value=guilds, inline=False)
-    
-    embed.add_field(name="Support server", value='https://discord.gg/MJejP9q', inline=False)
-
 
     # give users a link to invite bot to their server
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
@@ -196,21 +245,19 @@ async def help(ctx):
     embedColor = random.randint(0, 0xffffff)
 
     embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=embedColor)
-    embed.add_field(name="Support Server", value='https://discord.gg/MJejP9q', inline=False)
-    embed.add_field(name="$info", value="Gives a little info about the bot.", inline=False)
-    embed.add_field(name="$add <x y>", value="Gives the sum of **X** and **Y**.", inline=False)
-    embed.add_field(name="$subtract <x y>", value="Gives the difference of **X** and **Y**.", inline=False)
-    embed.add_field(name="$multiply <x y>", value="Gives the product of **X** and **Y**.", inline=False)
-    embed.add_field(name="$divide <x y>", value="Gives the quotient of **X** and **Y**.", inline=False)
-    embed.add_field(name="$power <x y>", value="Gives **X** to the **Y** power.", inline=False)
+
+    embed.add_field(name="$add X Y", value="Gives the sum of **X** and **Y**.", inline=False)
+    embed.add_field(name="$subtract X Y", value="Gives the difference of **X** and **Y**.", inline=False)
+    embed.add_field(name="$multiply X Y", value="Gives the product of **X** and **Y**.", inline=False)
+    embed.add_field(name="$divide X Y", value="Gives the quotient of **X** and **Y**.", inline=False)
+    embed.add_field(name="$power X Y", value="Gives **X** to the **Y** power.", inline=False)
     embed.add_field(name="$greet", value="Gives a nice greet message.", inline=False)
     embed.add_field(name="$die", value="Gives a dead body dragging across the floor.", inline=False)
+    embed.add_field(name="$info", value="Gives a little info about the bot.", inline=False)
     embed.add_field(name="$roll", value="Roll a random number from 1 to 6.", inline=False)
-    embed.add_field(name="$translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
-    embed.add_field(name="$sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
-    embed.add_field(name="$weather <zipcode>", value="Gives the latest weather in the area", inline=False)
+    embed.add_field(name="$translate X Y", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
     embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
-    
+
     await ctx.send(embed=embed)
 
 
