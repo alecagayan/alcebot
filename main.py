@@ -13,14 +13,14 @@ import requests
 import urllib.request
 import json
 
-owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
+owm = pyowm.OWM('owm_api_key_)
 
 from discord.ext import commands
 from textblob import TextBlob
 from discord.ext.commands import Bot
 from pyfiglet import figlet_format, FontNotFound
 
-bot = commands.Bot(command_prefix='$')
+bot = commands.Bot(command_prefix='a!')
 
 #array for die images
 die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.png", "https://imagen.click/i/4c7a42.png", "https://imagen.click/i/6f4dc6.png", "https://imagen.click/i/a4ca6b.png", "https://imagen.click/i/e617ea.png"]
@@ -41,7 +41,7 @@ async def on_ready():
 	bot.log = log
 
     #sets status    
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game('$'))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
     #says who its logged in as
     print('------')   
