@@ -3,20 +3,15 @@ import random
 import textblob
 import asyncio
 import re
-import logging
 import logger
+import logging
 import pyowm
 import time
-import platform
-import sys
-import requests
-import json
 
-owm = pyowm.OWM('owm_api_key')
+owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
 from discord.ext import commands
 from textblob import TextBlob
-from discord.ext.commands import Bot
 
 bot = commands.Bot(command_prefix='a!')
 
@@ -26,33 +21,25 @@ die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.p
 @bot.event
 async def on_ready():
 
-    #starts logs on bot startup
-    def init_logging(shard_id, bot):
-	logging.root.setLevel(logging.INFO)
-	logger = logging.getLogger('AlceBot #{0}'.format(shard_id))
-	logger.setLevel(logging.INFO)
-	log = logging.getLogger()
-	log.setLevel(logging.INFO)
-	handler = logging.FileHandler(filename='alcebot_{0}.log'.format(shard_id), encoding='utf-8', mode='a')
-	log.addHandler(handler)
-	bot.logger = logger
-	bot.log = log
-
-    #sets status    
     await bot.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
-    #says who its logged in as
-    print('------')   
+    #says who its logged in as and gives logs
+    logger = logging.getLogger('discord')
+    logger.setLevel(logging.DEBUG)
+    handler = logging.FileHandler(filename='discord_alcebot.log', encoding='utf-8', mode='w')
+    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+    logger.addHandler(handler)
+  
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('valid token')
     print('------')
 
-#deletes specified amount of messages in a channel
+#mass delete messages
 @bot.command(aliases=['remove', 'delete'])
 async def purge(ctx, number: int):
-    """Bulk-deletes messages from the channel."""
+    #"""Bulk-deletes messages from the channel."""
     try:
         if ctx.message.author.guild_permissions.administrator:
         
@@ -62,22 +49,6 @@ async def purge(ctx, number: int):
 
         else:
             await ctx.send(config.err_mesg_permission)
-    except:
-        await ctx.send(config.err_mesg_generic)
-
-#hug person on the server
-@bot.command()
-async def hug(ctx, *, member: discord.Member = None):
-    """Hug someone on the server <3"""
-    try:
-        if member is None:
-            await ctx.send(ctx.message.author.mention + " has been hugged!")
-        else:
-            if member.id == ctx.message.author.id:
-                await ctx.send(ctx.message.author.mention + " has hugged themself!")
-            else:
-                await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
-
     except:
         await ctx.send(config.err_mesg_generic)
 
@@ -97,6 +68,21 @@ async def serverlist(ctx):
             embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
             return await ctx.send(embed=embed)
 
+#hugs intended person
+@bot.command()
+async def hug(ctx, *, member: discord.Member = None):
+    """Hug someone on the server <3"""
+    try:
+        if member is None:
+            await ctx.send(ctx.message.author.mention + " has been hugged!")
+        else:
+            if member.id == ctx.message.author.id:
+                await ctx.send(ctx.message.author.mention + " has hugged themself!")
+            else:
+                await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
+
+    except:
+        await ctx.send(config.err_mesg_generic)
 
 #add
 @bot.command()
@@ -128,6 +114,10 @@ async def power(ctx, a: float, b: float):
 async def greet(ctx):
     await ctx.send(":smiley: :wave: Die!")
 
+@bot.command()
+async def github(ctx):
+    await ctx.send("https://github.com/oopsie1412/alcebot")
+
 #prints invite
 @bot.command()
 async def invite(ctx):
@@ -142,6 +132,10 @@ async def die(ctx):
 @bot.command()
 async def roll(ctx):
     await ctx.send(die_url[random.randint(1,6)-1])
+
+@bot.command()
+async def pasta(ctx):
+    await ctx.send('cut em thiccque daddy')
 
 #ping
 @bot.command()
@@ -173,10 +167,6 @@ async def belsontrump(ctx):
     await ctx.send("https://imagen.click/i/846a0e.jpg")
 
 @bot.command()
-async def pasta(ctx):
-    await ctx.send('cut em thiccque daddy')
-
-@bot.command()
 async def weather(ctx, a):
 
     print('{0}ms'.format(round(bot.latency*1000, 3)))
@@ -202,11 +192,9 @@ async def weather(ctx, a):
         wheathr2 = ':snowflake:'
     if (la.will_have_fog()):
         wheathr3 = ':fogblob:'
-    if (la.will_have_rain()):
-        wheathr5 = ':cloud_rain:'
-    elif (la.will_have_clouds()):
+    if (la.will_have_clouds()):
         wheathr4 = ':cloud:'
-    elif (la.will_have_clear()):
+    if (la.will_have_clear()):
         wheathr6 = ':sunny:'
 
     embedColor = random.randint(0, 0xffffff)
@@ -219,7 +207,7 @@ async def weather(ctx, a):
     embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 1)) + ' mph', inline=False) #wind speed
     embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
     embed.add_field(name="Visibility :eye:", value=str(round(weather.get_visibility_distance()/1609.344, 1)) + ' miles', inline=False) #visibility
-    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location and time
+    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location
 
     await ctx.send(embed=embed)
     
@@ -231,16 +219,8 @@ async def info(ctx):
 
     # give info about you here
     embed.add_field(name="Author", value="oopsie#1412")
-
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
-
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
-
-    embed.add_field(name="System Info", value='`AMD(R) EPYC(R) CPU 7452 @ 2.90GHz`', inline=False)
-
-    embed.add_field(name="Processes", value='`47 MB / 119723 MB (0%) | CPU 0.09%', inline=False)
-
-    # give users a link to invite bot to their server
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
 
     await ctx.send(embed=embed)
@@ -253,21 +233,23 @@ async def help(ctx):
     embedColor = random.randint(0, 0xffffff)
 
     embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=embedColor)
-
-    embed.add_field(name="$add X Y", value="Gives the sum of **X** and **Y**.", inline=False)
-    embed.add_field(name="$subtract X Y", value="Gives the difference of **X** and **Y**.", inline=False)
-    embed.add_field(name="$multiply X Y", value="Gives the product of **X** and **Y**.", inline=False)
-    embed.add_field(name="$divide X Y", value="Gives the quotient of **X** and **Y**.", inline=False)
-    embed.add_field(name="$power X Y", value="Gives **X** to the **Y** power.", inline=False)
+    embed.add_field(name="Support Server", value='https://discord.gg/MJejP9q', inline=False)
+    embed.add_field(name="$info", value="Gives a little info about the bot.", inline=False)
+    embed.add_field(name="$add <x y>", value="Gives the sum of **X** and **Y**.", inline=False)
+    embed.add_field(name="$subtract <x y>", value="Gives the difference of **X** and **Y**.", inline=False)
+    embed.add_field(name="$multiply <x y>", value="Gives the product of **X** and **Y**.", inline=False)
+    embed.add_field(name="$divide <x y>", value="Gives the quotient of **X** and **Y**.", inline=False)
+    embed.add_field(name="$power <x y>", value="Gives **X** to the **Y** power.", inline=False)
     embed.add_field(name="$greet", value="Gives a nice greet message.", inline=False)
     embed.add_field(name="$die", value="Gives a dead body dragging across the floor.", inline=False)
-    embed.add_field(name="$info", value="Gives a little info about the bot.", inline=False)
     embed.add_field(name="$roll", value="Roll a random number from 1 to 6.", inline=False)
-    embed.add_field(name="$translate X Y", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
+    embed.add_field(name="$translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
+    embed.add_field(name="$sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
+    embed.add_field(name="$weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
-
+    
     await ctx.send(embed=embed)
 
 
 #token
-bot.run('token')
+bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XbD4uA.v3ezFi5pj2w1cne_JEuJ5lJo5Wk')
