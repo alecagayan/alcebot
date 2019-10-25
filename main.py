@@ -7,11 +7,6 @@ import logging
 import logger
 import pyowm
 import time
-import platform
-import sys
-import requests
-import urllib.request
-import json
 
 owm = pyowm.OWM('owm_api_key')
 
