@@ -7,6 +7,11 @@ import logging
 import logger
 import pyowm
 import time
+import platform
+import sys
+import requests
+import urllib.request
+import json
 
 owm = pyowm.OWM('owm_api_key')
 
@@ -80,16 +85,18 @@ async def hug(ctx, *, member: discord.Member = None):
 #lists active servers
 @bot.command()
 async def serverlist(ctx):
-    """List the servers that the bot is active on."""
-    x = ', '.join([str(server) for server in bot.guilds])
-    y = len(bot.guilds)
-    print("Server list: " + x)
-    if y > 40:
-        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
-        return await ctx.send(embed=embed)
-    elif y < 40:
-        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
-        return await ctx.send(embed=embed)
+
+    if ctx.message.author.guild_permissions.administrator:
+        """List the servers that the bot is active on."""
+        x = ', '.join([str(server) for server in bot.guilds])
+        y = len(bot.guilds)
+        print("Server list: " + x)
+        if y > 40:
+            embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
+            return await ctx.send(embed=embed)
+        elif y < 40:
+            embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
+            return await ctx.send(embed=embed)
 
 
 #add
@@ -167,6 +174,10 @@ async def belsontrump(ctx):
     await ctx.send("https://imagen.click/i/846a0e.jpg")
 
 @bot.command()
+async def pasta(ctx):
+    await ctx.send('cut em thiccque daddy')
+
+@bot.command()
 async def weather(ctx, a):
 
     print('{0}ms'.format(round(bot.latency*1000, 3)))
@@ -225,6 +236,10 @@ async def info(ctx):
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
 
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
+
+    embed.add_field(name="System Info", value='`AMD(R) EPYC(R) CPU 7452 @ 2.90GHz`', inline=False)
+
+    embed.add_field(name="Processes", value='`47 MB / 119723 MB (0%) | CPU 0.09%', inline=False)
 
     # give users a link to invite bot to their server
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
