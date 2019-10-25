@@ -14,7 +14,7 @@
 
 **2.** Please make sure the issue answers the questions above
 
-##How often do I respond?
+## How often do I respond?
 
 **1.** I'll take a look at and reply to your issue within 2 days
 
