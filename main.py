@@ -13,12 +13,11 @@ import requests
 import urllib.request
 import json
 
-owm = pyowm.OWM('owm_api_key_)
+owm = pyowm.OWM('owm_api_key')
 
 from discord.ext import commands
 from textblob import TextBlob
 from discord.ext.commands import Bot
-from pyfiglet import figlet_format, FontNotFound
 
 bot = commands.Bot(command_prefix='a!')
 
@@ -84,7 +83,7 @@ async def hug(ctx, *, member: discord.Member = None):
         await ctx.send(config.err_mesg_generic)
 
 #lists active servers
-@client.command()
+@bot.command()
 async def serverlist(ctx):
     """List the servers that the bot is active on."""
     x = ', '.join([str(server) for server in bot.guilds])
