@@ -1,5 +1,5 @@
 # alcebot
-Make a multifunction discord bot
+A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
 ## How to start and run
 1. Paste main.py into your text editor
