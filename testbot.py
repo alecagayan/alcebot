@@ -11,9 +11,6 @@ owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 from discord.ext import commands
 from textblob import TextBlob
 
-wheathr = ''
-wheathrWord = ''
-
 bot = commands.Bot(command_prefix='$')
 
 #array for die images
@@ -84,10 +81,6 @@ async def die(ctx):
 @bot.command()
 async def roll(ctx):
     await ctx.send(die_url[random.randint(1,6)-1])
-
-@bot.command()
-async def random(ctx, *, a):
-    await ctx.send(die_url[random.randint(1,a)-1])
     
 @bot.command()
 async def ping(ctx):
@@ -120,37 +113,46 @@ async def belsontrump(ctx):
 @bot.command()
 async def weather(ctx, a):
 
+    wheathr1 = ''
+    wheathr2 = ''
+    wheathr3 = ''
+    wheathr4 = ''
+    wheathr5 = ''
+    wheathr6 = ''
+    wheathrWord = ''
+
     wethr = owm.weather_at_zip_code(a,'US')
     weather = wethr.get_weather()
     la = owm.three_hours_forecast(a + ', US')
     j = wethr.get_location()
     v = str(weather.get_weather_icon_url())
+    k = str(j.get_name())
 
 
     if (la.will_have_storm()):
-        wheathr = ':thunder_cloud_rain:'
-    elif (la.will_have_snow()):
-        wheathr = ':snowflake:'
+        wheathr1 = ':thunder_cloud_rain:'
+    if (la.will_have_snow()):
+        wheathr2 = ':snowflake:'
+    if (la.will_have_fog()):
+        wheathr3 = ':fogblob:'
+    if (la.will_have_clear()):
+        wheathr6 = ':sunny:'
     elif (la.will_have_rain()):
-        wheathr = ':cloud_rain:'
-    elif (la.will_have_fog()):
-        wheathr = ':fogblob:'
+        wheathr5 = ':cloud_rain:'
     elif (la.will_have_clouds()):
-        wheathr = ':cloud:'
-    elif (la.will_have_clear()):
-        wheathr = ':sunny:'
+        wheathr4 = ':cloud:'
+
 
     embedColor = random.randint(0, 0xffffff)
 
     status = weather.get_detailed_status()
 
-    embed = discord.Embed(title="Weather in " + a + " right now:", color=embedColor) #embed title with zip
-    embed.add_field(name="Temperature :thermometer:", value=weather.get_temperature('celsius')['temp'], inline=False) #temperature
-    embed.add_field(name="Conditions " + v, value=status, inline=False) #conditions header with emoji conditions
-    embed.add_field(name="Wind :wind_blowing_face:", value=round(weather.get_wind('miles_hour')['speed'], 3), inline=False) #wind speed
-    embed.add_field(name="Visibility :eye:", value=weather.get_visibility(), inline=False) #visibility
-    embed.add_field(name="Humidity :droplet:", value=weather.get_humidity(), inline=False) #humidity
-    embed.set_footer(text='Time of reception: ' + str(weather.get_reception_time(timeformat='iso')) + j.get_lat() + j.get_lon()) #prints time in ISO6081 instead of UNIX
+    embed = discord.Embed(title="Weather in " + k + " right now:", color=embedColor) #embed title with zip
+    embed.add_field(name="Temperature :thermometer:", value=str(weather.get_temperature('celsius')['temp']) + ' C', inline=False) #temperature
+    embed.add_field(name="Conditions " + wheathr1 + wheathr2 + wheathr3 + wheathr4 + wheathr5 + wheathr6, value=status, inline=False) #conditions header with emoji conditions
+    embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 3)) + ' mph', inline=False) #wind speed
+    embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
+    embed.set_footer(text='alcebot') #prints location
 
     await ctx.send(embed=embed)
     
