@@ -9,7 +9,7 @@ import pyowm
 import psutil
 import time
 
-owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
+owm = pyowm.OWM('owm_key')
 
 from discord.ext import commands
 from textblob import TextBlob
