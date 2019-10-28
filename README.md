@@ -4,7 +4,8 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 ## How to start and run
 1. Paste main.py into your text editor
 2. Replace 'token' with your bot token
-3. Run the program
+3. Replace 'owm_key' with your OpenWeatherMap API key
+4. Run the program
 
 ## Necessary Packages
 1. discord
