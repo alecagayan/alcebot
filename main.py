@@ -6,6 +6,7 @@ import re
 import logger
 import logging
 import pyowm
+import psutil
 import time
 
 owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
@@ -17,6 +18,14 @@ bot = commands.Bot(command_prefix='a!')
 
 #array for die images
 die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.png", "https://imagen.click/i/4c7a42.png", "https://imagen.click/i/6f4dc6.png", "https://imagen.click/i/a4ca6b.png", "https://imagen.click/i/e617ea.png"]
+
+compliments = ["your feet are nice", "the dirt under your fingernails is scrumptious",
+ "your pupil tastes like a cupcake", "your elbows sound like angels", "your ring finger smells like lilacs",
+ "your belly button is as soft as a kitten", "you are not a spoon", "you have teeth",
+ "your eyes sparkle more than the sweat in between my toes", "your lips taste like rhinestones",
+ "your forehead is a perfect shape, like one of a fluffy dog’s thigh", 
+ "the color of your hair makes your kneecap look rather fancy",
+ "your trachea is moist and fun", "your kidneys look like all the stars in the sky"]
 
 @bot.event
 async def on_ready():
@@ -39,18 +48,21 @@ async def on_ready():
 #mass delete messages
 @bot.command(aliases=['remove', 'delete'])
 async def purge(ctx, number: int):
-    #"""Bulk-deletes messages from the channel."""
-    try:
-        if ctx.message.author.guild_permissions.administrator:
-        
-            deleted = await ctx.channel.purge(limit=number)
-            print('Deleted {} message(s)'.format(len(deleted)))
-            logger.info('Deleted {} message(s)'.format(len(deleted)))
+    if(number <= 25):
+        #"""Bulk-deletes messages from the channel."""
+        try:
+            if ctx.message.author.guild_permissions.administrator:
+            
+                deleted = await ctx.channel.purge(limit=number)
+                print('Deleted {} message(s)'.format(len(deleted)))
+                logger.info('Deleted {} message(s)'.format(len(deleted)))
 
-        else:
-            await ctx.send(config.err_mesg_permission)
-    except:
-        await ctx.send(config.err_mesg_generic)
+            else:
+                await ctx.send(config.err_mesg_permission)
+        except:
+            await ctx.send(config.err_mesg_generic)
+    else:
+        await ctx.send('Message limit reached! Please pick a number lower than 25')
 
 #lists active servers
 @bot.command()
@@ -134,6 +146,17 @@ async def roll(ctx):
     await ctx.send(die_url[random.randint(1,6)-1])
 
 @bot.command()
+async def compliment(ctx, *, member: discord.Member = None):
+    """compliment"""
+    try:
+        if member is None:
+            await ctx.send(ctx.message.author.mention + " " + str(compliments[random.randint(0,13)]))
+        else:
+            await ctx.send(member.mention + " " + str(compliments[random.randint(0,13)]))
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+@bot.command()
 async def pasta(ctx):
     await ctx.send('cut em thiccque daddy')
 
@@ -157,9 +180,23 @@ async def sentiment(ctx, *, arg):
     opinion = TextBlob(arg)
     await ctx.send(opinion.sentiment)
 
+@bot.command
+async def epicstat(ctx):
+    await ctx.send(psutil.net_io_counters())
+    await ctx.send(psutil.disk_io_counters())
+    await ctx.send(psutil.disk_usage('/'))
+    await ctx.send(psutil.cpu_stats())
+    await ctx.send(psutil.cpu_times())
+
+#sentiment
 @bot.command()
-async def test(ctx):
-    await ctx.send("The quick brown fox jumps over the lazy dog")
+async def hugeveryone(ctx):
+    await ctx.send("@here has been hugged by " + ctx.message.author.mention + "!")
+
+@bot.command()
+async def suggest(ctx, *, a):
+    await ctx.send("Thank you for the suggestion! I will get back to you soon!")
+    print ("suggestion: " + a)
 
 @bot.command()
 async def belsontrump(ctx):
@@ -210,7 +247,7 @@ async def weather(ctx, a):
     embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location
 
     await ctx.send(embed=embed)
-    
+
 @bot.command()
 async def info(ctx): 
 
@@ -221,6 +258,7 @@ async def info(ctx):
     embed.add_field(name="Author", value="oopsie#1412")
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
+    embed.add_field(name="Processes", value='CPU Usage: ' + str(psutil.cpu_percent()) + "% | RAM Usage: " + str(psutil.virtual_memory()) + "%", inline=False)
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
 
     await ctx.send(embed=embed)
@@ -252,4 +290,4 @@ async def help(ctx):
 
 
 #token
-bot.run('NDgwNDUxNDM5MTgxOTU1MDkz.XbD4uA.v3ezFi5pj2w1cne_JEuJ5lJo5Wk')
+bot.run('token')
