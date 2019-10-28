@@ -21,6 +21,6 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
 
 ## Legal
-If you're going to use this code, please credit me! Thank You!
+If you're going to use this code, please disclose the source (me)! Thank You!
 
 Copyright © 2019 oopsie1412
