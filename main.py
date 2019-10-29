@@ -8,6 +8,7 @@ import logging
 import pyowm
 import psutil
 import time
+import json
 
 owm = pyowm.OWM('owm_key')
 
