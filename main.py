@@ -174,19 +174,18 @@ async def translate(ctx, a: str, *, b: str):
 
 #sentiment
 @bot.command()
-async def sentiment(ctx, *, arg):
-    print(arg)
-    await ctx.send(arg)
-    opinion = TextBlob(arg)
-    await ctx.send(opinion.sentiment)
+async def netdiskcpu(ctx):
 
-@bot.command
-async def epicstat(ctx):
-    await ctx.send(psutil.net_io_counters())
-    await ctx.send(psutil.disk_io_counters())
-    await ctx.send(psutil.disk_usage('/'))
-    await ctx.send(psutil.cpu_stats())
-    await ctx.send(psutil.cpu_times())
+    embedColor = random.randint(0, 0xffffff)
+    embed = discord.Embed(title="Stats:", color=embedColor)
+
+    embed.add_field(name="Net IO Counters", value=psutil.net_io_counters())
+    embed.add_field(name="Disk IO Counters", value=psutil.disk_io_counters())
+    embed.add_field(name="Disk Usage", value=psutil.disk_usage('/'))
+    embed.add_field(name="CPU Stats", value=psutil.cpu_stats())
+    embed.add_field(name="CPU Times", value=psutil.cpu_times())
+
+    await ctx.send(embed=embed)
 
 #sentiment
 @bot.command()
@@ -244,7 +243,7 @@ async def weather(ctx, a):
     embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 1)) + ' mph', inline=False) #wind speed
     embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
     embed.add_field(name="Visibility :eye:", value=str(round(weather.get_visibility_distance()/1609.344, 1)) + ' miles', inline=False) #visibility
-    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints location
+    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
 
     await ctx.send(embed=embed)
 
@@ -260,6 +259,7 @@ async def info(ctx):
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
     embed.add_field(name="Processes", value='CPU Usage: ' + str(psutil.cpu_percent()) + "% | RAM Usage: " + str(psutil.virtual_memory()) + "%", inline=False)
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
+    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
 
     await ctx.send(embed=embed)
 
@@ -272,19 +272,21 @@ async def help(ctx):
 
     embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=embedColor)
     embed.add_field(name="Support Server", value='https://discord.gg/MJejP9q', inline=False)
-    embed.add_field(name="$info", value="Gives a little info about the bot.", inline=False)
-    embed.add_field(name="$add <x y>", value="Gives the sum of **X** and **Y**.", inline=False)
-    embed.add_field(name="$subtract <x y>", value="Gives the difference of **X** and **Y**.", inline=False)
-    embed.add_field(name="$multiply <x y>", value="Gives the product of **X** and **Y**.", inline=False)
-    embed.add_field(name="$divide <x y>", value="Gives the quotient of **X** and **Y**.", inline=False)
-    embed.add_field(name="$power <x y>", value="Gives **X** to the **Y** power.", inline=False)
-    embed.add_field(name="$greet", value="Gives a nice greet message.", inline=False)
-    embed.add_field(name="$die", value="Gives a dead body dragging across the floor.", inline=False)
-    embed.add_field(name="$roll", value="Roll a random number from 1 to 6.", inline=False)
-    embed.add_field(name="$translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
-    embed.add_field(name="$sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
-    embed.add_field(name="$weather <zipcode>", value="Gives the latest weather in the area", inline=False)
-    embed.add_field(name="$help", value="Gives this message. HEEEEEELP!", inline=False)
+    embed.add_field(name="a!info", value="Gives a little info about the bot.", inline=False)
+    embed.add_field(name="a!add <x y>", value="Gives the sum of **X** and **Y**.", inline=False)
+    embed.add_field(name="a!subtract <x y>", value="Gives the difference of **X** and **Y**.", inline=False)
+    embed.add_field(name="a!multiply <x y>", value="Gives the product of **X** and **Y**.", inline=False)
+    embed.add_field(name="a!divide <x y>", value="Gives the quotient of **X** and **Y**.", inline=False)
+    embed.add_field(name="a!power <x y>", value="Gives **X** to the **Y** power.", inline=False)
+    embed.add_field(name="a!greet", value="Gives a nice greet message.", inline=False)
+    embed.add_field(name="a!die", value="Gives a dead body dragging across the floor.", inline=False)
+    embed.add_field(name="a!roll", value="Roll a random number from 1 to 6.", inline=False)
+    embed.add_field(name="a!translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
+    embed.add_field(name="a!sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
+    embed.add_field(name="a!weather <zipcode>", value="Gives the latest weather in the area", inline=False)
+    embed.add_field(name="a!compliment <x>", value='"Compliments" the tagged user. If nobody is tagged, prints a random compliment', inline=False)
+    embed.add_field(name="a!help", value="Gives this message. HEEEEEELP!", inline=False)
+    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
     
     await ctx.send(embed=embed)
 
