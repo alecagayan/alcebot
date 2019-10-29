@@ -27,11 +27,11 @@ Join the support server at: https://discord.gg/My8wut2
 
 ## More info
 
+<a href="https://top.gg/bot/480451439181955093" >
+  <img src="https://top.gg/api/widget/480451439181955093.svg" alt="alcebot" />
+</a>
+
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
 
 Copyright © 2019 oopsie1412
-
-<a href="https://top.gg/bot/480451439181955093" >
-  <img src="https://top.gg/api/widget/480451439181955093.svg" alt="alcebot" />
-</a>
