@@ -65,6 +65,34 @@ async def purge(ctx, number: int):
     else:
         await ctx.send('Message limit reached! Please pick a number lower than 25')
 
+@bot.command()
+async def getbans(ctx):
+	"""Lists all banned users on the current server."""
+	
+	if ctx.message.author.guild_permissions.ban_members:
+		x = await ctx.message.guild.bans()
+		x = '\n'.join([str(y.user) for y in x])
+		embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
+		return await ctx.send(embed=embed)
+	else:
+		await ctx.send(config.err_mesg_permission)
+
+@bot.command(aliases=['user'])
+async def info(ctx, user: discord.Member):
+	"""Gets info on a member, such as their ID."""
+	try:
+		embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
+		embed.add_field(name="Name:", value=user.name)
+		embed.add_field(name="ID:", value=user.id)
+		embed.add_field(name="Status:", value=user.status)
+		embed.add_field(name="Highest role:", value=user.top_role)
+		embed.add_field(name="Joined:", value=user.joined_at)
+		embed.set_thumbnail(url=user.avatar_url)
+		await ctx.send(embed=embed)
+	except:
+		await ctx.send(config.err_mesg_generic)
+
+
 #lists active servers
 @bot.command()
 async def serverlist(ctx):
