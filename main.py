@@ -214,13 +214,11 @@ async def weather(ctx, a):
     wheathr4 = ''
     wheathr5 = ''
     wheathr6 = ''
-    wheathrWord = ''
 
     wethr = owm.weather_at_zip_code(a,'US')
     weather = wethr.get_weather()
     la = owm.three_hours_forecast(a + ', US')
     j = wethr.get_location()
-    v = str(weather.get_weather_icon_url())
     k = str(j.get_name())
 
     if (la.will_have_storm()):
