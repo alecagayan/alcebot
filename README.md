@@ -25,6 +25,7 @@ Join the support server at: https://discord.gg/My8wut2
 ## How to install a package
 ```pip install <package>```
 
+## More info
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
