@@ -1,10 +1,16 @@
 # alcebot
 A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
+## Support Server
+Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
+
+Join the support server at: https://discord.gg/My8wut2
+
 ## How to start and run
 1. Paste main.py into your text editor
 2. Replace 'token' with your bot token
-3. Run the program
+3. Replace 'owm_key' with your OpenWeatherMap API key
+4. Run the program
 
 ## Necessary Packages
 1. discord
@@ -19,6 +25,11 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 ## How to install a package
 ```pip install <package>```
 
+## More info
+
+<a href="https://top.gg/bot/480451439181955093" >
+  <img src="https://top.gg/api/widget/480451439181955093.svg" alt="alcebot" />
+</a>
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
