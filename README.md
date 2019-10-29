@@ -2,7 +2,7 @@
 A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
 ## Support Server
-Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team 
+Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day!
 
 ## How to start and run
 1. Paste main.py into your text editor
