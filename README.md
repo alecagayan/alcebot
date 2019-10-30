@@ -1,4 +1,4 @@
-# alcebot
+# alcebot ![Version](https://img.shields.io/badge/version-1.1.3-blue.svg)
 A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
 [![Python3](https://img.shields.io/badge/python-3.7-blue.svg)](https://github.com/oopsie1412/alcebot)
