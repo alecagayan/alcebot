@@ -3,7 +3,7 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
 [![Python3](https://img.shields.io/badge/python-3.7-blue?logo=python)](https://github.com/oopsie1412/alcebot)
 [![Discord Server](https://img.shields.io/badge/Support-Discord%20Server-blue?logo=discord)](https://discord.gg/My8wut2)
-[![License](https://img.shields.io/badge/license-Mozilla-blue?logo=mozilla_firefox)](https://github.com/oopsie1412/alcebot/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-Mozilla-blue?logo=mozilla)](https://github.com/oopsie1412/alcebot/blob/master/LICENSE)
 
 ![Status](https://img.shields.io/badge/status-online-brightgreen.svg)
 
