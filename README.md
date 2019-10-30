@@ -1,8 +1,9 @@
 # alcebot
 A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 
-https://img.shields.io/badge/python-3.7.6-blue
-https://img.shields.io/badge/license-MIT-blue.svg
+[![Python3](https://img.shields.io/badge/python-3.7-blue.svg)](https://github.com/oopsie1412/alcebot)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)]
+[![Discord Server](https://img.shields.io/badge/Support-Discord%20Server-blue.svg)](https://discord.gg/My8wut2)
 
 ## Support Server
 Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
