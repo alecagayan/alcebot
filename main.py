@@ -1,14 +1,11 @@
 import discord
 import random
 import textblob
-import asyncio
-import re
 import logger
 import logging
 import pyowm
 import psutil
 import time
-import json
 
 owm = pyowm.OWM('owm_key')
 
