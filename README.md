@@ -37,6 +37,11 @@ Join the support server at: https://discord.gg/My8wut2
   <img src="https://top.gg/api/widget/480451439181955093.svg" alt="alcebot" />
 </a>
 
+### Click below to buy me a coffee
+
+[![Coffee](https://img.shields.io/badge/support-buy%20me%20a%20coffee!-orange?logo=buymeacoffee)](https://www.buymeacoffee.com/alce)
+
+
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
 
