@@ -13,6 +13,8 @@ from discord.ext import commands
 from textblob import TextBlob
 
 bot = commands.Bot(command_prefix='a!')
+passcode = random.randint(10000000,99999999)
+asscode = #put custom code here
 
 #array for die images
 die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.png", "https://imagen.click/i/4c7a42.png", "https://imagen.click/i/6f4dc6.png", "https://imagen.click/i/a4ca6b.png", "https://imagen.click/i/e617ea.png"]
@@ -42,12 +44,10 @@ async def on_ready():
     print(bot.user.id)
     print('valid token')
     print('------')
-
 #mass delete messages
 @bot.command(aliases=['remove', 'delete'])
-async def purge(ctx, number: int):
-    if(number <= 25):
-        #"""Bulk-deletes messages from the channel."""
+async def purge(ctx, a, number: int):
+    if(passcode == a):
         try:
             if ctx.message.author.guild_permissions.administrator:
             
@@ -59,52 +59,90 @@ async def purge(ctx, number: int):
                 await ctx.send(config.err_mesg_permission)
         except:
             await ctx.send(config.err_mesg_generic)
+    elif(a == asscode):
+        if(number <= 500):
+        #"""Bulk-deletes messages from the channel."""
+            try:
+                if ctx.message.author.guild_permissions.administrator:
+            
+                    deleted = await ctx.channel.purge(limit=number)
+                    print('Deleted {} message(s)'.format(len(deleted)))
+                    logger.info('Deleted {} message(s)'.format(len(deleted)))
+                    
+                else:
+                    await ctx.send(config.err_mesg_permission)
+            except:
+                await ctx.send(config.err_mesg_generic)
+        else:
+            await ctx.send('Message limit reached! Please pick a number lower than 500')
     else:
-        await ctx.send('Message limit reached! Please pick a number lower than 25')
+        if(number <= 10):
+        #"""Bulk-deletes messages from the channel."""
+            try:
+                if ctx.message.author.guild_permissions.administrator:
+            
+                    deleted = await ctx.channel.purge(limit=number)
+                    print('Deleted {} message(s)'.format(len(deleted)))
+                    logger.info('Deleted {} message(s)'.format(len(deleted)))
+                    
+                else:
+                    await ctx.send(config.err_mesg_permission)
+            except:
+                await ctx.send(config.err_mesg_generic)
+        else:
+            await ctx.send('Message limit reached! Please pick a number lower than 10')
 
+#gets banned users
 @bot.command()
-async def getbans(ctx):
-	"""Lists all banned users on the current server."""
-	
-	if ctx.message.author.guild_permissions.ban_members:
-		x = await ctx.message.guild.bans()
-		x = '\n'.join([str(y.user) for y in x])
-		embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
-		return await ctx.send(embed=embed)
-	else:
-		await ctx.send(config.err_mesg_permission)
+async def getbans(ctx, a):
+    if(passcode == a):	
+        if ctx.message.author.guild_permissions.ban_members:
+            x = await ctx.message.guild.bans()
+            x = '\n'.join([str(y.user) for y in x])
+            embed = discord.Embed(title="List of Banned Members", description=x, color=0xFFFFF)
+            return await ctx.send(embed=embed)
+        else:
+            await ctx.send(config.err_mesg_permission)
+    else:
+         print('error -- incorrect passcode')
 
+#gets member info
 @bot.command(aliases=['user'])
-async def info(ctx, user: discord.Member):
-	"""Gets info on a member, such as their ID."""
-	try:
-		embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
-		embed.add_field(name="Name:", value=user.name)
-		embed.add_field(name="ID:", value=user.id)
-		embed.add_field(name="Status:", value=user.status)
-		embed.add_field(name="Highest role:", value=user.top_role)
-		embed.add_field(name="Joined:", value=user.joined_at)
-		embed.set_thumbnail(url=user.avatar_url)
-		await ctx.send(embed=embed)
-	except:
-		await ctx.send(config.err_mesg_generic)
-
+async def userinfo(ctx, a, user: discord.Member):
+    if(passcode == a):
+        try:
+            embed = discord.Embed(title="User profile: " + user.name, color=user.colouruser.colour)
+            embed.add_field(name="Name:", value=user.name)
+            embed.add_field(name="ID:", value=user.id)
+            embed.add_field(name="Status:", value=user.status)
+            embed.add_field(name="Highest role:", value=user.top_role)
+            embed.add_field(name="Joined:", value=user.joined_at)
+            embed.set_thumbnail(url=user.avatar_url)
+            await ctx.send(embed=embed)
+        except:
+            await ctx.send(config.err_mesg_generic)
+    else:
+        print('error -- incorrect passcode')    
 
 #lists active servers
 @bot.command()
-async def serverlist(ctx):
+async def serverlist(ctx, a):
+    embedColor = random.randint(0, 0xffffff)
 
-    if ctx.message.author.guild_permissions.administrator:
-        """List the servers that the bot is active on."""
-        x = ', '.join([str(server) for server in bot.guilds])
-        y = len(bot.guilds)
-        print("Server list: " + x)
-        if y > 40:
-            embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
-            return await ctx.send(embed=embed)
-        elif y < 40:
-            embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
-            return await ctx.send(embed=embed)
+    if(passcode == a):
+        if ctx.message.author.guild_permissions.administrator:
+            """List the servers that the bot is active on."""
+            x = ', '.join([str(server) for server in bot.guilds])
+            y = len(bot.guilds)
+            print("Server list: " + x)
+            if y > 40:
+                embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", color=0xFFFFF)
+                return await ctx.send(embed=embed)
+            elif y <= 40:
+                embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", color=0xFFFFF)
+                return await ctx.send(embed=embed)
+    else:
+         print('error -- incorrect passcode')
 
 #hugs intended person
 @bot.command()
