@@ -27,6 +27,10 @@ Join the support server at: https://discord.gg/My8wut2
 6. logging
 7. pyowm
 8. time
+9. logger
+10. io
+11. textwrap
+12. copy
 
 ## How to install a package
 ```pip install <package>```
