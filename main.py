@@ -15,15 +15,15 @@ import textwrap
 import traceback
 import copy
 
-owm = pyowm.OWM('owm_key')
-err_mesg_generic = 'An unknown message has occured! The developer has been notified.'
-err_mesg_permission = 'You do not have the proper permissions to complete this action!'
-passcode = str(random.randint(10000000000000000000,99999999999999999999))
-
 from discord.ext import commands
 from textblob import TextBlob
 from contextlib import redirect_stdout
 
+
+owm = pyowm.OWM('owm_key')
+err_mesg_generic = 'An unknown message has occured! The developer has been notified.'
+err_mesg_permission = 'You do not have the proper permissions to complete this action!'
+passcode = str(random.randint(10000000000000000000,99999999999999999999))
 bot = commands.Bot(command_prefix='a!')
 
 #array for die images
