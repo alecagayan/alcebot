@@ -33,6 +33,7 @@ Join the support server at: https://discord.gg/My8wut2
 12. copy
 
 ## How to install a package
+When installing python, remember to install pip as well
 ```pip install <package>```
 
 ## More info
