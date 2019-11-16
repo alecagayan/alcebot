@@ -12,6 +12,7 @@ import json
 import time
 import pyowm
 import datetime
+import config
 now = datetime.datetime.now()
 diff = datetime.datetime(now.year, 12, 25) - \
     datetime.datetime.today()  # Days until Christmas
@@ -43,7 +44,6 @@ async def on_ready():
     print("Discord.py API version:", discord.__version__)
     print("Python version:", platform.python_version())
     print("Running on:", platform.system(), platform.release(), "(" + os.name + ")")
-    print("BlazeBot version:", ver)
     print("Name : {}".format(client.user.name))
     print("Client ID : {}".format(client.user.id))
     print("Currently active on " + str(len(client.guilds)) + " server(s).\n")

@@ -1,5 +1,3 @@
-# BlazeBot configuration file (required to run)
-
 # Discord App token
 bbtoken ="NjMzNDMxNzYxMDk0NzA1MTYz.XdBrow.Dxgu8nCPMGsujTUSScqzuX6qY_s"
 
