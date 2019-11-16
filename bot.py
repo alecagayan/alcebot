@@ -13,6 +13,7 @@ import time
 import pyowm
 import datetime
 import config
+import psutil
 now = datetime.datetime.now()
 diff = datetime.datetime(now.year, 12, 25) - \
     datetime.datetime.today()  # Days until Christmas
