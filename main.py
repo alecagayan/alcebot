@@ -1,260 +1,131 @@
-import discord
-import random
-import textblob
 import asyncio
-import re
-import logger
-import logging
-import pyowm
-import psutil
-import time
-import json
-import io
-import platform
-import textwrap
-import traceback
-import copy
-
-owm = pyowm.OWM('owm_key')
-err_mesg_generic = 'An unknown message has occured! The developer has been notified.'
-err_mesg_permission = 'You do not have the proper permissions to complete this action!'
-passcode = str(random.randint(10000000000000000000,99999999999999999999))
-
+import discord
 from discord.ext import commands
-from textblob import TextBlob
-from contextlib import redirect_stdout
+from discord.ext.commands import Bot
+import platform
+import sys
+import os
+import random
+import requests
+import urllib.request
+import json
+import time
+import pyowm
+import datetime
+now = datetime.datetime.now()
+diff = datetime.datetime(now.year, 12, 25) - \
+    datetime.datetime.today()  # Days until Christmas
+passcode = str(random.randint(10000000000000000000,99999999999999999999))
+owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
-bot = commands.Bot(command_prefix='a!')
 
-#array for die images
-die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.png",
-    "https://imagen.click/i/4c7a42.png","https://imagen.click/i/6f4dc6.png",
-    "https://imagen.click/i/a4ca6b.png", "https://imagen.click/i/e617ea.png"]
+import logging
+from pyfiglet import figlet_format, FontNotFound
 
-#list for compliments command
-compliments = ["your feet are nice", "the dirt under your fingernails is scrumptious",
-    "your pupil tastes like a cupcake", "your elbows sound like angels", "your ring finger smells like lilacs",
-    "your belly button is as soft as a kitten", "you are not a spoon", "you have teeth",
-    "your eyes sparkle more than the sweat in between my toes", "your lips taste like rhinestones",
-    "your forehead is a perfect shape, like one of a fluffy dog’s thigh", 
-    "the color of your hair makes your kneecap look rather fancy",
-    "your trachea is moist and fun", "your kidneys look like all the stars in the sky"]
 
-#list for insults command
-insults = ['you smell like rotten granola bars', 'your eyes look like the gum under my shoe',
-    'your teeth are as crooked as james charles’ sexuality', 'your armpit hairs look like the prickles on a cactus',
-    'i hate the way your style your hair, like a fat sack of eggs', 'your toes smell like butthole',
-    'your kneecaps are so weak', 'why does your throat look like that', 'your ears look like shelves',
-    "If laughter is the best medicine, your face must be curing the world.", "It's better to let someone think you are an idiot than to open your mouth and prove it.",
-    "If I had a face like yours, I'd sue my parents.", "You're so ugly, when your mom dropped you off at school she got a fine for littering.",
-    "If I wanted to kill myself I'd climb your ego and jump down to your IQ.", "Brains aren't everything. In your case they're nothing.",
-    "Are you always this stupid or is today a special occasion?", "Don't you have a terribly empty feeling - in your skull?",
-    "How did you get here? Did someone leave your cage open?", "I'd like to see things from your point of view but I can't seem to get my head that far up my ass.",
-    "Have you been shopping lately? They're selling lives, you should go get one.", "The last time I saw something like you, I flushed it.",
-    "If ugliness was measured in bricks, you would be the Great Wall of China.", "You want an insult? Look in the mirror!",
-    "The story of your life is more insulting than anything I have to say.", "Did a thought cross your mind? It must have been a long and lonely journey...",
-    "You'd better hide; the garbage man is coming.", "Roses are red, violets are blue, I have five fingers, the middle one's for you.",
-    "I have a text file bigger than your brain in my database. It's 0KB in size.", "You're old enough to remember when emojis were called 'hieroglyphics.'",
-    "I don't engage in mental combat with the unarmed.", "Is your ass jealous of the amount of shit that comes out of your mouth?",
-    "Your face looks like it caught fire and someone tried to put it out with a fork.","Hey, you have something on your third chin.",
-    "I thought a little girl from Kansas dropped a house on you…", "I'm jealous of people that don't know you.", "You bring everyone a lot of joy, when you leave the room.",
-    "If you are going to be two faced, at least make one of them pretty.", "If you're going to be a smartarse, first you have to be smart. Otherwise you're just an arse.",
-    "Somewhere out there is a tree, tirelessly producing oxygen so you can breathe. I think you owe it an apology.",
-    "I don't exactly hate you, but if you were on fire and I had water, I'd drink it.", "If you were on TV, I would change the channel.",
-    "You have Diarrhea of the mouth; constipation of the ideas.", "If ugly were a crime, you'd get a life sentence.", "There is no vaccine for stupidity.",
-    "Did your parents ever ask you to run away from home?", "Any similarity between you and a human is purely coincidental.", "Keep talking – someday you’ll say something intelligent.",
-    "Don’t you love nature, despite what it did to you?", "I'm sure if you studied harder you could get enough qualifications to work as a McDonalds' cleaner.",
-    "If I knew you were a cock I would have fed you corn.", "I shouldn't say anything to upset you, I know it's your time of the month.",
-    "Has your existence been verified by science yet?", "I don't understand how they could cram so much ugly into one physical form."]
+# Config.py setup
+##################################################################################
+if not os.path.isfile("config.py"):
+    sys.exit("'config.py' not found! Please add it and try again.")
 
-@bot.event
+else:
+    import config  # config.py is required to run; found in the same directory.
+    from setup import ver # setup.py is used to get the version number
+##################################################################################
+
+
+# This code logs all events including chat to discord.log. This file will be overwritten when the bot is restarted - rename the file if you want to keep it.
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename=config.logfile, encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
+
+# IMPORTANT - DO NOT TOUCH! Setup bot as "client", with description and prefix from config.py
+client = Bot(description=config.des, command_prefix=config.pref)
+
+
+# This message lets us know that the script is running correctly
+print("Connecting...")
+
+
+# Start bot and print status to console
+@client.event
 async def on_ready():
+    print("Bot online!\n")
+    print("Discord.py API version:", discord.__version__)
+    print("Python version:", platform.python_version())
+    print("Running on:", platform.system(), platform.release(), "(" + os.name + ")")
+    print("BlazeBot version:", ver)
+    print("Name : {}".format(client.user.name))
+    print("Client ID : {}".format(client.user.id))
+    print("Currently active on " + str(len(client.guilds)) + " server(s).\n")
+    logger.info("Bot started successfully.")
 
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
-    #says who its logged in as and gives logs
-    logger = logging.getLogger('discord')
-    logger.setLevel(logging.DEBUG)
-    handler = logging.FileHandler(filename='discord_alcebot.log', encoding='utf-8', mode='w')
-    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-    logger.addHandler(handler)
-  
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('valid token')
-    print('passcode: ' + str(passcode))
-    print('------')
-
-#mass delete messages
-@bot.command(aliases=['remove', 'delete'])
-async def purge(ctx, number: int):
-    if(number <= 10):
-            #"""Bulk-deletes messages from the channel."""
-            try:
-                if ctx.message.author.guild_permissions.administrator:
-            
-                    deleted = await ctx.channel.purge(limit=number + 1)
-                    print('Deleted {} message(s)'.format(len(deleted)))
-                    await ctx.send('Deleted ' + number + ' messages')
-                    logger.info('Deleted {} message(s)'.format(len(deleted)))
-                        
-                        
-                else:
-                    await ctx.send(err_mesg_permission)
-            except:
-                return
+    # Set "playing" status
+    if diff.days < 2:
+        print("Merry Christmas!")
+        game = "Merry Christmas! <3"
     else:
-        await ctx.send('Message limit reached! Please pick a number lower than 10')
-
-@bot.command()
-async def adminpurge(ctx, number: int, code):
-    if(code == passcode):
-            #"""Bulk-deletes messages from the channel."""
-            try:
-                if ctx.message.author.guild_permissions.administrator:
-            
-                    deleted = await ctx.channel.purge(limit=number + 1)
-                    print('Deleted {} message(s)'.format(len(deleted)))
-                    await ctx.send('Deleted ' + number + ' messages')
-                    logger.info('Deleted {} message(s)'.format(len(deleted)))
-                        
-                else:
-                    await ctx.send(err_mesg_permission)
-            except:
-                return
-    else:
-        await ctx.send('Incorrect administrator passcode!')
+        game = "BlazeBot.py | {0}help | Python version: {1} | Discord API version: {2} | Running on: {3} {4} ({5})".format(config.pref, platform.python_version(), discord.__version__, platform.platform, platform.release(), os.name)
+        
+    await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
 
-#lists active servers
-@bot.command()
-async def serverlist(ctx, a):
-    if(passcode == a):
-        if ctx.message.author.guild_permissions.administrator:
-            embedColor = random.randint(0, 0xffffff)
-            """List the servers that the bot is active on."""
-            await ctx.channel.purge(limit=1)
-            x = ', '.join([str(server) for server in bot.guilds])
-            y = len(bot.guilds)
-            print("Server list: " + x)
-            if y > 40:
-                embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=embedColor)
-                return await ctx.send(embed=embed)
-            elif y < 40:
-                embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=embedColor)
-                return await ctx.send(embed=embed)
-    else:
-        await ctx.send('Incorrect administrator passcode!')
-
-#hugs intended person
-@bot.command()
-async def hug(ctx, *, member: discord.Member = None):
-    """Hug someone on the server <3"""
-    try:
-        if member is None:
-            await ctx.send(ctx.message.author.mention + " has been hugged!")
-            await ctx.send("https://gph.is/g/ajxG084")
-        else:
-            if member.id == ctx.message.author.id:
-                await ctx.send(ctx.message.author.mention + " has hugged themself!")
-                await ctx.send("https://gph.is/g/ajxG084")
-            else:
-                await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
-                await ctx.send("https://gph.is/g/ajxG084")
-
-    except:
-        await ctx.send(err_mesg_generic)
+# Default BlazeBot commands
 
 #add
-@bot.command()
+@client.command()
 async def add(ctx, a: float, b: float):
     await ctx.send(a+b)
 
 #subtract
-@bot.command()
+@client.command()
 async def subtract(ctx, a: float, b: float):
     await ctx.send(a-b)
 
-#multiply
-@bot.command()
+@client.command()
 async def multiply(ctx, a: float, b: float):
     await ctx.send(a*b)
 
 #divide
-@bot.command()
+@client.command()
 async def divide(ctx, a: float, b: float):
     await ctx.send(a/b)
 
 #exponent
-@bot.command()
+@client.command()
 async def power(ctx, a: float, b: float):
     await ctx.send(a**b)
 
 #tells you to die
-@bot.command()
+@client.command()
 async def cleck(ctx):
     await ctx.send("https://imagen.click/i/7cd655.png")
 
-@bot.command()
+@client.command()
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot")
 
 #prints invite
-@bot.command()
+@client.command()
 async def invite(ctx):
     await ctx.send("https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8")
 
 #roll a die
-@bot.command()
+@client.command()
 async def roll(ctx):
-    await ctx.send(die_url[random.randint(1,6)-1])
+    await ctx.send(config.die_url[random.randint(1,6)-1])
 
-@bot.command()
-async def compliment(ctx, *, member: discord.Member = None):
-    """compliment"""
-    try:
-        if member is None:
-            await ctx.send(ctx.message.author.mention + " " + str(compliments[random.randint(0,13)]))
-        else:
-            await ctx.send(member.mention + " " + str(compliments[random.randint(0,13)]))
-    except:
-        await ctx.send(err_mesg_generic)
-
-@bot.command()
-async def insult(ctx, *, member: discord.Member = None):
-    """insults"""
-    try:
-        if member is None:
-            await ctx.send(ctx.message.author.mention + " " + str(insults[random.randint(0,50)]))
-        else:
-            await ctx.send(member.mention + " " + str(insults[random.randint(0,50)]))
-    except:
-        await ctx.send(err_mesg_generic)
-
-@bot.command()
+@client.command()
 async def pasta(ctx):
     await ctx.send('cut em thiccque daddy')
 
-@bot.command()
-async def botplatform(ctx, a):
-    if(passcode == a):
-        """Shows what OS the bot is running on."""
-        try:
-            await ctx.send("The bot is currently running on: ```" + str(platform.platform()) + "```")
-        except:
-            await ctx.send(err_mesg_generic)
-    else:
-        await ctx.send('Incorrect administrator passcode!')
-
-#ping
-@bot.command()
-async def ping(ctx):
-    print(bot.latency)
-    await ctx.send('Pong! {0}ms websocket latency'.format(round(bot.latency*1000, 3)))
-
 #translate
-@bot.command()
+@client.command()
 async def credit(ctx):
     embedColor = random.randint(0, 0xffffff)
     embed = discord.Embed(title="Thanks to these people:", color=embedColor)
@@ -268,7 +139,7 @@ async def credit(ctx):
     await ctx.send(embed=embed)
 
 #sentiment
-@bot.command()
+@client.command()
 async def netdiskcpu(ctx, a):
     if(passcode == a):
 
@@ -287,24 +158,22 @@ async def netdiskcpu(ctx, a):
         await ctx.send('Incorrect administrator passcode!')
 
 #sentiment
-@bot.command()
+@client.command()
 async def hugeveryone(ctx):
     await ctx.send("@here has been hugged by " + ctx.message.author.mention + "!")
 
-@bot.command()
+@client.command()
 async def suggest(ctx, *, a):
     await ctx.send("Thank you for the suggestion! I will get back to you soon!")
     print ("suggestion: " + a)
 
-@bot.command()
+@client.command()
 async def belsontrump(ctx):
     await ctx.send("https://imagen.click/i/b8626b.jpg")
     await ctx.send("https://imagen.click/i/846a0e.jpg")
 
-@bot.command()
+@client.command()
 async def weather(ctx, a):
-
-    print('{0}ms'.format(round(bot.latency*1000, 3)))
 
     wheathr1 = ''
     wheathr2 = ''
@@ -344,7 +213,7 @@ async def weather(ctx, a):
 
     await ctx.send(embed=embed)
 
-@bot.command()
+@client.command()
 async def info(ctx): 
 
     embedColor = random.randint(0, 0xffffff)
@@ -361,10 +230,10 @@ async def info(ctx):
 
     await ctx.send(embed=embed)
 
-bot.remove_command('help')
+client.remove_command('help')
 
  #adds help command with embed. embed for big brain
-@bot.command()
+@client.command()
 async def help(ctx):
     embedColor = random.randint(0, 0xffffff)
 
@@ -388,6 +257,229 @@ async def help(ctx):
     
     await ctx.send(embed=embed)
 
+@client.command(aliases=['remove', 'delete'])
+async def purge(ctx, number: int):
+    """Bulk-deletes messages from the channel."""
+    try:
+        if ctx.message.author.guild_permissions.administrator:
+        
+            deleted = await ctx.channel.purge(limit=number)
+            print('Deleted {} message(s)'.format(len(deleted)))
+            logger.info('Deleted {} message(s)'.format(len(deleted)))
 
-#token
-bot.run('token')
+        else:
+            await ctx.send(config.err_mesg_permission)
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command()
+async def roles(context):
+    """Lists the current roles on the server."""
+
+    roles = context.message.guild.roles
+    result = "**The roles on this server are: **"
+    for role in roles:
+        result += role.name + ", "
+    await ctx.send(result)
+
+
+@client.command()
+async def hug(ctx, *, member: discord.Member = None):
+    """Hug someone on the server <3"""
+    try:
+        if member is None:
+            await ctx.send(ctx.message.author.mention + " has been hugged!")
+        else:
+            if member.id == ctx.message.author.id:
+                await ctx.send(ctx.message.author.mention + " has hugged themself!")
+            else:
+                await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
+
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command(aliases=['say'])
+async def echo(ctx, *msg):
+    """Makes the bot talk."""
+    try:
+        say = ' '.join(msg)
+        await client.delete_message(ctx.message)
+        return await ctx.send(say)
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command(aliases=['saytts'])
+async def echotts(ctx, *msg):
+    """Makes the bot talk, with TTS."""
+    try:
+        say = ' '.join(msg)
+        await client.delete_message(ctx.message)
+        return await ctx.send(say, tts=True)
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command(aliases=["fancy"])
+async def fancify(ctx, *, text):
+    """Makes text fancy!"""
+    try:
+        def strip_non_ascii(string):
+            """Returns the string without non ASCII characters."""
+            stripped = (c for c in string if 0 < ord(c) < 127)
+            return ''.join(stripped)
+
+        text = strip_non_ascii(text)
+        if len(text.strip()) < 1:
+            return await self.ctx.send(":x: ASCII characters only please!")
+        output = ""
+        for letter in text:
+            if 65 <= ord(letter) <= 90:
+                output += chr(ord(letter) + 119951)
+            elif 97 <= ord(letter) <= 122:
+                output += chr(ord(letter) + 119919)
+            elif letter == " ":
+                output += " "
+        await ctx.send(output)
+
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command()
+async def bigtext(ctx, *, text):
+    """Enlarges text."""
+    try:
+        await ctx.send("```fix\n" + figlet_format(text, font="big") + "```")
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command(aliases=['game', 'presence'])
+async def setgame(ctx, *args):
+    """Sets the 'Playing' status."""
+    try:
+        if ctx.message.author.guild_permissions.administrator:
+            setgame = ' '.join(args)
+            await client.change_presence(status=discord.Status.online, activity=discord.Game(setgame))
+            await ctx.send(":ballot_box_with_check: Game name set to: `" + setgame + "`")
+            print("Game set to: `" + setgame + "`")
+        else:
+            await ctx.send(config.err_mesg_permission)
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+@client.command()
+async def botplatform(ctx):
+    """Shows what OS the bot is running on."""
+    try:
+        await ctx.send("The bot is currently running on: ```" + str(platform.platform()) + "```")
+    except:
+        await ctx.send(config.err_mesg_generic)
+
+
+
+@client.command()
+async def serverlist(ctx):
+    """List the servers that the bot is active on."""
+    x = ', '.join([str(server) for server in client.guilds])
+    y = len(client.guilds)
+    print("Server list: " + x)
+    if y > 40:
+        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
+        return await ctx.send(embed=embed)
+    elif y < 40:
+        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
+        return await ctx.send(embed=embed)
+
+
+@client.command()
+async def getbans(ctx):
+	"""Lists all banned users on the current server."""
+	
+	if ctx.message.author.guild_permissions.ban_members:
+		x = await ctx.message.guild.bans()
+		x = '\n'.join([str(y.user) for y in x])
+		embed = discord.Embed(title="List of Banned Members", description=x, colour=0xFFFFF)
+		return await ctx.send(embed=embed)
+	else:
+		await ctx.send(config.err_mesg_permission)
+	
+
+
+
+@client.command(aliases=['user'])
+async def userinfo(ctx, user: discord.Member):
+	"""Gets info on a member, such as their ID."""
+	try:
+		embed = discord.Embed(title="User profile: " + user.name, colour=user.colour)
+		embed.add_field(name="Name:", value=user.name)
+		embed.add_field(name="ID:", value=user.id)
+		embed.add_field(name="Status:", value=user.status)
+		embed.add_field(name="Highest role:", value=user.top_role)
+		embed.add_field(name="Joined:", value=user.joined_at)
+		embed.set_thumbnail(url=user.avatar_url)
+		await ctx.send(embed=embed)
+	except:
+		await ctx.send(config.err_mesg_generic)
+
+
+
+@client.command()
+async def ping(ctx):
+    print(client.latency)
+    await ctx.send('Pong! {0}ms websocket latency'.format(round(client.latency*1000, 3)))
+
+# Choose a random insult from the list in config.py
+@client.command()
+async def insult(ctx):
+    """Says something mean about you."""
+    await ctx.send(ctx.message.author.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
+
+@client.command()
+async def load(ctx):
+    """Loads startup extensions."""
+    if __name__ == "__main__":  # Load startup extensions, specified in config.py
+        for extension in config.startup_extensions:
+            try:
+                client.load_extension(extension)
+                print("Loaded extension '{0}'".format(extension))
+                logger.info("Loaded extension '{0}'".format(extension))
+            except Exception as e:
+                exc = '{0}: {1}'.format(type(e).__name__, e)
+                print('Failed to load extension {0}\nError: {1}'.format(extension, exc))
+                logger.info('Failed to load extension {0}\nError: {1}'.format(extension, exc))
+
+# Christmas countdown!
+@client.command(aliases=['xmas', 'chrimbo'])
+async def christmas(ctx):
+    """Christmas countdown!"""
+    await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff.days)))  # Convert the 'diff' integer into a string and say the message
+
+
+if __name__ == "__main__":  # Load startup extensions, specified in config.py
+
+    if not config.startup_extensions:
+        print("No extensions enabled.")
+    else:
+        print("Loading extensions...")
+
+    for extension in config.startup_extensions:
+        try:
+            client.load_extension(extension)
+            print("Loaded extension '{0}'".format(extension))
+            logger.info("Loaded extension '{0}'".format(extension))
+        except Exception as e:
+            exc = '{}: {}'.format(type(e).__name__, e)
+            print('Failed to load extension {}\nError: {}'.format(extension, exc))
+            logger.info('Failed to load extension {}\nError: {}'.format(extension, exc))
+
+
+
+if __name__ == "__main__":
+
+    # Read client token from "config.py" (which should be in the same directory as this file)
+    client.run(config.bbtoken)
