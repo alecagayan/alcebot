@@ -54,4 +54,4 @@ To read and edit this document properly offline, [Atom](https://atom.io/) and [V
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
 
-Copyright © 2019 oopsie1412
+Copyright © 2019 oopsie1412 and alecagayan
