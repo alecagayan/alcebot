@@ -119,8 +119,20 @@ async def credit(ctx):
     embed.add_field(name="Discord Contributors", value='Motions#5324, GidoBOSSftw5731#6422, chickenramen#7173')
     embed.add_field(name="Beta Testers", value='oopsie#1412')
 
+    await ctx.send(embed=embed)
+
+@client.command()
+async def premium(ctx):
+    embedColor = random.randint(0, 0xffffff)
+    embed = discord.Embed(title="AlceBot Premium", color=embedColor)
+
+    embed.add_field(name="What is premium?", value='AlceBot premium is an add-on feature package that gets you cool commands like Christmas Countdown, TTS, Fancy Text, and more!')
+    embed.add_field(name="How do I get premium?", value='To get AlceBot premium, you have to go to https://buymeacoff.ee/alce and purchase at least one, monthly coffee. In the "message" box, please put an invite link to the server you want to get premium!')
+    embed.add_field(name="How much does it cost to get premium?", value='AlceBot premium starts at $3 a month and can go as high as you want!')
+    embed.add_field(name="How do I add the premium functionality to my server?", value='Remember how you sent a server invite in the message box? Well now, my owner joins your server and adds premium!')
 
     await ctx.send(embed=embed)
+
 
 #sentiment
 @client.command()
@@ -305,7 +317,7 @@ async def fancify(ctx, *, text):
 
         text = strip_non_ascii(text)
         if len(text.strip()) < 1:
-            return await self.ctx.send(":x: ASCII characters only please!")
+            return await ctx.send(":x: ASCII characters only please!")
         output = ""
         for letter in text:
             if 65 <= ord(letter) <= 90:
