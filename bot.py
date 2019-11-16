@@ -418,7 +418,7 @@ async def load(ctx):
 @client.command(aliases=['xmas', 'chrimbo'])
 async def christmas(ctx):
     """Christmas countdown!"""
-    await ctx.send("**{0}** day(s) left until Christmas day as of" + str(datetime.datetime.today()) + ":christmas_tree:".format(str(diff.days)))  # Convert the 'diff' integer into a string and say the message
+    await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff.days)))  # Convert the 'diff' integer into a string and say the message
 
 
 if __name__ == "__main__":  # Load startup extensions, specified in config.py
