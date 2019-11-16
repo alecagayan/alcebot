@@ -32,10 +32,8 @@ logger.addHandler(handler)
 # IMPORTANT - DO NOT TOUCH! Setup bot as "client", with description and prefix from config.py
 client = Bot(description=config.des, command_prefix=config.pref)
 
-
 # This message lets us know that the script is running correctly
 print("Connecting...")
-
 
 # Start bot and print status to console
 @client.event
