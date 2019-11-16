@@ -20,18 +20,6 @@ owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
 
 import logging
-
-# Config.py setup
-##################################################################################
-if not os.path.isfile("config.py"):
-    sys.exit("'config.py' not found! Please add it and try again.")
-
-else:
-    import config  # config.py is required to run; found in the same directory.
-    from setup import ver # setup.py is used to get the version number
-##################################################################################
-
-
 # This code logs all events including chat to discord.log. This file will be overwritten when the bot is restarted - rename the file if you want to keep it.
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
