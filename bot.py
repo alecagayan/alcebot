@@ -14,6 +14,7 @@ import pyowm
 import datetime
 import config
 import psutil
+
 now = datetime.datetime.now()
 diff_cmas = datetime.datetime(now.year, 12, 25) - \
     datetime.datetime.today()
@@ -434,7 +435,6 @@ async def christmas(ctx):
 async def newyear(ctx):
     """new year countdown!"""
     await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
-
 
 if __name__ == "__main__":  # Load startup extensions, specified in config.py
 
