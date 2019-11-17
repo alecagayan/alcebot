@@ -16,6 +16,8 @@ import config
 import psutil
 now = datetime.datetime.now()
 diff_cmas = datetime.datetime(now.year, 12, 25) - \
+    datetime.datetime.today()
+diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
     datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
@@ -427,6 +429,11 @@ async def load(ctx):
 async def christmas(ctx):
     """Christmas countdown!"""
     await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff_cmas.days)))  # Convert the 'diff' integer into a string and say the message
+
+@client.command(aliases=['newyears'])
+async def newyear(ctx):
+    """Christmas countdown!"""
+    await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
 
 
 if __name__ == "__main__":  # Load startup extensions, specified in config.py
