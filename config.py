@@ -1,5 +1,5 @@
 # Discord App token
-bbtoken ="NjMzNDMxNzYxMDk0NzA1MTYz.XdBrow.Dxgu8nCPMGsujTUSScqzuX6qY_s"
+bbtoken ="token"
 
 # This specifies what extensions to load when the bot starts up (leave empty for no extensions)
 startup_extensions = []
