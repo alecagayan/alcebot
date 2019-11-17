@@ -62,8 +62,13 @@ async def on_ready():
         
     await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
+# Default alcebot commands
 
-# Default BlazeBot commands
+@commands.command(aliases=["serverlink", "serverinvitelink"])
+async def serverinvite(self, ctx):
+	invitelinknew = await self.client.create_invite(destination = ctx.message.channel, xkcd = True, max_uses = 100)
+	print(invitelinknew)
+	await ctx.send(invitelinknew)
 
 #add
 @client.command()
