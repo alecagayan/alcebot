@@ -432,7 +432,7 @@ async def christmas(ctx):
 
 @client.command(aliases=['newyears'])
 async def newyear(ctx):
-    """Christmas countdown!"""
+    """new year countdown!"""
     await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
 
 
