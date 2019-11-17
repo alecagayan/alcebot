@@ -15,7 +15,7 @@ import datetime
 import config
 import psutil
 now = datetime.datetime.now()
-diff = datetime.datetime(now.year, 12, 25) - \
+diff_cmas = datetime.datetime(now.year, 12, 25) - \
     datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
@@ -51,7 +51,7 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
     # Set "playing" status
-    if diff.days < 2:
+    if diff_cmas.days < 2:
         print("Merry Christmas!")
         game = "Merry Christmas! <3"
     else:
@@ -426,7 +426,7 @@ async def load(ctx):
 @client.command(aliases=['xmas', 'chrimbo'])
 async def christmas(ctx):
     """Christmas countdown!"""
-    await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff.days)))  # Convert the 'diff' integer into a string and say the message
+    await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff_cmas.days)))  # Convert the 'diff' integer into a string and say the message
 
 
 if __name__ == "__main__":  # Load startup extensions, specified in config.py
