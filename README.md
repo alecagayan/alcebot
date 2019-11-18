@@ -10,6 +10,8 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling!
 ## Support Server
 Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
 
+<iframe src="https://canary.discordapp.com/widget?id=636335345994039324&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
+
 Join the support server at: https://discord.gg/My8wut2
 
 ## How to start and run
