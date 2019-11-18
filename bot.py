@@ -343,16 +343,17 @@ async def echotts(ctx, *msg):
 @client.command(aliases=['game', 'presence'])
 async def setgame(ctx, *args):
     """Sets the 'Playing' status."""
-    try:
-        if ctx.message.author.guild_permissions.administrator:
+
+    if(ctx.author.id == 401063536618373121):
+        try:
             setgame = ' '.join(args)
             await client.change_presence(status=discord.Status.online, activity=discord.Game(setgame))
             await ctx.send(":ballot_box_with_check: Game name set to: `" + setgame + "`")
             print("Game set to: `" + setgame + "`")
-        else:
-            await ctx.send(config.err_mesg_permission)
-    except:
-        await ctx.send(config.err_mesg_generic)
+        except:
+            await ctx.send(config.err_mesg_generic)
+    else:
+        await ctx.send(config.err_mesg_permission)
 
 
 @client.command()
