@@ -49,7 +49,7 @@ To read and edit this document properly offline, [Atom](https://atom.io/) and [V
 
 ### Click below to buy me a coffee
 
-[![Coffee](https://img.shields.io/badge/support-buy%20me%20a%20coffee!-orange?logo=buymeacoffee)](https://www.buymeacoffee.com/alce)
+<a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
