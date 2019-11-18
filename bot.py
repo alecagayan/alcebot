@@ -21,7 +21,8 @@ diff_cmas = datetime.datetime(now.year, 12, 25) - \
 diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
     datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
-owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
+devID = 401063536618373121
+owm = pyowm.OWM(config.owm_key)
 
 
 import logging
