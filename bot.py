@@ -315,30 +315,30 @@ async def echotts(ctx, *msg):
         await ctx.send(config.err_mesg_generic)
 
 
-@client.command(aliases=["fancy"])
-async def fancify(ctx, *, text):
-    """Makes text fancy!"""
-    try:
-        def strip_non_ascii(string):
-            """Returns the string without non ASCII characters."""
-            stripped = (c for c in string if 0 < ord(c) < 127)
-            return ''.join(stripped)
-
-        text = strip_non_ascii(text)
-        if len(text.strip()) < 1:
-            return await ctx.send(":x: ASCII characters only please!")
-        output = ""
-        for letter in text:
-            if 65 <= ord(letter) <= 90:
-                output += chr(ord(letter) + 119951)
-            elif 97 <= ord(letter) <= 122:
-                output += chr(ord(letter) + 119919)
-            elif letter == " ":
-                output += " "
-        await ctx.send(output)
-
-    except:
-        await ctx.send(config.err_mesg_generic)
+#@client.command(aliases=["fancy"])
+#async def fancify(ctx, *, text):
+#    """Makes text fancy!"""
+#    try:
+#        def strip_non_ascii(string):
+#            """Returns the string without non ASCII characters."""
+#            stripped = (c for c in string if 0 < ord(c) < 127)
+#            return ''.join(stripped)
+#
+#        text = strip_non_ascii(text)
+#        if len(text.strip()) < 1:
+#            return await ctx.send(":x: ASCII characters only please!")
+#        output = ""
+#        for letter in text:
+#            if 65 <= ord(letter) <= 90:
+#                output += chr(ord(letter) + 119951)
+#            elif 97 <= ord(letter) <= 122:
+#                output += chr(ord(letter) + 119919)
+#            elif letter == " ":
+#                output += " "
+#       await ctx.send(output)
+#
+#    except:
+#        await ctx.send(config.err_mesg_generic)
 
 @client.command(aliases=['game', 'presence'])
 async def setgame(ctx, *args):
