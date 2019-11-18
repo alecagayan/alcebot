@@ -157,7 +157,9 @@ async def netdiskcpu(ctx, a):
 #sentiment
 @client.command()
 async def hugeveryone(ctx):
+    await ctx.channel.purge(limit=1)
     await ctx.send("@here has been hugged by " + ctx.message.author.mention + "!")
+    await ctx.send("https://gph.is/g/ajxG084")
 
 @client.command()
 async def suggest(ctx, *, a):
@@ -274,12 +276,18 @@ async def hug(ctx, *, member: discord.Member = None):
     """Hug someone on the server <3"""
     try:
         if member is None:
+            await ctx.channel.purge(limit=1)
             await ctx.send(ctx.message.author.mention + " has been hugged!")
+            await ctx.send("https://gph.is/g/ajxG084")
         else:
             if member.id == ctx.message.author.id:
+                await ctx.channel.purge(limit=1)
                 await ctx.send(ctx.message.author.mention + " has hugged themself!")
+                await ctx.send("https://gph.is/g/ajxG084")
             else:
+                await ctx.channel.purge(limit=1)
                 await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
+                await ctx.send("https://gph.is/g/ajxG084")
 
     except:
         await ctx.send(config.err_mesg_generic)
