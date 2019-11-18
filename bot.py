@@ -186,16 +186,16 @@ async def weather(ctx, a):
     j = wethr.get_location()
     k = str(j.get_name())
 
-#    if (la.will_have_storm()):
-#        wheathr1 = ':thunder_cloud_rain:'
-#    if (la.will_have_snow()):
-#        wheathr2 = ':snowflake:'
-#    if (la.will_have_fog()):
-#        wheathr3 = ':fogblob:'
-#    if (la.will_have_clouds()):
-#        wheathr4 = ':cloud:'
-#    if (la.will_have_clear()):
-#        wheathr6 = ':sunny:'
+    if (la.will_have_storm()):
+        wheathr1 = ':thunder_cloud_rain:'
+    if (la.will_have_snow()):
+        wheathr2 = ':snowflake:'
+    if (la.will_have_fog()):
+        wheathr3 = ':fogblob:'
+    if (la.will_have_clouds()):
+        wheathr4 = ':cloud:'
+    if (la.will_have_clear()):
+        wheathr6 = ':sunny:'
 
     embedColor = random.randint(0, 0xffffff)
 
@@ -203,7 +203,7 @@ async def weather(ctx, a):
 
     embed = discord.Embed(title="Weather in " + k + " right now:", color=embedColor) #embed title with zip
     embed.add_field(name="Temperature :thermometer:", value=str(weather.get_temperature('celsius')['temp']) + ' C', inline=False) #temperature
-    embed.add_field(name="Conditions :white_sun_rain_cloud:", value=status, inline=False) #conditions header with emoji conditions
+    embed.add_field(name="Conditions " + wheathr1 + wheathr2 + wheathr3 + wheathr4 + wheathr5 + wheathr6, value=status, inline=False) #conditions header with emoji conditions
     embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 1)) + ' mph', inline=False) #wind speed
     embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
     embed.add_field(name="Visibility :eye:", value=str(round(weather.get_visibility_distance()/1609.344, 1)) + ' miles', inline=False) #visibility
