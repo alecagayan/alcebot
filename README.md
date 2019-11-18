@@ -45,7 +45,7 @@ When installing python, remember to install pip as well
 
 ### Click below to buy me a coffee
 
-<a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 21px !important;width: 109px !important;" ></a>
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
