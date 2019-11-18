@@ -96,7 +96,7 @@ async def cleck(ctx):
 
 @client.command()
 async def github(ctx):
-    await ctx.send("https://github.com/oopsie1412/alcebot")
+    await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
 
 #prints invite
 @client.command()
@@ -119,7 +119,7 @@ async def credit(ctx):
     embed = discord.Embed(title="Thanks to these people:", color=embedColor)
 
     embed.add_field(name="Author", value='oopsie#1412')
-    embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731')
+    embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731, iCrazyBlaze')
     embed.add_field(name="Discord Contributors", value='Motions#5324, GidoBOSSftw5731#6422, chickenramen#7173')
     embed.add_field(name="Beta Testers", value='oopsie#1412')
 
@@ -130,7 +130,7 @@ async def premium(ctx):
     embedColor = random.randint(0, 0xffffff)
     embed = discord.Embed(title="AlceBot Premium", color=embedColor)
 
-    embed.add_field(name="_ _", value='You already have premium, silly!')
+    embed.add_field(name="Get Premium", value='You already have premium, silly!')
   
     await ctx.send(embed=embed)
 
@@ -138,8 +138,7 @@ async def premium(ctx):
 #sentiment
 @client.command()
 async def netdiskcpu(ctx, a):
-    if(passcode == a):
-
+    if(ctx.author.id == 401063536618373121):
         await ctx.channel.purge(limit=1)
         embedColor = random.randint(0, 0xffffff)
         embed = discord.Embed(title="Stats:", color=embedColor)
@@ -152,7 +151,7 @@ async def netdiskcpu(ctx, a):
 
         await ctx.send(embed=embed)
     else:
-        await ctx.send('Incorrect administrator passcode!')
+        await ctx.send(config.err_mesg_permission)
 
 #sentiment
 @client.command()
