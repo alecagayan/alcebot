@@ -119,7 +119,7 @@ async def credit(ctx):
     embed = discord.Embed(title="Thanks to these people:", color=embedColor)
 
     embed.add_field(name="Author", value='oopsie#1412')
-    embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731, iCrazyBlaze')
+    embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731, iCrazyBlaze, rgb4')
     embed.add_field(name="Discord Contributors", value='Motions#5324, GidoBOSSftw5731#6422, chickenramen#7173')
     embed.add_field(name="Beta Testers", value='oopsie#1412')
 
