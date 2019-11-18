@@ -223,6 +223,7 @@ async def info(ctx):
     embed.add_field(name="Users", value=len(ctx.bot.users), inline=False)
     embed.add_field(name="Commands", value=len(ctx.bot.commands), inline=False)
     embed.add_field(name="Processes", value='CPU Usage: ' + str(psutil.cpu_percent()) + "% ", inline=False)
+    embed.add_field(name="Purchase Premium", value="[Buy Here](https://buymeacoff.ee/alce)")
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
     embed.add_field(name="Support server", value="[Invite link](https://discord.gg/MJejP9q)")
     embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
@@ -342,8 +343,7 @@ async def echotts(ctx, *msg):
 
 @client.command(aliases=['game', 'presence'])
 async def setgame(ctx, *args):
-    """Sets the 'Playing' status."""
-
+#Sets the 'Playing' status.
     if(ctx.author.id == 401063536618373121):
         try:
             setgame = ' '.join(args)
