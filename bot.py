@@ -68,7 +68,7 @@ async def on_ready():
 
 #math
 @client.command()
-async def add(ctx, m, a: float, b: float):
+async def math(ctx, m, a: float, b: float):
     if(m == 'add'):
         await ctx.send(a+b)
     elif(m == 'subtract'):
@@ -361,10 +361,10 @@ async def serverlist(ctx):
     y = len(client.guilds)
     print("Server list: " + x)
     if y > 40:
-        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
+        embed = discord.Embed(title="Currently active on " + str(y) + " premium servers:", description=config.err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=0xFFFFF)
         return await ctx.send(embed=embed)
     elif y < 40:
-        embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=0xFFFFF)
+        embed = discord.Embed(title="Currently active on " + str(y) + " premium servers:", description="```json\n" + x + "```", colour=0xFFFFF)
         return await ctx.send(embed=embed)
 
 
