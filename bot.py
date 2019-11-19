@@ -64,31 +64,23 @@ async def on_ready():
     await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
 
 
-# Default BlazeBot commands
+# Default alcebot commands
 
-#add
+#math
 @client.command()
-async def add(ctx, a: float, b: float):
-    await ctx.send(a+b)
-
-#subtract
-@client.command()
-async def subtract(ctx, a: float, b: float):
-    await ctx.send(a-b)
-
-@client.command()
-async def multiply(ctx, a: float, b: float):
-    await ctx.send(a*b)
-
-#divide
-@client.command()
-async def divide(ctx, a: float, b: float):
-    await ctx.send(a/b)
-
-#exponent
-@client.command()
-async def power(ctx, a: float, b: float):
-    await ctx.send(a**b)
+async def add(ctx, m, a: float, b: float):
+    if(m == 'add'):
+        await ctx.send(a+b)
+    elif(m == 'subtract'):
+        await ctx.send(a-b)
+    elif(m == 'multiply'):
+        await ctx.send(a*b)
+    elif(m == 'divide'):
+        await ctx.send(a/b)
+    elif(m == 'power'):
+        await ctx.send(a**b)
+    elif(m == 'exponent'):
+        await ctx.send(a**b)
 
 #tells you to die
 @client.command()
@@ -121,7 +113,7 @@ async def credit(ctx):
 
     embed.add_field(name="Author", value='oopsie#1412')
     embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731, iCrazyBlaze, rgb4')
-    embed.add_field(name="Discord Contributors", value='Motions#5324, GidoBOSSftw5731#6422, chickenramen#7173')
+    embed.add_field(name="Discord Contributors", value='always#5324, GidoBOSSftw5731#6422, chickenramen#7173')
     embed.add_field(name="Beta Testers", value='oopsie#1412')
 
     await ctx.send(embed=embed)
@@ -240,11 +232,7 @@ async def help(ctx):
     embed = discord.Embed(title="alcebot", description="horrible bot = horrible commands. List of commands are:", color=embedColor)
     embed.add_field(name="Support server", value="[Invite link](https://discord.gg/MJejP9q)")
     embed.add_field(name="a!info", value="Gives a little info about the bot.", inline=False)
-    embed.add_field(name="a!add <x y>", value="Gives the sum of **X** and **Y**.", inline=False)
-    embed.add_field(name="a!subtract <x y>", value="Gives the difference of **X** and **Y**.", inline=False)
-    embed.add_field(name="a!multiply <x y>", value="Gives the product of **X** and **Y**.", inline=False)
-    embed.add_field(name="a!divide <x y>", value="Gives the quotient of **X** and **Y**.", inline=False)
-    embed.add_field(name="a!power <x y>", value="Gives **X** to the **Y** power.", inline=False)
+    embed.add_field(name="a!math <x y z>", value="Gives the operation of **Y** and **Z** using the **X** operation.", inline=False)
     embed.add_field(name="a!greet", value="Gives a nice greet message.", inline=False)
     embed.add_field(name="a!die", value="Gives a dead body dragging across the floor.", inline=False)
     embed.add_field(name="a!roll", value="Roll a random number from 1 to 6.", inline=False)
