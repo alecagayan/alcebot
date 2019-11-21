@@ -7,7 +7,7 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling! Be 
 [![Coffee](https://img.shields.io/badge/support-buy%20me%20a%20coffee!-orange?logo=buymeacoffee)](https://www.buymeacoffee.com/alce)
 
 ![Status](https://img.shields.io/badge/status-online-brightgreen.svg)
-[![Discord](https://discordapp.com/api/guilds/123456789098765432/widget.png?style=shield)](https://discord.gg/bots)
+[![Discord](https://discordapp.com/api/guilds/0000000000000000/widget.png?style=shield)](https://discord.gg/bots)
 
 ## Support Server
 Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
