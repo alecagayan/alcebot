@@ -1,5 +1,5 @@
 # alcebot ![Version](https://img.shields.io/badge/version-1.1.3-blue?logo=verizon)
-A multipurpose discord bot with cool commands like Weather and Dice Rolling!
+A multipurpose discord bot with cool commands like Weather and Dice Rolling! Be sure to check out the ```beta``` branch!
 
 [![Python3](https://img.shields.io/badge/python-3.7-blue?logo=python)](https://github.com/oopsie1412/alcebot)
 [![Discord Server](https://img.shields.io/badge/Support-Discord%20Server-blue?logo=discord)](https://discord.gg/My8wut2)
@@ -13,11 +13,15 @@ Having issues with alcebot? Fear not! Alcebot Support is here to save the day! O
 
 Join the support server at: https://discord.gg/My8wut2
 
-## How to start and run
-1. Paste main.py into your text editor
-2. Replace 'token' with your bot token
-3. Replace 'owm_key' with your OpenWeatherMap API key
-4. Run the program
+# Setting up and config
+AlceBot comes with a `config.py` file. Here you will add your Discord App token, and add startup extensions. You can generate a token at *https://discordapp.com/developers/applications/me.*
+
+Find the string `"token here"` in the config file and replace it with your token.
+
+In the `config.py` file, you can also customise insults, error messages, bot prefix, bot description and the file you want the bot to log events to.
+
+# Starting the bot
+You can start the bot by launching `bot.py` directly, or using a Python IDE such as PyCharm or Visual Studio Code.
 
 ## Necessary Packages
 1. discord
@@ -37,17 +41,21 @@ Join the support server at: https://discord.gg/My8wut2
 When installing python, remember to install pip as well
 ```pip install <package>```
 
-## More info
+# Tips
+Make sure to always update AlceBot. You can create [GitHub Webhooks for Discord](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks) to get notified whenever a repo is updated.
 
-<a href="https://top.gg/bot/480451439181955093" >
-  <img src="https://top.gg/api/widget/480451439181955093.svg" alt="alcebot" />
-</a>
+When you do this, always keep a backup! It's also useful to write down your token, but **NEVER** give this to anyone you don't trust, or publish it to your GitHub. Don't worry though - you can generate a new token whenever you want on the Discord developer portal.
+
+To read and edit this document properly offline, [Atom](https://atom.io/) and [VS Code](https://code.visualstudio.com/) both have a built-in Markdown Previewer that you can open by hitting <kbd>ctrl</kbd> + <kbd>shift</kbd> + <kbd>v</kbd> on a PC or <kbd>cmd</kbd> + <kbd>shift</kbd> + <kbd>v</kbd> on a Mac.
 
 ### Click below to buy me a coffee
 
 <a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 21px !important;width: 109px !important;" ></a>
+=======
+<a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
 
-Copyright © 2019 oopsie1412
+Copyright © 2019 oopsie1412 and alecagayan
