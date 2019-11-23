@@ -1,6 +1,6 @@
 # Discord App token
-bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XdNaNQ.76kA6R3YWFJuevA-2GBSlMstnDc"
-owm_key = 'edfb0cd2f5f17a2319a2bdc8b94431cd'
+bbtoken = "token"
+owm_key = 'key'
 # This specifies what extensions to load when the bot starts up (leave empty for no extensions)
 startup_extensions = []
 
