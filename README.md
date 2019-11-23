@@ -6,6 +6,7 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling! Be 
 [![License](https://img.shields.io/badge/license-Mozilla-blue?logo=mozilla)](https://github.com/oopsie1412/alcebot/blob/master/LICENSE)
 
 ![Status](https://img.shields.io/badge/status-online-brightgreen.svg)
+[![Discord](https://discordapp.com/api/guilds/636335345994039324/widget.png?style=shield)](https://discord.gg/bots)
 
 ## Support Server
 Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
