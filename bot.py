@@ -129,7 +129,7 @@ async def premium(ctx):
 
 #sentiment
 @client.command()
-async def netdiskcpu(ctx, a):
+async def netdiskcpu(ctx):
     if(ctx.author.id == 401063536618373121):
         await ctx.channel.purge(limit=1)
         embedColor = random.randint(0, 0xffffff)
@@ -453,5 +453,5 @@ if __name__ == "__main__":  # Load startup extensions, specified in config.py
 
 if __name__ == "__main__":
 
-    # Read client token from "config.py" (which should be in the same directory as this file)
+    # Read client token from "config.py" (which should be in the same directory as this file) or maybe not temporarily
     client.run(config.bbtoken)
