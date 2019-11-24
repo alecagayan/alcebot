@@ -14,6 +14,7 @@ import pyowm
 import datetime
 import config
 import psutil
+import aiohttp
 
 now = datetime.datetime.now()
 diff_cmas = datetime.datetime(now.year, 12, 25) - \
@@ -103,6 +104,40 @@ async def roll(ctx):
 @client.command()
 async def pasta(ctx):
     await ctx.send('cut em thiccque daddy')
+
+@client.command()
+async def xkcd(ctx,  *searchterm: str):
+#random xkcd comic
+        apiUrl = 'https://xkcd.com{}info.0.json'
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get(apiUrl.format('/')) as r:
+                js = await r.json()
+                if ''.join(searchterm) == 'random':
+                    randomComic = random.randint(0, js['num'])
+                    async with cs.get(apiUrl.format('/' + str(randomComic) + '/')) as r:
+                        if r.status == 200:
+                            js = await r.json()
+                comicUrl = 'https://xkcd.com/{}/'.format(js['num'])
+                date = '{}.{}.{}'.format(js['day'], js['month'], js['year'])
+                msg = '**{}**\n{}\nXKCD Link: <{}> ({})'.format(js['safe_title'], js['img'], comicUrl, date)
+                await ctx.send(msg)
+
+@client.command(pass_context=True, aliases=['serverinfo', 'guild', 'membercount'])
+async def server(ctx):
+
+    #prints server info
+    roles = ctx.guild.roles
+    embed = discord.Embed(color=0xf1c40f) #Golden
+    embed.set_thumbnail(url=ctx.guild.icon_url)
+    embed.set_footer(text='Requested on ' + str(time.ctime()))
+    embed.add_field(name='Name', value=ctx.guild.name, inline=True)
+    embed.add_field(name='ID', value=ctx.guild.id, inline=True)
+    embed.add_field(name='Owner', value=ctx.guild.owner, inline=True)
+    embed.add_field(name='Region', value=ctx.guild.region, inline=True)
+    embed.add_field(name='Member Count', value=ctx.guild.member_count, inline=True)
+    embed.add_field(name='Creation', value=ctx.guild.created_at.strftime('%d.%m.%Y'), inline=True)
+
+    await ctx.send(embed=embed)
 
 #translate
 @client.command()
