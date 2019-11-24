@@ -21,7 +21,7 @@ Find the string `"token here"` in the config file and replace it with your token
 In the `config.py` file, you can also customise insults, error messages, bot prefix, bot description and the file you want the bot to log events to.
 
 # Starting the bot
-You can start the bot by launching `bot.py` directly, or using a Python IDE such as PyCharm or Visual Studio Code.
+You can start the bot by launching `start.bash` directly, or using a Python IDE such as PyCharm or Visual Studio Code. To launch `start.bash`, you need to go to terminal and type `bash start.bash`.
 
 ## Necessary Packages
 1. discord
