@@ -107,9 +107,10 @@ async def roll(ctx):
 async def pasta(ctx):
     await ctx.send('cut em thiccque daddy')
 
+#random xkcd comic
 @client.command()
 async def xkcd(ctx,  *searchterm: str):
-#random xkcd comic
+
         apiUrl = 'https://xkcd.com{}info.0.json'
         async with aiohttp.ClientSession() as cs:
             async with cs.get(apiUrl.format('/')) as r:
