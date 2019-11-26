@@ -82,11 +82,12 @@ async def math(ctx, m, a: float, b: float):
     elif(m == 'exponent'):
         await ctx.send(a**b)
 
-#tells you to die
+#shows ms cleckley !
 @client.command()
 async def cleck(ctx):
     await ctx.send("https://imagen.click/i/7cd655.png")
 
+#sends github link
 @client.command()
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
@@ -101,6 +102,7 @@ async def invite(ctx):
 async def roll(ctx):
     await ctx.send(config.die_url[random.randint(1,6)-1])
 
+#you'll find out soon enough
 @client.command()
 async def pasta(ctx):
     await ctx.send('cut em thiccque daddy')
@@ -122,6 +124,7 @@ async def xkcd(ctx,  *searchterm: str):
                 msg = '**{}**\n{}\nXKCD Link: <{}> ({})'.format(js['safe_title'], js['img'], comicUrl, date)
                 await ctx.send(msg)
 
+#shows current info on server		
 @client.command(pass_context=True, aliases=['serverinfo', 'guild', 'membercount'])
 async def server(ctx):
 
@@ -139,7 +142,7 @@ async def server(ctx):
 
     await ctx.send(embed=embed)
 
-#translate
+#credits contributors
 @client.command()
 async def credit(ctx):
     embedColor = random.randint(0, 0xffffff)
@@ -152,6 +155,7 @@ async def credit(ctx):
 
     await ctx.send(embed=embed)
 
+#displays premium info
 @client.command()
 async def premium(ctx):
     embedColor = random.randint(0, 0xffffff)
@@ -180,23 +184,26 @@ async def netdiskcpu(ctx):
     else:
         await ctx.send(config.err_mesg_permission)
 
-#sentiment
+#hugs everyone
 @client.command()
 async def hugeveryone(ctx):
     await ctx.channel.purge(limit=1)
     await ctx.send("@here has been hugged by " + ctx.message.author.mention + "!")
     await ctx.send("https://gph.is/g/ajxG084")
 
+#marks a suggestion in log
 @client.command()
 async def suggest(ctx, *, a):
     await ctx.send("Thank you for the suggestion! I will get back to you soon!")
     print ("suggestion: " + a)
 
+#BELSON AND TRUMP ARE THE SAME
 @client.command()
 async def belsontrump(ctx):
     await ctx.send("https://imagen.click/i/b8626b.jpg")
     await ctx.send("https://imagen.click/i/846a0e.jpg")
 
+#Shows the current weather at zip code	
 @client.command()
 async def weather(ctx, a):
 
@@ -238,6 +245,7 @@ async def weather(ctx, a):
 
     await ctx.send(embed=embed)
 
+#shows bot info	
 @client.command()
 async def info(ctx): 
 
@@ -258,7 +266,7 @@ async def info(ctx):
 
 client.remove_command('help')
 
- #adds help command with embed. embed for big brain
+#adds help command with embed. embed for big brain
 @client.command()
 async def help(ctx):
     embedColor = random.randint(0, 0xffffff)
@@ -279,6 +287,7 @@ async def help(ctx):
     
     await ctx.send(embed=embed)
 
+#purge cmd	
 @client.command(aliases=['remove', 'delete'])
 async def purge(ctx, number: int):
     """Bulk-deletes messages from the channel."""
@@ -294,6 +303,7 @@ async def purge(ctx, number: int):
     except:
         await ctx.send(config.err_mesg_generic)
 
+#you get a hug, you get a hug, and even you get a hug!	
 @client.command()
 async def hug(ctx, *, member: discord.Member = None):
     """Hug someone on the server <3"""
@@ -315,7 +325,7 @@ async def hug(ctx, *, member: discord.Member = None):
     except:
         await ctx.send(config.err_mesg_generic)
 
-
+#bot replies
 @client.command(aliases=['say'])
 async def echo(ctx, *msg):
     """Makes the bot talk."""
@@ -326,7 +336,7 @@ async def echo(ctx, *msg):
     except:
         await ctx.send(config.err_mesg_generic)
 
-
+#bot replies with tts message
 @client.command(aliases=['saytts'])
 async def echotts(ctx, *msg):
     """Makes the bot talk, with TTS."""
@@ -363,6 +373,7 @@ async def echotts(ctx, *msg):
 #    except:
 #        await ctx.send(config.err_mesg_generic)
 
+#allows only the owner to change the bots playing status
 @client.command(aliases=['game', 'presence'])
 async def setgame(ctx, *args):
 #Sets the 'Playing' status.
@@ -377,7 +388,7 @@ async def setgame(ctx, *args):
     else:
         await ctx.send(config.err_mesg_permission)
 
-
+#shows the bot platform
 @client.command()
 async def botplatform(ctx):
     """Shows what OS the bot is running on."""
@@ -386,8 +397,7 @@ async def botplatform(ctx):
     except:
         await ctx.send(config.err_mesg_generic)
 
-
-
+#lists all the servers alcebot watches over	
 @client.command()
 async def serverlist(ctx):
     """List the servers that the bot is active on."""
@@ -401,7 +411,8 @@ async def serverlist(ctx):
         embed = discord.Embed(title="Currently active on " + str(y) + " premium servers:", description="```json\n" + x + "```", colour=0xFFFFF)
         return await ctx.send(embed=embed)
 
-
+#shows banned members on a server
+#ban permission required
 @client.command()
 async def getbans(ctx):
 	"""Lists all banned users on the current server."""
@@ -414,6 +425,7 @@ async def getbans(ctx):
 	else:
 		await ctx.send(config.err_mesg_permission)
 	
+#shows info upon a user	
 @client.command(aliases=['user'])
 async def userinfo(ctx, user: discord.Member):
 	"""Gets info on a member, such as their ID."""
@@ -429,8 +441,7 @@ async def userinfo(ctx, user: discord.Member):
 	except:
 		await ctx.send(config.err_mesg_generic)
 
-
-
+#shows websocket latency in milliseconds
 @client.command()
 async def ping(ctx):
     print(client.latency)
@@ -442,26 +453,27 @@ async def insult(ctx):
     """Says something mean about you."""
     await ctx.send(ctx.message.author.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
 
-@client.command()
-async def load(ctx):
-    """Loads startup extensions."""
-    if __name__ == "__main__":  # Load startup extensions, specified in config.py
-        for extension in config.startup_extensions:
-            try:
-                client.load_extension(extension)
-                print("Loaded extension '{0}'".format(extension))
-                logger.info("Loaded extension '{0}'".format(extension))
-            except Exception as e:
-                exc = '{0}: {1}'.format(type(e).__name__, e)
-                print('Failed to load extension {0}\nError: {1}'.format(extension, exc))
-                logger.info('Failed to load extension {0}\nError: {1}'.format(extension, exc))
+#@client.command()
+#async def load(ctx):
+#    """Loads startup extensions."""
+#    if __name__ == "__main__":  # Load startup extensions, specified in config.py
+#        for extension in config.startup_extensions:
+#            try:
+#                client.load_extension(extension)
+#                print("Loaded extension '{0}'".format(extension))
+#                logger.info("Loaded extension '{0}'".format(extension))
+#            except Exception as e:
+#                exc = '{0}: {1}'.format(type(e).__name__, e)
+#                print('Failed to load extension {0}\nError: {1}'.format(extension, exc))
+#                logger.info('Failed to load extension {0}\nError: {1}'.format(extension, exc))#
 
-# Christmas countdown!
+#christmas countdown!
 @client.command(aliases=['xmas', 'chrimbo'])
 async def christmas(ctx):
     """Christmas countdown!"""
     await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff_cmas.days)))  # Convert the 'diff' integer into a string and say the message
 
+#new year countdown!	
 @client.command(aliases=['newyears'])
 async def newyear(ctx):
     """new year countdown!"""
@@ -488,5 +500,5 @@ if __name__ == "__main__":  # Load startup extensions, specified in config.py
 
 if __name__ == "__main__":
 
-    # Read client token from "config.py" (which should be in the same directory as this file) or maybe not temporarily
+    # Read client token from "config.py" (which should be in the same directory as this file)
     client.run(config.bbtoken)
