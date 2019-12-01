@@ -15,6 +15,7 @@ import datetime
 import config
 import psutil
 import aiohttp
+import goslate
 
 now = datetime.datetime.now()
 diff_cmas = datetime.datetime(now.year, 12, 25) - \
@@ -24,6 +25,7 @@ diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
+gs = goslate.Goslate()
 
 
 import logging
@@ -91,6 +93,11 @@ async def cleck(ctx):
 @client.command()
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
+
+@client.command()
+async def translate(ctx, lang, *, text):
+    completed = gs.translate(text, lang)
+    await ctx.send(completed)
 
 #prints invite
 @client.command()
