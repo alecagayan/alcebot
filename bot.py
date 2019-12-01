@@ -109,6 +109,10 @@ async def invite(ctx):
 async def roll(ctx):
     await ctx.send(config.die_url[random.randint(1,6)-1])
 
+@client.command()
+async def compliment(ctx):
+    await ctx.send(config.compliments[random.randint(0,14)])
+
 #you'll find out soon enough
 @client.command()
 async def pasta(ctx):
@@ -286,7 +290,7 @@ async def help(ctx):
     embed.add_field(name="a!greet", value="Gives a nice greet message.", inline=False)
     embed.add_field(name="a!die", value="Gives a dead body dragging across the floor.", inline=False)
     embed.add_field(name="a!roll", value="Roll a random number from 1 to 6.", inline=False)
-    embed.add_field(name="a!translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as 1 word", inline=False)
+    embed.add_field(name="a!translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as the phrase", inline=False)
     embed.add_field(name="a!sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
     embed.add_field(name="a!weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="a!compliment <x>", value='"Compliments" the tagged user. If nobody is tagged, prints a random compliment', inline=False)
