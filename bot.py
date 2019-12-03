@@ -19,9 +19,9 @@ import goslate
 
 now = datetime.datetime.now()
 diff_cmas = datetime.datetime(now.year, 12, 25) - \
-    datetime.datetime.today()
+datetime.datetime.today()
 diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
-    datetime.datetime.today()  # Days until Christmas
+datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
@@ -94,6 +94,7 @@ async def cleck(ctx):
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
 
+#translator using google translate api
 @client.command()
 async def translate(ctx, lang, *, text):
     completed = gs.translate(text, lang)
@@ -109,6 +110,7 @@ async def invite(ctx):
 async def roll(ctx):
     await ctx.send(config.die_url[random.randint(1,6)-1])
 
+#sends a compliment from compliment list in config.py
 @client.command()
 async def compliment(ctx):
     await ctx.send(config.compliments[random.randint(0,14)])
@@ -176,7 +178,6 @@ async def premium(ctx):
     embed.add_field(name="Get Premium", value='You already have premium, silly!')
   
     await ctx.send(embed=embed)
-
 
 #sentiment
 @client.command()

@@ -1,6 +1,6 @@
 # Discord App token
-bbtoken = "token"
-owm_key = 'key'
+bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XdmgIQ.iSgszdviqWwpbenSMuSSFYyn__o"
+owm_key = 'edfb0cd2f5f17a2319a2bdc8b94431cd'
 startup_extensions = [] #put extensions here
 
 logfile = 'discord.log' # Name of the file to log to (eg. 'discord.log')
