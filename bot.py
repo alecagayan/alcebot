@@ -129,6 +129,7 @@ async def xkcd(ctx,  *searchterm: str):
             async with cs.get(apiUrl.format('/')) as r:
                 js = await r.json()
                 if ''.join(searchterm) == 'random':
+
                     randomComic = random.randint(0, js['num'])
                     async with cs.get(apiUrl.format('/' + str(randomComic) + '/')) as r:
                         if r.status == 200:
