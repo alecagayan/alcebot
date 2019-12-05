@@ -86,6 +86,13 @@ async def math(ctx, m, a: float, b: float):
         await ctx.send(a**b)
     elif(m == 'exponent'):
         await ctx.send(a**b)
+	
+@client.command
+async def dadjoke(self, ctx):
+async with aiohttp.ClientSession() as cs:
+    async with cs.get('https://icanhazdadjoke.com/', headers={"Accept": "application/json"}) as r:
+	res = await r.json()
+	await ctx.send(res['joke'])
 
 #shows ms cleckley !
 @client.command()
