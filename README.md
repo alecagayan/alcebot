@@ -5,6 +5,7 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling! Be 
 [![Discord Server](https://img.shields.io/badge/Support-Discord%20Server-blue?logo=discord)](https://discord.gg/My8wut2)
 [![License](https://img.shields.io/badge/license-Mozilla-blue?logo=mozilla)](https://github.com/oopsie1412/alcebot/blob/master/LICENSE)
 [![Coffee](https://img.shields.io/badge/support-buy%20me%20a%20coffee!-orange?logo=buymeacoffee)](https://www.buymeacoffee.com/alce)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg)](#contributors)
 
 ![Status](https://img.shields.io/badge/status-online-brightgreen.svg)
 [![Discord](https://discordapp.com/api/guilds/456106184773206016/widget.png?style=shield)](https://discord.gg/bots)
@@ -52,11 +53,6 @@ To read and edit this document properly offline, [Atom](https://atom.io/) and [V
 ### Click below to buy me a coffee
 
 <a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 21px !important;width: 109px !important;" ></a>
-
-##Contributors
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
-<!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
