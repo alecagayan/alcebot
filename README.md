@@ -53,6 +53,11 @@ To read and edit this document properly offline, [Atom](https://atom.io/) and [V
 
 <a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 21px !important;width: 109px !important;" ></a>
 
+##Contributors
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
+
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
 
