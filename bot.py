@@ -86,13 +86,6 @@ async def math(ctx, m, a: float, b: float):
         await ctx.send(a**b)
     elif(m == 'exponent'):
         await ctx.send(a**b)
-	
-@client.command
-async def dadjoke(self, ctx):
-async with aiohttp.ClientSession() as cs:
-    async with cs.get('https://icanhazdadjoke.com/', headers={"Accept": "application/json"}) as r:
-	res = await r.json()
-	await ctx.send(res['joke'])
 
 #shows ms cleckley !
 @client.command()
@@ -104,8 +97,7 @@ async def cleck(ctx):
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
 
-#translator using google translate api
-@client.command()
+#translator using goslate packag
 async def translate(ctx, lang, *, text):
     completed = gs.translate(text, lang)
     await ctx.send(completed)
@@ -124,6 +116,14 @@ async def roll(ctx):
 @client.command()
 async def compliment(ctx):
     await ctx.send(config.compliments[random.randint(0,14)])
+
+@commands.command()
+async def die(ctx):
+    if(ctx.author.id == 401063536618373121):
+        await ctx.send("Drinking bleach.....")
+        await ctx.logout()
+    else:
+        await ctx.send(config.err_mesg_permission)
 
 #you'll find out soon enough
 @client.command()
@@ -300,10 +300,8 @@ async def help(ctx):
     embed.add_field(name="a!info", value="Gives a little info about the bot.", inline=False)
     embed.add_field(name="a!math <x y z>", value="Gives the operation of **Y** and **Z** using the **X** operation.", inline=False)
     embed.add_field(name="a!greet", value="Gives a nice greet message.", inline=False)
-    embed.add_field(name="a!die", value="Gives a dead body dragging across the floor.", inline=False)
     embed.add_field(name="a!roll", value="Roll a random number from 1 to 6.", inline=False)
     embed.add_field(name="a!translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as the phrase", inline=False)
-    embed.add_field(name="a!sentiment <sentence>", value="Shows sentiment and polarity of the sentence", inline=False)
     embed.add_field(name="a!weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="a!compliment <x>", value='"Compliments" the tagged user. If nobody is tagged, prints a random compliment', inline=False)
     embed.add_field(name="a!help", value="Gives this message. HEEEEEELP!", inline=False)
