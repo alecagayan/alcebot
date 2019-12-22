@@ -13,7 +13,7 @@ import time
 import pyowm
 import datetime
 import config
-from cogs import error, invite, meta, music, tips
+
 import psutil
 import aiohttp
 import goslate
