@@ -21,6 +21,7 @@ from concurrent.futures._base import CancelledError
 import glob
 
 now = datetime.datetime.now()
+start_time = time.time()
 diff_cmas = datetime.datetime(now.year, 12, 25) - \
 datetime.datetime.today()
 diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
@@ -67,7 +68,6 @@ async def on_ready():
     else:
         game = "a!"
     await client.change_presence(status=discord.Status.online, activity=discord.Game(game))
-
 
 # Default alcebot commands
 
@@ -125,6 +125,17 @@ async def die(ctx):
     else:
         await ctx.send(config.err_mesg_permission)
 
+@commands.command()
+async def uptime(ctx):
+    current_time = time.time()
+    difference = int(round(current_time - start_time))
+    text = str(datetime.timedelta(seconds=difference))
+    embed = discord.Embed(colour=ctx.message.author.top_role.colour)
+    embed.add_field(name="Uptime", value=text)
+    embed.set_footer(text='Requested on ' + str(time.ctime()))
+
+    await ctx.send(embed=embed)
+
 #you'll find out soon enough
 @client.command()
 async def pasta(ctx):
@@ -164,6 +175,7 @@ async def server(ctx):
     embed.add_field(name='Region', value=ctx.guild.region, inline=True)
     embed.add_field(name='Member Count', value=ctx.guild.member_count, inline=True)
     embed.add_field(name='Creation', value=ctx.guild.created_at.strftime('%d.%m.%Y'), inline=True)
+    embed.set_footer(text='Requested on ' + str(time.ctime()))
 
     await ctx.send(embed=embed)
 
@@ -177,6 +189,7 @@ async def credit(ctx):
     embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731, iCrazyBlaze, rgb4')
     embed.add_field(name="Discord Contributors", value='always#5324, GidoBOSSftw5731#6422, chickenramen#7173')
     embed.add_field(name="Beta Testers", value='oopsie#1412')
+    embed.set_footer(text='Requested on ' + str(time.ctime()))
 
     await ctx.send(embed=embed)
 
@@ -203,6 +216,7 @@ async def netdiskcpu(ctx):
         embed.add_field(name="Disk Usage", value=psutil.disk_usage('/'))
         embed.add_field(name="CPU Stats", value=psutil.cpu_stats())
         embed.add_field(name="CPU Times", value=psutil.cpu_times())
+        embed.set_footer(text='Requested on ' + str(time.ctime()))
 
         await ctx.send(embed=embed)
     else:
@@ -554,15 +568,15 @@ if __name__ == "__main__":  # Load startup extensions, specified in config.py
     else:
         print("Loading extensions...")
 
-    for extension in config.startup_extensions:
-        try:
-            client.load_extension(extension)
-            print("Loaded extension '{0}'".format(extension))
-            logger.info("Loaded extension '{0}'".format(extension))
-        except Exception as e:
-            exc = '{}: {}'.format(type(e).__name__, e)
-            print('Failed to load extension {}\nError: {}'.format(extension, exc))
-            logger.info('Failed to load extension {}\nError: {}'.format(extension, exc))
+    #for extension in config.startup_extensions:
+     #   try:
+      #      client.load_extension(extension)
+       #     print("Loaded extension '{0}'".format(extension))
+        #    logger.info("Loaded extension '{0}'".format(extension))
+         #except Exception as e:
+          #   exc = '{}: {}'.format(type(e).__name__, e)
+           #  print('Failed to load extension {}\nError: {}'.format(extension, exc))
+            # logger.info('Failed to load extension {}\nError: {}'.format(extension, exc))
 
 
 
