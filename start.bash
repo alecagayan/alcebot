@@ -2,5 +2,5 @@
 
 while true
 do
-  sudo python3 bot.py
+  sudo python3.5 bot.py
 done

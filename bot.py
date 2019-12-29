@@ -13,10 +13,9 @@ import time
 import pyowm
 import datetime
 import config
-
+#from googletrans import Translator
 import psutil
 import aiohttp
-import goslate
 from concurrent.futures._base import CancelledError
 import glob
 
@@ -29,8 +28,7 @@ datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
-gs = goslate.Goslate()
-
+#translate = Translator()
 
 import logging
 # This code logs all events including chat to discord.log. This file will be overwritten when the bot is restarted - rename the file if you want to keep it.
@@ -97,10 +95,11 @@ async def cleck(ctx):
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
 
-#translator using goslate packag
-async def translate(ctx, lang, *, text):
-    completed = gs.translate(text, lang)
-    await ctx.send(completed)
+#translator using google translate
+#@client.command()
+#async def translate(ctx, *, text):
+#    completed = translate.translate(text)
+#    await ctx.send(completed)
 
 #prints invite
 @client.command()
@@ -315,7 +314,7 @@ async def help(ctx):
     embed.add_field(name="a!math <x y z>", value="Gives the operation of **Y** and **Z** using the **X** operation.", inline=False)
     embed.add_field(name="a!greet", value="Gives a nice greet message.", inline=False)
     embed.add_field(name="a!roll", value="Roll a random number from 1 to 6.", inline=False)
-    embed.add_field(name="a!translate <x y>", value="Gives translation with **X** as abbreviated language and **Y** as the phrase", inline=False)
+    embed.add_field(name="a!translate <x>", value="Translates the phrase into english", inline=False)
     embed.add_field(name="a!weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="a!compliment <x>", value='"Compliments" the tagged user. If nobody is tagged, prints a random compliment', inline=False)
     embed.add_field(name="a!help", value="Gives this message. HEEEEEELP!", inline=False)
@@ -330,7 +329,7 @@ async def purge(ctx, number: int):
     try:
         if ctx.message.author.guild_permissions.administrator:
         
-            deleted = await ctx.channel.purge(limit=number)
+            deleted = await ctx.channel.purge(limit=number+1)
             print('Deleted {} message(s)'.format(len(deleted)))
             logger.info('Deleted {} message(s)'.format(len(deleted)))
 
