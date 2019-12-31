@@ -14,6 +14,7 @@ import pyowm
 import datetime
 import config
 #from googletrans import Translator
+#from cogs import enlarge
 import psutil
 import aiohttp
 from concurrent.futures._base import CancelledError
@@ -38,9 +39,22 @@ handler = logging.FileHandler(filename=config.logfile, encoding='utf-8', mode='w
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
+def get_prefix(client, message):
+    if not message.guild:
+        return commands.when_mentioned_or('a!')(client, message)
+    with open('prefixes.json', 'r') as f:
+        prefixes=json.load(f)
+    if str(message.guild.id) not in prefixes:
+        return commands.when_mentioned_or('a!')(client, message)
+
+    prefix = prefixes[str(message.guild.id)]
+    return commands.when_mentioned_or(prefix)(client, message)
+
 
 # IMPORTANT - DO NOT TOUCH! Setup bot as "client", with description and prefix from config.py
-client = Bot(description=config.des, command_prefix=config.pref)
+client = Bot(description=config.des, command_prefix=get_prefix)
+
+client.load_extension("cogs.prefix")
 
 # This message lets us know that the script is running correctly
 print("Connecting...")
@@ -67,7 +81,9 @@ async def on_ready():
         game = "a!"
     await client.change_presence(status=discord.Status.online, activity=discord.Game(game))
 
-# Default alcebot commands
+@client.command()
+async def whattimeisit(ctx):
+    await ctx.send(time.ctime())
 
 #math
 @client.command()
