@@ -13,6 +13,7 @@ import time
 import pyowm
 import datetime
 import config
+
 #from googletrans import Translator
 #from cogs import enlarge
 import psutil
@@ -57,6 +58,8 @@ client = Bot(description=config.des, command_prefix=get_prefix)
 #load cogs
 client.load_extension("cogs.prefix")
 client.load_extension("cogs.random")
+client.load_extension("cogs.mod")
+client.load_extension("cogs.music")
 
 # This message lets us know that the script is running correctly
 print("Connecting...")
@@ -86,6 +89,11 @@ async def on_ready():
 @client.command()
 async def whattimeisit(ctx):
     await ctx.send(time.ctime())
+
+@client.command()
+async def _joinvc(ctx):
+    channel = ctx.author.voice.channel
+    await channel.connect()
 
 #math
 @client.command()
@@ -341,7 +349,7 @@ async def help(ctx):
     await ctx.send(embed=embed)
 
 #purge cmd	
-@client.command(aliases=['remove', 'delete'])
+@client.command()
 async def purge(ctx, number: int):
     """Bulk-deletes messages from the channel."""
     try:
@@ -499,6 +507,8 @@ async def userinfo(ctx, user: discord.Member):
 async def ping(ctx):
     print(client.latency)
     await ctx.send('Pong! {0}ms websocket latency'.format(round(client.latency*1000, 3)))
+
+
 
 # Choose a random insult from the list in config.py
 @client.command()
