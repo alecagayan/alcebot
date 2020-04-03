@@ -13,9 +13,12 @@ import time
 import pyowm
 import datetime
 import config
+import matplotlib
+import matplotlib.pyplot as plt
+import pandas as pd
+import urllib
+import urllib.request
 
-#from googletrans import Translator
-#from cogs import enlarge
 import psutil
 import aiohttp
 from concurrent.futures._base import CancelledError
@@ -57,9 +60,12 @@ client = Bot(description=config.des, command_prefix=get_prefix)
 
 #load cogs
 client.load_extension("cogs.prefix")
-client.load_extension("cogs.random")
-client.load_extension("cogs.mod")
-client.load_extension("cogs.music")
+#client.load_extension("cogs.random")
+#client.load_extension("cogs.mod")
+#client.load_extension("cogs.music")
+#client.load_extension("cogs.poll")
+#client.load_extension("cogs.info")
+
 
 # This message lets us know that the script is running correctly
 print("Connecting...")
@@ -86,6 +92,12 @@ async def on_ready():
         game = "a!"
     await client.change_presence(status=discord.Status.online, activity=discord.Game(game))
 
+#@client.event
+#async def on_member_join(member):
+#    if(guild.id == )
+#    role = discord.utils.get(member.server.roles, id="<role ID>")
+#    await client.add_roles(member, role)
+
 @client.command()
 async def whattimeisit(ctx):
     await ctx.send(time.ctime())
@@ -110,6 +122,18 @@ async def math(ctx, m, a: float, b: float):
         await ctx.send(a**b)
     elif(m == 'exponent'):
         await ctx.send(a**b)
+
+@client.command()
+async def covid(ctx, *, state):
+
+    urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv", "/home/pi/not/alcebot/states.csv")
+    df = pd.read_csv("/home/pi/not/alcebot/states.csv")
+    df_va = df[ df['state'] == state ]
+
+    df_va.plot(x='date', y='cases', label='Cases', linestyle='-', linewidth=4)
+    plt.savefig('/home/pi/not/alcebot/plot.png')
+    await ctx.send(file=discord.File('/home/pi/not/alcebot/plot.png'))
+
 
 #shows ms cleckley !
 @client.command()
@@ -256,7 +280,7 @@ async def hugeveryone(ctx):
 
 #marks a suggestion in log
 @client.command()
-async def suggest(ctx, *, a):
+async def suggestion(ctx, *, a):
     await ctx.send("Thank you for the suggestion! I will get back to you soon!")
     print ("suggestion: " + a)
 
@@ -409,30 +433,30 @@ async def echotts(ctx, *msg):
         await ctx.send(config.err_mesg_generic)
 
 
-#@client.command(aliases=["fancy"])
-#async def fancify(ctx, *, text):
-#    """Makes text fancy!"""
-#    try:
-#        def strip_non_ascii(string):
-#            """Returns the string without non ASCII characters."""
-#            stripped = (c for c in string if 0 < ord(c) < 127)
-#            return ''.join(stripped)
-#
-#        text = strip_non_ascii(text)
-#        if len(text.strip()) < 1:
-#            return await ctx.send(":x: ASCII characters only please!")
-#        output = ""
-#        for letter in text:
-#            if 65 <= ord(letter) <= 90:
-#                output += chr(ord(letter) + 119951)
-#            elif 97 <= ord(letter) <= 122:
-#                output += chr(ord(letter) + 119919)
-#            elif letter == " ":
-#                output += " "
-#       await ctx.send(output)
-#
-#    except:
-#        await ctx.send(config.err_mesg_generic)
+@client.command(aliases=["fancy"])
+async def fancify(ctx, *, text):
+    """Makes text fancy!"""
+    try:
+        def strip_non_ascii(string):
+            """Returns the string without non ASCII characters."""
+            stripped = (c for c in string if 0 < ord(c) < 127)
+            return ''.join(stripped)
+
+        text = strip_non_ascii(text)
+        if len(text.strip()) < 1:
+            return await ctx.send(":x: ASCII characters only please!")
+        output = ""
+        for letter in text:
+            if 65 <= ord(letter) <= 90:
+                output += chr(ord(letter) + 119951)
+            elif 97 <= ord(letter) <= 122:
+                output += chr(ord(letter) + 119919)
+            elif letter == " ":
+                output += " "
+        await ctx.send(output)
+
+    except:
+        await ctx.send(config.err_mesg_generic)
 
 #allows only the owner to change the bots playing status
 @client.command(aliases=['game', 'presence'])
@@ -516,19 +540,19 @@ async def insult(ctx):
     """Says something mean about you."""
     await ctx.send(ctx.message.author.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
 
-#@client.command()
-#async def load(ctx):
-#    """Loads startup extensions."""
-#    if __name__ == "__main__":  # Load startup extensions, specified in config.py
-#        for extension in config.startup_extensions:
-#            try:
-#                client.load_extension(extension)
-#                print("Loaded extension '{0}'".format(extension))
-#                logger.info("Loaded extension '{0}'".format(extension))
-#            except Exception as e:
-#                exc = '{0}: {1}'.format(type(e).__name__, e)
-#                print('Failed to load extension {0}\nError: {1}'.format(extension, exc))
-#                logger.info('Failed to load extension {0}\nError: {1}'.format(extension, exc))#
+@client.command()
+async def load(ctx):
+    """Loads startup extensions."""
+    if __name__ == "__main__":  # Load startup extensions, specified in config.py
+        for extension in config.startup_extensions:
+            try:
+                client.load_extension(extension)
+                print("Loaded extension '{0}'".format(extension))
+                logger.info("Loaded extension '{0}'".format(extension))
+            except Exception as e:
+                exc = '{0}: {1}'.format(type(e).__name__, e)
+                print('Failed to load extension {0}\nError: {1}'.format(extension, exc))
+                logger.info('Failed to load extension {0}\nError: {1}'.format(extension, exc))#
 
 #christmas countdown!
 @client.command(aliases=['xmas', 'chrimbo'])
@@ -611,3 +635,4 @@ if __name__ == "__main__":
 
     # Read client token from "config.py" (which should be in the same directory as this file)
     client.run(config.bbtoken)
+    

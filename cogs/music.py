@@ -85,6 +85,7 @@ class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
     @commands.command()
     async def join(self, ctx):
         """Joins a voice channel"""
