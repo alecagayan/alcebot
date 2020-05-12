@@ -521,7 +521,7 @@ class Music(commands.Cog):
 
     @commands.command(name='loop')
     async def _loop(self, ctx: commands.Context):
-        state = self.get_voice_state(ctx.guild)
+        state = self.get_voice_state(ctx)
         if state.loop():
             await ctx.send("The queue will now loop")
         else:
