@@ -1,3 +1,4 @@
+#1/bin/sh
 #only if you are getting an error that causes you to crash your bot
 
 while true
