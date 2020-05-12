@@ -33,6 +33,10 @@ datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
+filename_state = "/opt/alcebot/alcebot/states.csv"
+filename_county = "/opt/alcebot/alcebot/counties.csv"
+county_graph = '/opt/alcebot/alcebot/plot-county.png'
+state_graph = '/opt/alcebot/alcebot/plot-state.png'
 #translate = Translator()
 
 import logging
@@ -54,17 +58,21 @@ def get_prefix(client, message):
     prefix = prefixes[str(message.guild.id)]
     return commands.when_mentioned_or(prefix)(client, message)
 
+def file_age_in_seconds(pathname):
+    st = os.stat(pathname)
+    return (time.time() - st.st_mtime)
+
 
 # IMPORTANT - DO NOT TOUCH! Setup bot as "client", with description and prefix from config.py
 client = Bot(description=config.des, command_prefix=get_prefix)
 
 #load cogs
 client.load_extension("cogs.prefix")
-#client.load_extension("cogs.random")
-#client.load_extension("cogs.mod")
-#client.load_extension("cogs.music")
-#client.load_extension("cogs.poll")
-#client.load_extension("cogs.info")
+client.load_extension("cogs.random")
+client.load_extension("cogs.mod")
+client.load_extension("cogs.music")
+client.load_extension("cogs.poll")
+client.load_extension("cogs.info")
 
 
 # This message lets us know that the script is running correctly
@@ -124,15 +132,31 @@ async def math(ctx, m, a: float, b: float):
         await ctx.send(a**b)
 
 @client.command()
-async def covid(ctx, *, state):
+async def covid(ctx, type, *, state):
 
-    urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv", "/home/pi/not/alcebot/states.csv")
-    df = pd.read_csv("/home/pi/not/alcebot/states.csv")
-    df_va = df[ df['state'] == state ]
 
-    df_va.plot(x='date', y='cases', label='Cases', linestyle='-', linewidth=4)
-    plt.savefig('/home/pi/not/alcebot/plot.png')
-    await ctx.send(file=discord.File('/home/pi/not/alcebot/plot.png'))
+    
+    if(type == "state"):
+
+        if (not os.path.exists(filename_state) or file_age_in_seconds(filename_state) > 3600):
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv", filename_state)
+
+        df = pd.read_csv(filename_state)
+        df_state = df[ df['state'] == state ]
+        df_state.plot(x='date', y=['cases', 'deaths'], label=['Cases', 'Deaths'], linestyle='-', linewidth=4)
+        plt.savefig(state_graph)
+        await ctx.send(file=discord.File(state_graph))
+
+
+    if(type == "county"):
+
+        if (not os.path.exists(filename_county) or file_age_in_seconds(filename_county) > 3600):
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv", filename_county)
+        df = pd.read_csv(filename_county)
+        df_county = df[ df['county'] == state ]
+        df_county.plot(x='date', y=['cases', 'deaths'], label=['Cases', 'Deaths'], linestyle='-', linewidth=4)
+        plt.savefig(county_graph)
+        await ctx.send(file=discord.File(county_graph))
 
 
 #shows ms cleckley !
@@ -144,12 +168,6 @@ async def cleck(ctx):
 @client.command()
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
-
-#translator using google translate
-#@client.command()
-#async def translate(ctx, *, text):
-#    completed = translate.translate(text)
-#    await ctx.send(completed)
 
 #prints invite
 @client.command()
