@@ -66,7 +66,7 @@ insults = ['you smell like rotten granola bars', 'your eyes look like the gum un
     "Don’t you love nature, despite what it did to you?", "I'm sure if you studied harder you could get enough qualifications to work as a McDonalds' cleaner.",
     "If I knew you were a cock I would have fed you corn.", "I shouldn't say anything to upset you, I know it's your time of the month.",
     "Has your existence been verified by science yet?", "I don't understand how they could cram so much ugly into one physical form.",
-    "You move like a dying yak."]
+    "You move like a dying yak.", "I'm a pain in your ass because it's the quickest way to your brain"]
 
 @bot.event
 async def on_ready():
