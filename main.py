@@ -103,7 +103,8 @@ async def purge(ctx, number: int):
                         
                 else:
                     await ctx.send(err_mesg_permission)
-            except:
+            except Exception as e:
+                print('alce is a fuckup, here\'s his shitty error:' + e)
                 return
     else:
         await ctx.send('Message limit reached! Please pick a number lower than 10')
@@ -133,8 +134,8 @@ async def adminpurge(ctx, number: int, code):
 async def serverlist(ctx, a):
     if(passcode == a):
         if ctx.message.author.guild_permissions.administrator:
+            #"""List the servers that the bot is active on."""
             embedColor = random.randint(0, 0xffffff)
-            """List the servers that the bot is active on."""
             await ctx.channel.purge(limit=1)
             x = ', '.join([str(server) for server in bot.guilds])
             y = len(bot.guilds)
@@ -142,9 +143,10 @@ async def serverlist(ctx, a):
             if y > 40:
                 embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description=err_mesg_generic + "```json\nCan't display more than 40 servers!```", colour=embedColor)
                 return await ctx.send(embed=embed)
-            elif y < 40:
-                embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=embedColor)
-                return await ctx.send(embed=embed)
+            #this is implied you shit
+            #elif y < 40:
+            embed = discord.Embed(title="Currently active on " + str(y) + " servers:", description="```json\n" + x + "```", colour=embedColor)
+            return await ctx.send(embed=embed)
     else:
         await ctx.send('Incorrect administrator passcode!')
 
@@ -164,7 +166,8 @@ async def hug(ctx, *, member: discord.Member = None):
                 await ctx.send(member.mention + " has been hugged by " + ctx.message.author.mention + "!")
                 await ctx.send("https://gph.is/g/ajxG084")
 
-    except:
+    except Exception as e:
+        print('alce is a fuckup, here\'s his shitty error:' + e)
         await ctx.send(err_mesg_generic)
 
 #add
@@ -213,13 +216,15 @@ async def roll(ctx):
 
 @bot.command()
 async def compliment(ctx, *, member: discord.Member = None):
-    """compliment"""
+    
+    compliment"""
     try:
         if member is None:
             await ctx.send(ctx.message.author.mention + " " + str(compliments[random.randint(0,13)]))
         else:
             await ctx.send(member.mention + " " + str(compliments[random.randint(0,13)]))
-    except:
+    except Exception as e:
+        print('alce is a fuckup, here\'s his shitty error:' + e
         await ctx.send(err_mesg_generic)
 
 @bot.command()
@@ -230,7 +235,8 @@ async def insult(ctx, *, member: discord.Member = None):
             await ctx.send(ctx.message.author.mention + " " + str(insults[random.randint(0,50)]))
         else:
             await ctx.send(member.mention + " " + str(insults[random.randint(0,50)]))
-    except:
+    except Exception as e:
+        print('alce is a fuckup, here\'s his shitty error:' + e)
         await ctx.send(err_mesg_generic)
 
 @bot.command()
@@ -240,7 +246,7 @@ async def pasta(ctx):
 @bot.command()
 async def botplatform(ctx, a):
     if(passcode == a):
-        """Shows what OS the bot is running on."""
+        ##"""Shows what OS the bot is running on."""
         try:
             await ctx.send("The bot is currently running on: ```" + str(platform.platform()) + "```")
         except:
@@ -366,6 +372,7 @@ bot.remove_command('help')
 
  #adds help command with embed. embed for big brain
 @bot.command()
+# can this be renamed? I dont like python enough to know
 async def help(ctx):
     embedColor = random.randint(0, 0xffffff)
 
