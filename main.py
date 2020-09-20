@@ -1,5 +1,4 @@
 import discord
-import random
 import textblob
 import asyncio
 import re
@@ -14,11 +13,13 @@ import platform
 import textwrap
 import traceback
 import copy
+import secrets
 
 owm = pyowm.OWM('owm_key')
 err_mesg_generic = 'An unknown message has occured! The developer has been notified.'
 err_mesg_permission = 'You do not have the proper permissions to complete this action!'
-passcode = str(random.randint(10000000000000000000,99999999999999999999))
+#passcodes definitely should use crypto, and more than just ints
+passcode = str(secrets.randbits(256))
 
 from discord.ext import commands
 from textblob import TextBlob
@@ -212,17 +213,17 @@ async def invite(ctx):
 #roll a die
 @bot.command()
 async def roll(ctx):
-    await ctx.send(die_url[random.randint(1,6)-1])
+    await ctx.send(die_url[secrets.randbelow(len(die_url)-1)])
 
 @bot.command()
 async def compliment(ctx, *, member: discord.Member = None):
     
-    compliment"""
+    compliment
     try:
         if member is None:
-            await ctx.send(ctx.message.author.mention + " " + str(compliments[random.randint(0,13)]))
+            await ctx.send(ctx.message.author.mention + " " + str(compliments[secrets.randbelow(len(compiments)-1)]))
         else:
-            await ctx.send(member.mention + " " + str(compliments[random.randint(0,13)]))
+            await ctx.send(member.mention + " " + str(compliments[secrets.randbelow(len(compiments)-1)]))
     except Exception as e:
         print('alce is a fuckup, here\'s his shitty error:' + e
         await ctx.send(err_mesg_generic)
@@ -232,9 +233,9 @@ async def insult(ctx, *, member: discord.Member = None):
     """insults"""
     try:
         if member is None:
-            await ctx.send(ctx.message.author.mention + " " + str(insults[random.randint(0,50)]))
+            await ctx.send(ctx.message.author.mention + " " + str(insults[secrets.randbelow(len(insults)-1]))
         else:
-            await ctx.send(member.mention + " " + str(insults[random.randint(0,50)]))
+            await ctx.send(member.mention + " " + str(insults[secrets.randbelow(len(insults)-1]))
     except Exception as e:
         print('alce is a fuckup, here\'s his shitty error:' + e)
         await ctx.send(err_mesg_generic)
@@ -263,7 +264,7 @@ async def ping(ctx):
 #translate
 @bot.command()
 async def credit(ctx):
-    embedColor = random.randint(0, 0xffffff)
+    embedColor = secrets.randbelow(0xFFFFFF)
     embed = discord.Embed(title="Thanks to these people:", color=embedColor)
 
     embed.add_field(name="Author", value='oopsie#1412')
