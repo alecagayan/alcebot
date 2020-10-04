@@ -33,8 +33,8 @@ datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
-filename_state = "/opt/alcebot/us-states.csv"
-filename_county = "/opt/alcebot/us-counties.csv"
+filename_state = "/opt/alcebot/alcebot/us-states.csv"
+filename_county = "/opt/alcebot/alcebot/us-counties.csv"
 county_graph = '/opt/alcebot/alcebot/plot-county.png'
 state_graph = '/opt/alcebot/alcebot/plot-state.png'
 #translate = Translator()
@@ -68,10 +68,10 @@ client = Bot(description=config.des, command_prefix=get_prefix)
 #load cogs
 client.load_extension("cogs.prefix")
 #client.load_extension("cogs.random")
-#client.load_extension("cogs.mod")
-client.load_extension("cogs.music")
-#client.load_extension("cogs.poll")
-#client.load_extension("cogs.info")
+client.load_extension("cogs.mod")
+#client.load_extension("cogs.music")
+client.load_extension("cogs.poll")
+client.load_extension("cogs.info")
 
 
 # This message lets us know that the script is running correctly
@@ -195,7 +195,7 @@ async def insult(ctx, member: discord.Member = None):
 async def die(ctx):
     if(ctx.author.id == 401063536618373121):
         await ctx.send("Drinking bleach.....")
-        await ctx.logout()
+        await client.close()
     else:
         await ctx.send(config.err_mesg_permission)
 
