@@ -15,17 +15,29 @@ import traceback
 import copy
 import secrets
 
+
+
 owm = pyowm.OWM('owm_key')
 err_mesg_generic = 'An unknown message has occured! The developer has been notified.'
 err_mesg_permission = 'You do not have the proper permissions to complete this action!'
 #passcodes definitely should use crypto, and more than just ints
 passcode = str(secrets.randbits(256))
 
-from discord.ext import commands
-from textblob import TextBlob
-from contextlib import redirect_stdout
 
-bot = commands.Bot(command_prefix='a!')
+if __name__ == "__main__":
+    formatter = logging.Formatter(
+        fmt="[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"
+    )
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    file_handler = logging.FileHandler("bot.log")
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    logger.addHandler(console_handler)
 
 #array for die images
 die_url = ["https://imagen.click/i/3d6d79.png", "https://imagen.click/i/397f38.png",
@@ -400,3 +412,4 @@ async def help(ctx):
 
 #token
 bot.run('token')
+

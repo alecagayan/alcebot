@@ -7,8 +7,7 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling! Be 
 [![Coffee](https://img.shields.io/badge/support-buy%20me%20a%20coffee!-orange?logo=buymeacoffee)](https://www.buymeacoffee.com/alce)
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg)](#contributors)
 
-![Status](https://img.shields.io/badge/status-online-brightgreen.svg)
-[![Discord](https://discordapp.com/api/guilds/456106184773206016/widget.png?style=shield)](https://discord.gg/bots)
+[![Discord](https://discordapp.com/api/guilds/636335345994039324/widget.png?style=shield)](https://discord.gg/bots)
 
 ## Support Server
 Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
@@ -23,7 +22,8 @@ Find the string `"token here"` in the config file and replace it with your token
 In the `config.py` file, you can also customise insults, error messages, bot prefix, bot description and the file you want the bot to log events to.
 
 # Starting the bot
-You can start the bot by launching `bot.py` directly, or using a Python IDE such as PyCharm or Visual Studio Code.
+You can start the bot by launching `start.bash` directly, or using a Python IDE such as PyCharm or Visual Studio Code. To launch `start.bash`, you need to go to terminal and type `bash start.bash`.
+
 
 ## Necessary Packages
 1. discord
@@ -52,7 +52,8 @@ To read and edit this document properly offline, [Atom](https://atom.io/) and [V
 
 ### Click below to buy me a coffee
 
-<a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 21px !important;width: 109px !important;" ></a>
+<a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
