@@ -12,7 +12,7 @@ A multipurpose discord bot with cool commands like Weather and Dice Rolling! Be 
 ## Support Server
 Having issues with alcebot? Fear not! Alcebot Support is here to save the day! Our support team and beta team are very helpful and are online most hours of the day! 
 
-Join the support server at: https://discord.gg/My8wut2
+Join the support server at: https://discord.gg/RfwTDCX
 
 # Setting up and config
 AlceBot comes with a `config.py` file. Here you will add your Discord App token, and add startup extensions. You can generate a token at *https://discordapp.com/developers/applications/me.*
