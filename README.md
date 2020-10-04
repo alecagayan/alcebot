@@ -55,6 +55,9 @@ To read and edit this document properly offline, [Atom](https://atom.io/) and [V
 <a href="https://www.buymeacoffee.com/alce" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 
+## Contributions
+Gido - General formatting and alignments with best practices
+
 ## Legal
 If you're going to use this code, please disclose the source (me)! Thank You!
 
