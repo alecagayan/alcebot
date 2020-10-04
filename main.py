@@ -136,8 +136,9 @@ async def adminpurge(ctx, number: int, code):
                         
                 else:
                     await ctx.send(err_mesg_permission)
-            except:
-                return
+            except Exception as e:
+                      print('alce is a fuckup, here\'s his shitty error:' + e)
+                      return
     else:
         await ctx.send('Incorrect administrator passcode!')
 
