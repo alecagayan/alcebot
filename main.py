@@ -81,6 +81,7 @@ insults = ['you smell like rotten granola bars', 'your eyes look like the gum un
     "Has your existence been verified by science yet?", "I don't understand how they could cram so much ugly into one physical form.",
     "You move like a dying yak.", "I'm a pain in your ass because it's the quickest way to your brain"]
 
+
 @bot.event
 async def on_ready():
 
@@ -100,6 +101,7 @@ async def on_ready():
     print('passcode: ' + str(passcode))
     print('------')
 
+    
 #mass delete messages
 @bot.command(aliases=['remove', 'delete'])
 async def purge(ctx, number: int):
@@ -122,6 +124,7 @@ async def purge(ctx, number: int):
     else:
         await ctx.send('Message limit reached! Please pick a number lower than 10')
 
+        
 @bot.command()
 async def adminpurge(ctx, number: int, code):
     if(code == passcode):
@@ -164,6 +167,7 @@ async def serverlist(ctx, a):
     else:
         await ctx.send('Incorrect administrator passcode!')
 
+        
 #hugs intended person
 @bot.command()
 async def hug(ctx, *, member: discord.Member = None):
@@ -184,50 +188,60 @@ async def hug(ctx, *, member: discord.Member = None):
         print('alce is a fuckup, here\'s his shitty error:' + e)
         await ctx.send(err_mesg_generic)
 
+        
 #add
 @bot.command()
 async def add(ctx, a: float, b: float):
     await ctx.send(a+b)
 
+    
 #subtract
 @bot.command()
 async def subtract(ctx, a: float, b: float):
     await ctx.send(a-b)
 
+    
 #multiply
 @bot.command()
 async def multiply(ctx, a: float, b: float):
     await ctx.send(a*b)
 
+    
 #divide
 @bot.command()
 async def divide(ctx, a: float, b: float):
     await ctx.send(a/b)
 
+    
 #exponent
 @bot.command()
 async def power(ctx, a: float, b: float):
     await ctx.send(a**b)
 
+    
 #tells you to die
 @bot.command()
 async def cleck(ctx):
     await ctx.send("https://imagen.click/i/7cd655.png")
 
+    
 @bot.command()
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot")
 
+    
 #prints invite
 @bot.command()
 async def invite(ctx):
     await ctx.send("https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8")
 
+    
 #roll a die
 @bot.command()
 async def roll(ctx):
     await ctx.send(die_url[secrets.randbelow(len(die_url)-1)])
 
+    
 @bot.command()
 async def compliment(ctx, *, member: discord.Member = None):
     
@@ -241,6 +255,7 @@ async def compliment(ctx, *, member: discord.Member = None):
         print('alce is a fuckup, here\'s his shitty error:' + e
         await ctx.send(err_mesg_generic)
 
+              
 @bot.command()
 async def insult(ctx, *, member: discord.Member = None):
     """insults"""
@@ -253,10 +268,12 @@ async def insult(ctx, *, member: discord.Member = None):
         print('alce is a fuckup, here\'s his shitty error:' + e)
         await ctx.send(err_mesg_generic)
 
+                                                              
 @bot.command()
 async def pasta(ctx):
     await ctx.send('cut em thiccque daddy')
 
+                                                              
 @bot.command()
 async def botplatform(ctx, a):
     if(passcode == a):
@@ -268,12 +285,14 @@ async def botplatform(ctx, a):
     else:
         await ctx.send('Incorrect administrator passcode!')
 
+                                                              
 #ping
 @bot.command()
 async def ping(ctx):
     print(bot.latency)
     await ctx.send('Pong! {0}ms websocket latency'.format(round(bot.latency*1000, 3)))
 
+                                                              
 #translate
 @bot.command()
 async def credit(ctx):
@@ -288,6 +307,7 @@ async def credit(ctx):
 
     await ctx.send(embed=embed)
 
+                                                              
 #sentiment
 @bot.command()
 async def netdiskcpu(ctx, a):
@@ -307,21 +327,25 @@ async def netdiskcpu(ctx, a):
     else:
         await ctx.send('Incorrect administrator passcode!')
 
+                                                              
 #sentiment
 @bot.command()
 async def hugeveryone(ctx):
     await ctx.send("@here has been hugged by " + ctx.message.author.mention + "!")
 
+                                                              
 @bot.command()
 async def suggest(ctx, *, a):
     await ctx.send("Thank you for the suggestion! I will get back to you soon!")
     print ("suggestion: " + a)
 
+                                                              
 @bot.command()
 async def belsontrump(ctx):
     await ctx.send("https://imagen.click/i/b8626b.jpg")
     await ctx.send("https://imagen.click/i/846a0e.jpg")
 
+                                                              
 @bot.command()
 async def weather(ctx, a):
 
@@ -365,6 +389,7 @@ async def weather(ctx, a):
 
     await ctx.send(embed=embed)
 
+                                                              
 @bot.command()
 async def info(ctx): 
 
@@ -382,8 +407,10 @@ async def info(ctx):
 
     await ctx.send(embed=embed)
 
+                                                             
 bot.remove_command('help')
 
+                                                              
  #adds help command with embed. embed for big brain
 @bot.command()
 # can this be renamed? I dont like python enough to know
