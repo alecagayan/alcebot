@@ -33,8 +33,8 @@ datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
-filename_state = "/opt/alcebot/alcebot/states.csv"
-filename_county = "/opt/alcebot/alcebot/counties.csv"
+filename_state = "/opt/alcebot/us-states.csv"
+filename_county = "/opt/alcebot/us-counties.csv"
 county_graph = '/opt/alcebot/alcebot/plot-county.png'
 state_graph = '/opt/alcebot/alcebot/plot-state.png'
 #translate = Translator()
@@ -68,10 +68,10 @@ client = Bot(description=config.des, command_prefix=get_prefix)
 
 #load cogs
 client.load_extension("cogs.prefix")
-client.load_extension("cogs.random")
+#client.load_extension("cogs.random")
 client.load_extension("cogs.mod")
 client.load_extension("cogs.music")
-client.load_extension("cogs.poll")
+#client.load_extension("cogs.poll")
 client.load_extension("cogs.info")
 
 
@@ -110,6 +110,7 @@ async def on_ready():
 async def whattimeisit(ctx):
     await ctx.send(time.ctime())
 
+#issue
 @client.command()
 async def _joinvc(ctx):
     channel = ctx.author.voice.channel
@@ -133,8 +134,6 @@ async def math(ctx, m, a: float, b: float):
 
 @client.command()
 async def covid(ctx, type, *, state):
-
-
     
     if(type == "state"):
 
@@ -181,10 +180,15 @@ async def roll(ctx):
 
 #sends a compliment from compliment list in config.py
 @client.command()
-async def compliment(ctx):
-    await ctx.send(config.compliments[random.randint(0,14)])
+async def compliment(ctx, member: discord.Member = None):
+    await ctx.send(member.mention + " " + random.choice(config.compliments))
 
-@commands.command()
+#sends a compliment from compliment list in config.py
+@client.command()
+async def insult(ctx, member: discord.Member = None):
+    await ctx.send(member.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
+
+@client.command()
 async def die(ctx):
     if(ctx.author.id == 401063536618373121):
         await ctx.send("Drinking bleach.....")
@@ -192,7 +196,7 @@ async def die(ctx):
     else:
         await ctx.send(config.err_mesg_permission)
 
-@commands.command()
+@client.command()
 async def uptime(ctx):
     current_time = time.time()
     difference = int(round(current_time - start_time))
@@ -245,6 +249,30 @@ async def server(ctx):
     embed.set_footer(text='Requested on ' + str(time.ctime()))
 
     await ctx.send(embed=embed)
+
+@client.command()
+async def ping(ctx):
+    """
+    Pings the bot.
+    """
+    joke = random.choice(["not actually pinging server...", "hey bb", "what am I doing with my life",
+                            "JAMB is a dank music bot tbh", "I'd like to thank the academy for this award",
+                            "The NSA is watching 👀", "`<Insert clever joke here>`", "¯\_(ツ)_/¯", "(づ｡◕‿‿◕｡)づ",
+                            "I want to believe...", "Hypesquad is a joke",
+                             "aaaaaaaaaaaAAAAAAAAAA", "owo",
+                            "uwu", "meme team best team", "made with dicksword dot pee why", "I'm running out of "
+                                                                                            "ideas here",
+                            "am I *dank* enough for u?", "this is why we can't have nice things. come on",
+                            "You'll understand when you're older...", "\"why\", you might ask? I do not know...",
+                            "I'm a little tea pot, short and stout", "I'm not crying, my eyeballs "
+                                                                    "are sweating!",
+                            "When will the pain end?"])
+    before = time.monotonic()
+    ping_msg = await ctx.send("Pinging Server...")
+    after = time.monotonic()
+    ping = (after - before) * 1000
+    await ping_msg.edit(content=joke + f" // ***{ping:.0f}ms***")
+
 
 #credits contributors
 @client.command()
@@ -382,7 +410,6 @@ async def help(ctx):
     embed.add_field(name="a!math <x y z>", value="Gives the operation of **Y** and **Z** using the **X** operation.", inline=False)
     embed.add_field(name="a!greet", value="Gives a nice greet message.", inline=False)
     embed.add_field(name="a!roll", value="Roll a random number from 1 to 6.", inline=False)
-    embed.add_field(name="a!translate <x>", value="Translates the phrase into english", inline=False)
     embed.add_field(name="a!weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="a!compliment <x>", value='"Compliments" the tagged user. If nobody is tagged, prints a random compliment', inline=False)
     embed.add_field(name="a!help", value="Gives this message. HEEEEEELP!", inline=False)
@@ -544,20 +571,6 @@ async def userinfo(ctx, user: discord.Member):
 	except:
 		await ctx.send(config.err_mesg_generic)
 
-#shows websocket latency in milliseconds
-@client.command()
-async def ping(ctx):
-    print(client.latency)
-    await ctx.send('Pong! {0}ms websocket latency'.format(round(client.latency*1000, 3)))
-
-
-
-# Choose a random insult from the list in config.py
-@client.command()
-async def insult(ctx):
-    """Says something mean about you."""
-    await ctx.send(ctx.message.author.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
-
 @client.command()
 async def load(ctx):
     """Loads startup extensions."""
@@ -583,52 +596,6 @@ async def christmas(ctx):
 async def newyear(ctx):
     """new year countdown!"""
     await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
-
-
-@client.command(aliases=['gifmagik'])
-async def gmagik(self, ctx, url:str=None, framerate:str=None):
-    try:
-        url = await self.get_images(ctx, urls=url, gif=True, limit=2)
-        if url:
-            url = url[0]
-        else:
-            return
-        gif_dir = self.files_path('gif/')
-        check = await self.isgif(url)
-        if check is False:
-            await client.say("Invalid or Non-GIF!")
-            ctx.command.reset_cooldown(ctx)
-            return
-        x = await client.send_message(ctx.message.channel, "ok, processing (this might take a while for big gifs)")
-        rand = client.random()
-        gifin = gif_dir+'1_{0}.gif'.format(rand)
-        gifout = gif_dir+'2_{0}.gif'.format(rand)
-        await client.download(url, gifin)
-        if os.path.getsize(gifin) > 5000000 and ctx.message.author.id != client.owner.id:
-            await client.say(":no_entry: `GIF Too Large (>= 5 mb).`")
-            os.remove(gifin)
-            return
-        try:
-            result = await client.loop.run_in_executor(None, self.do_gmagik, ctx, gifin, gif_dir, rand)
-        except CancelledError:
-            await client.say(':warning: Gmagik failed...')
-            return
-        if type(result) == str:
-            await client.say(result)
-            return
-        if framerate != None:
-            args = ['ffmpeg', '-y', '-nostats', '-loglevel', '0', '-i', gif_dir+'%d_{0}.png'.format(rand), '-r', framerate, gifout]
-        else:
-            args = ['ffmpeg', '-y', '-nostats', '-loglevel', '0', '-i', gif_dir+'%d_{0}.png'.format(rand), gifout]
-        await client.run_process(args)
-        await client.upload(gifout, filename='gmagik.gif')
-        for image in glob.glob(gif_dir+"*_{0}.png".format(rand)):
-            os.remove(image)
-        os.remove(gifin)
-        os.remove(gifout)
-        await client.delete_message(x)
-    except Exception as e:
-        print(e)
 
 if __name__ == "__main__":  # Load startup extensions, specified in config.py
 

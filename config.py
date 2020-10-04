@@ -1,5 +1,5 @@
-# Discord App token
-bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XdmgIQ.iSgszdviqWwpbenSMuSSFYyn__o"
+
+bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XeXDGA.TVhGz8ACPr1Etp7XxwPwRYP0EuE"
 owm_key = 'edfb0cd2f5f17a2319a2bdc8b94431cd'
 startup_extensions = [] #put extensions here
 
