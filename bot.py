@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import urllib
 import urllib.request
-
+import logging
 import psutil
 import aiohttp
 from concurrent.futures._base import CancelledError
@@ -39,7 +39,6 @@ county_graph = '/opt/alcebot/alcebot/plot-county.png'
 state_graph = '/opt/alcebot/alcebot/plot-state.png'
 #translate = Translator()
 
-import logging
 # This code logs all events including chat to discord.log. This file will be overwritten when the bot is restarted - rename the file if you want to keep it.
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
