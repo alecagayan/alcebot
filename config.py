@@ -38,8 +38,8 @@ insults = ['you smell like rotten granola bars', 'your eyes look like the gum un
     "If I knew you were a cock I would have fed you corn.", "I shouldn't say anything to upset you, I know it's your time of the month.",
     "Has your existence been verified by science yet?", "I don't understand how they could cram so much ugly into one physical form.",
     "You move like a dying yak.", "I'm a pain in your ass because it's the quickest way to your brain",
-    "Keep yapping man", "Shut up man", 
-    #multiple lines, im not sorry
+    "Keep yapping man", "Shut up man",
+    # multiple lines, im not sorry
     "You're a clown", """```c
     goto hell;
     ```"""]
