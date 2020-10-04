@@ -1,5 +1,5 @@
 
-bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XeXDGA.TVhGz8ACPr1Etp7XxwPwRYP0EuE"
+bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XaT3TA.-rHHTkUMLSCIb6FgDGX4d0L6s9A"
 owm_key = 'edfb0cd2f5f17a2319a2bdc8b94431cd'
 startup_extensions = [] #put extensions here
 

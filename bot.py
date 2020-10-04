@@ -69,10 +69,10 @@ client = Bot(description=config.des, command_prefix=get_prefix)
 #load cogs
 client.load_extension("cogs.prefix")
 #client.load_extension("cogs.random")
-client.load_extension("cogs.mod")
+#client.load_extension("cogs.mod")
 client.load_extension("cogs.music")
 #client.load_extension("cogs.poll")
-client.load_extension("cogs.info")
+#client.load_extension("cogs.info")
 
 
 # This message lets us know that the script is running correctly
@@ -188,7 +188,7 @@ async def compliment(ctx, member: discord.Member = None):
 async def insult(ctx, member: discord.Member = None):
     await ctx.send(member.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
 
-@client.command()
+@commands.command()
 async def die(ctx):
     if(ctx.author.id == 401063536618373121):
         await ctx.send("Drinking bleach.....")
@@ -196,7 +196,7 @@ async def die(ctx):
     else:
         await ctx.send(config.err_mesg_permission)
 
-@client.command()
+@commands.command()
 async def uptime(ctx):
     current_time = time.time()
     difference = int(round(current_time - start_time))
@@ -258,8 +258,8 @@ async def ping(ctx):
     joke = random.choice(["not actually pinging server...", "hey bb", "what am I doing with my life",
                             "JAMB is a dank music bot tbh", "I'd like to thank the academy for this award",
                             "The NSA is watching 👀", "`<Insert clever joke here>`", "¯\_(ツ)_/¯", "(づ｡◕‿‿◕｡)づ",
-                            "I want to believe...", "Hypesquad is a joke",
-                             "aaaaaaaaaaaAAAAAAAAAA", "owo",
+                            "I want to believe...", "Hypesquad is a joke", "Robino pls",
+                            "Seth got arrested again...", "aaaaaaaaaaaAAAAAAAAAA", "owo",
                             "uwu", "meme team best team", "made with dicksword dot pee why", "I'm running out of "
                                                                                             "ideas here",
                             "am I *dank* enough for u?", "this is why we can't have nice things. come on",
@@ -596,6 +596,52 @@ async def christmas(ctx):
 async def newyear(ctx):
     """new year countdown!"""
     await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
+
+
+@client.command(aliases=['gifmagik'])
+async def gmagik(self, ctx, url:str=None, framerate:str=None):
+    try:
+        url = await self.get_images(ctx, urls=url, gif=True, limit=2)
+        if url:
+            url = url[0]
+        else:
+            return
+        gif_dir = self.files_path('gif/')
+        check = await self.isgif(url)
+        if check is False:
+            await client.say("Invalid or Non-GIF!")
+            ctx.command.reset_cooldown(ctx)
+            return
+        x = await client.send_message(ctx.message.channel, "ok, processing (this might take a while for big gifs)")
+        rand = client.random()
+        gifin = gif_dir+'1_{0}.gif'.format(rand)
+        gifout = gif_dir+'2_{0}.gif'.format(rand)
+        await client.download(url, gifin)
+        if os.path.getsize(gifin) > 5000000 and ctx.message.author.id != client.owner.id:
+            await client.say(":no_entry: `GIF Too Large (>= 5 mb).`")
+            os.remove(gifin)
+            return
+        try:
+            result = await client.loop.run_in_executor(None, self.do_gmagik, ctx, gifin, gif_dir, rand)
+        except CancelledError:
+            await client.say(':warning: Gmagik failed...')
+            return
+        if type(result) == str:
+            await client.say(result)
+            return
+        if framerate != None:
+            args = ['ffmpeg', '-y', '-nostats', '-loglevel', '0', '-i', gif_dir+'%d_{0}.png'.format(rand), '-r', framerate, gifout]
+        else:
+            args = ['ffmpeg', '-y', '-nostats', '-loglevel', '0', '-i', gif_dir+'%d_{0}.png'.format(rand), gifout]
+        await client.run_process(args)
+        await client.upload(gifout, filename='gmagik.gif')
+        for image in glob.glob(gif_dir+"*_{0}.png".format(rand)):
+            os.remove(image)
+        os.remove(gifin)
+        os.remove(gifout)
+        await client.delete_message(x)
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":  # Load startup extensions, specified in config.py
 
