@@ -12,6 +12,7 @@ import json
 import time
 import pyowm
 import datetime
+from time import ctime
 import config
 import matplotlib
 import matplotlib.pyplot as plt
@@ -67,7 +68,7 @@ client = Bot(description=config.des, command_prefix=get_prefix)
 
 #load cogs
 client.load_extension("cogs.prefix")
-#client.load_extension("cogs.random")
+client.load_extension("cogs.random")
 client.load_extension("cogs.mod")
 #client.load_extension("cogs.music")
 client.load_extension("cogs.poll")
@@ -102,8 +103,8 @@ async def on_ready():
 
 
 @client.command()
-async def whattimeisit(ctx):
-    await ctx.send(time.ctime())
+async def time(ctx):
+    await ctx.send(datetime.datetime.now())
 
 
 #issue
@@ -160,36 +161,30 @@ async def covid(ctx, type, *, state):
 async def cleck(ctx):
     await ctx.send("https://imagen.click/i/7cd655.png")
 
-
 #sends github link
 @client.command()
 async def github(ctx):
     await ctx.send("https://github.com/oopsie1412/alcebot/tree/beta")
-
 
 #prints invite
 @client.command()
 async def invite(ctx):
     await ctx.send("https://discordapp.com/oauth2/authorize?client_id=633431761094705163&scope=bot&permissions=8")
 
-
 #roll a die
 @client.command()
 async def roll(ctx):
     await ctx.send(config.die_url[random.randint(1,6)-1])
-
 
 #sends a compliment from compliment list in config.py
 @client.command()
 async def compliment(ctx, member: discord.Member = None):
     await ctx.send(member.mention + " " + random.choice(config.compliments))
 
-
 #sends a compliment from compliment list in config.py
 @client.command()
 async def insult(ctx, member: discord.Member = None):
     await ctx.send(member.mention + " " + random.choice(config.insults))  # Mention the user and say the insult
-
 
 @client.command()
 async def die(ctx):
@@ -199,7 +194,6 @@ async def die(ctx):
     else:
         await ctx.send(config.err_mesg_permission)
 
-
 @client.command()
 async def uptime(ctx):
     current_time = time.time()
@@ -207,16 +201,9 @@ async def uptime(ctx):
     text = str(datetime.timedelta(seconds=difference))
     embed = discord.Embed(colour=ctx.message.author.top_role.colour)
     embed.add_field(name="Uptime", value=text)
-    embed.set_footer(text='Requested on ' + str(time.ctime()))
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now()))
 
     await ctx.send(embed=embed)
-
-
-#you'll find out soon enough
-@client.command()
-async def pasta(ctx):
-    await ctx.send('cut em thiccque daddy')
-
 
 #random xkcd comic
 @client.command()
@@ -237,7 +224,6 @@ async def xkcd(ctx,  *searchterm: str):
                 msg = '**{}**\n{}\nXKCD Link: <{}> ({})'.format(js['safe_title'], js['img'], comicUrl, date)
                 await ctx.send(msg)
 
-
 #shows current info on server		
 @client.command(pass_context=True, aliases=['serverinfo', 'guild', 'membercount'])
 async def server(ctx):
@@ -246,14 +232,14 @@ async def server(ctx):
     roles = ctx.guild.roles
     embed = discord.Embed(color=0xf1c40f) #Golden
     embed.set_thumbnail(url=ctx.guild.icon_url)
-    embed.set_footer(text='Requested on ' + str(time.ctime()))
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now()))
     embed.add_field(name='Name', value=ctx.guild.name, inline=True)
     embed.add_field(name='ID', value=ctx.guild.id, inline=True)
     embed.add_field(name='Owner', value=ctx.guild.owner, inline=True)
     embed.add_field(name='Region', value=ctx.guild.region, inline=True)
     embed.add_field(name='Member Count', value=ctx.guild.member_count, inline=True)
     embed.add_field(name='Creation', value=ctx.guild.created_at.strftime('%d.%m.%Y'), inline=True)
-    embed.set_footer(text='Requested on ' + str(time.ctime()))
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now()))
     await ctx.send(embed=embed)
 
 
@@ -291,7 +277,7 @@ async def credit(ctx):
     embed.add_field(name="GitHub Contributors", value='lincoln-bridge, gidoBOSSftw5731, iCrazyBlaze, rgb4')
     embed.add_field(name="Discord Contributors", value='always#5324, GidoBOSSftw5731#6422, chickenramen#7173')
     embed.add_field(name="Beta Testers", value='oopsie#1412')
-    embed.set_footer(text='Requested on ' + str(time.ctime()))
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now()))
 
     await ctx.send(embed=embed)
 
@@ -320,7 +306,7 @@ async def netdiskcpu(ctx):
         embed.add_field(name="Disk Usage", value=psutil.disk_usage('/'))
         embed.add_field(name="CPU Stats", value=psutil.cpu_stats())
         embed.add_field(name="CPU Times", value=psutil.cpu_times())
-        embed.set_footer(text='Requested on ' + str(time.ctime()))
+        embed.set_footer(text='Requested on ' + str(datetime.datetime.now()))
 
         await ctx.send(embed=embed)
     else:
@@ -352,44 +338,33 @@ async def belsontrump(ctx):
 #Shows the current weather at zip code	
 @client.command()
 async def weather(ctx, a):
+    comma = ','
+    mgr = owm.weather_manager()
 
-    wheathr1 = ''
-    wheathr2 = ''
-    wheathr3 = ''
-    wheathr4 = ''
-    wheathr5 = ''
-    wheathr6 = ''
+    if comma in a:
+        observation = mgr.weather_at_place(a)
+    else:
+        observation = mgr.weather_at_zip_code(a, 'US')
 
-    wethr = owm.weather_at_zip_code(a,'US')
-    weather = wethr.get_weather()
-    la = owm.three_hours_forecast(a + ', US')
-    j = wethr.get_location()
-    k = str(j.get_name())
-
-    if (la.will_have_storm()):
-        wheathr1 = ':thunder_cloud_rain:'
-    if (la.will_have_snow()):
-        wheathr2 = ':snowflake:'
-    if (la.will_have_fog()):
-        wheathr3 = ':fogblob:'
-    if (la.will_have_clouds()):
-        wheathr4 = ':cloud:'
-    if (la.will_have_clear()):
-        wheathr6 = ':sunny:'
-
+    weather = observation.weather
     embedColor = random.randint(0, 0xffffff)
 
-    status = weather.get_detailed_status()
+#    if(t == 'f'):
+#        cf = 'fahrenheit'
+#    else:
+#        cf = 'celsius'
 
-    embed = discord.Embed(title="Weather in " + k + " right now:", color=embedColor) #embed title with zip
-    embed.add_field(name="Temperature :thermometer:", value=str(weather.get_temperature('celsius')['temp']) + ' C', inline=False) #temperature
-    embed.add_field(name="Conditions " + wheathr1 + wheathr2 + wheathr3 + wheathr4 + wheathr5 + wheathr6, value=status, inline=False) #conditions header with emoji conditions
-    embed.add_field(name="Wind :wind_blowing_face:", value=str(round(weather.get_wind('miles_hour')['speed'], 1)) + ' mph', inline=False) #wind speed
-    embed.add_field(name="Humidity :droplet:", value=str(weather.get_humidity()) + '%', inline=False) #humidity
-    embed.add_field(name="Visibility :eye:", value=str(round(weather.get_visibility_distance()/1609.344, 1)) + ' miles', inline=False) #visibility
-    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
+    embed = discord.Embed(title="Weather in " + a + " right now:", color=embedColor) #embed title with zip
+    embed.add_field(name="Temperature :thermometer:", value=str(weather.temperature('celsius')['temp']) + ' C', inline=True) #temperature
+    embed.add_field(name="Feels like :snowflake:", value=str(weather.temperature('celsius')['feels_like']) + ' C', inline=True) #temperature
+    embed.add_field(name="Conditions :white_sun_rain_cloud:", value=weather.detailed_status, inline=True) #conditions header with emoji conditions
+    embed.add_field(name="Wind Speed :wind_blowing_face:", value=str(round(weather.wind('miles_hour')['speed'], 1)) + ' mph', inline=True) #wind speed
+    embed.add_field(name="Wind Direction :dash:", value=str(round(weather.wind('miles_hour')['deg'], 1)) + '°', inline=True) #wind speed
+    embed.add_field(name="Humidity :droplet:", value=str(weather.humidity) + '%', inline=True) #humidity
+    embed.add_field(name="Visibility :eye:", value=str(round(weather.visibility_distance/1609.344, 1)) + ' miles', inline=True) #visibility
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now())) #prints time
     await ctx.send(embed=embed)
-
+    #await ctx.send('foobar')
 
 #shows bot info	
 @client.command()
@@ -406,7 +381,7 @@ async def info(ctx):
     embed.add_field(name="Purchase Premium", value="[Buy Here](https://buymeacoff.ee/alce)")
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/oauth2/authorize?client_id=480451439181955093&scope=bot&permissions=8)")
     embed.add_field(name="Support server", value="[Invite link](https://discord.gg/MJejP9q)")
-    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now())) #prints time
 
     await ctx.send(embed=embed)
 
@@ -427,7 +402,7 @@ async def help(ctx):
     embed.add_field(name="a!weather <zipcode>", value="Gives the latest weather in the area", inline=False)
     embed.add_field(name="a!compliment <x>", value='"Compliments" the tagged user. If nobody is tagged, prints a random compliment', inline=False)
     embed.add_field(name="a!help", value="Gives this message. HEEEEEELP!", inline=False)
-    embed.set_footer(text='Requested on ' + str(time.ctime())) #prints time
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now())) #prints time
     
     await ctx.send(embed=embed)
 
@@ -630,71 +605,6 @@ async def christmas(ctx):
 async def newyear(ctx):
     """new year countdown!"""
     await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
-
-
-@client.command(aliases=['gifmagik'])
-async def gmagik(self, ctx, url:str=None, framerate:str=None):
-    try:
-        url = await self.get_images(ctx, urls=url, gif=True, limit=2)
-        if url:
-            url = url[0]
-        else:
-            return
-        gif_dir = self.files_path('gif/')
-        check = await self.isgif(url)
-        if check is False:
-            await client.say("Invalid or Non-GIF!")
-            ctx.command.reset_cooldown(ctx)
-            return
-        x = await client.send_message(ctx.message.channel, "ok, processing (this might take a while for big gifs)")
-        rand = client.random()
-        gifin = gif_dir+'1_{0}.gif'.format(rand)
-        gifout = gif_dir+'2_{0}.gif'.format(rand)
-        await client.download(url, gifin)
-        if os.path.getsize(gifin) > 5000000 and ctx.message.author.id != client.owner.id:
-            await client.say(":no_entry: `GIF Too Large (>= 5 mb).`")
-            os.remove(gifin)
-            return
-        try:
-            result = await client.loop.run_in_executor(None, self.do_gmagik, ctx, gifin, gif_dir, rand)
-        except CancelledError:
-            await client.say(':warning: Gmagik failed...')
-            return
-        if type(result) == str:
-            await client.say(result)
-            return
-        if framerate != None:
-            args = ['ffmpeg', '-y', '-nostats', '-loglevel', '0', '-i', gif_dir+'%d_{0}.png'.format(rand), '-r', framerate, gifout]
-        else:
-            args = ['ffmpeg', '-y', '-nostats', '-loglevel', '0', '-i', gif_dir+'%d_{0}.png'.format(rand), gifout]
-        await client.run_process(args)
-        await client.upload(gifout, filename='gmagik.gif')
-        for image in glob.glob(gif_dir+"*_{0}.png".format(rand)):
-            os.remove(image)
-        os.remove(gifin)
-        os.remove(gifout)
-        await client.delete_message(x)
-    except Exception as e:
-        print(e)
-
-if __name__ == "__main__":  # Load startup extensions, specified in config.py
-
-    if not config.startup_extensions:
-        print("No extensions enabled.")
-    else:
-        print("Loading extensions...")
-
-    #for extension in config.startup_extensions:
-     #   try:
-      #      client.load_extension(extension)
-       #     print("Loaded extension '{0}'".format(extension))
-        #    logger.info("Loaded extension '{0}'".format(extension))
-         #except Exception as e:
-          #   exc = '{}: {}'.format(type(e).__name__, e)
-           #  print('Failed to load extension {}\nError: {}'.format(extension, exc))
-            # logger.info('Failed to load extension {}\nError: {}'.format(extension, exc))
-
-
 
 if __name__ == "__main__":
 
