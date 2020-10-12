@@ -306,7 +306,7 @@ async def suggestion(ctx, *, a):
 
 #Shows the current weather at zip code	
 @client.command()
-async def weather(ctx, a):
+async def weather(ctx, a, t = None):
     comma = ','
     mgr = owm.weather_manager()
 
@@ -318,14 +318,22 @@ async def weather(ctx, a):
     weather = observation.weather
     embedColor = random.randint(0, 0xffffff)
 
-#    if(t == 'f'):
-#        cf = 'fahrenheit'
-#    else:
-#        cf = 'celsius'
+    if(t == 'f'):
+        cf = 'fahrenheit'
+        label = ' F'
+    elif(t == 'fahrenheit'):
+        cf = 'fahrenheit'
+        label = ' F'
+    elif(t == 'celsius'):
+        cf = 'celsius'
+        label = ' C'
+    else:
+        cf = 'celsius'
+        label = ' C'
 
     embed = discord.Embed(title="Weather in " + a + " right now:", color=embedColor) #embed title with zip
-    embed.add_field(name="Temperature :thermometer:", value=str(weather.temperature('celsius')['temp']) + ' C', inline=True) #temperature
-    embed.add_field(name="Feels like :snowflake:", value=str(weather.temperature('celsius')['feels_like']) + ' C', inline=True) #temperature
+    embed.add_field(name="Temperature :thermometer:", value=str(weather.temperature(cf)['temp']) + label, inline=True) #temperature
+    embed.add_field(name="Feels like :snowflake:", value=str(weather.temperature(cf)['feels_like']) + label, inline=True) #temperature
     embed.add_field(name="Conditions :white_sun_rain_cloud:", value=weather.detailed_status, inline=True) #conditions header with emoji conditions
     embed.add_field(name="Wind Speed :wind_blowing_face:", value=str(round(weather.wind('miles_hour')['speed'], 1)) + ' mph', inline=True) #wind speed
     embed.add_field(name="Wind Direction :dash:", value=str(round(weather.wind('miles_hour')['deg'], 1)) + '°', inline=True) #wind speed
@@ -400,7 +408,7 @@ async def help(ctx):
     embed3.add_field(name="Support server", value="[Invite link](https://discord.gg/MJejP9q)")
     embed3.add_field(name=prefix + "premium", value="You already have premium!", inline=False)
     embed3.add_field(name=prefix + "suggestion <suggestion>", value="Suggest a new feature or bug fix", inline=False)
-    embed3.add_field(name=prefix + "weather <zip code>", value="Get the weather at your location", inline=False)
+    embed3.add_field(name=prefix + "weather <zip code> <c or f>", value="Get the weather at your location", inline=False)
     embed3.add_field(name=prefix + "info", value="Gives basic bot info", inline=False)
     embed3.add_field(name=prefix + "purge <num of msgs>", value="Purge a certain number of messages", inline=False)
     embed3.add_field(name=prefix + "netdiskcpu", value='Get info about the bot computer (owner only)', inline=False)
