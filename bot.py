@@ -27,9 +27,6 @@ import glob
 
 now = datetime.datetime.now()
 start_time = time.time()
-diff_cmas = datetime.datetime(now.year, 12, 25) - \
-datetime.datetime.today()
-diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
 datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
@@ -75,6 +72,7 @@ client.load_extension("cogs.poll")
 client.load_extension("cogs.info")
 
 
+
 # This message lets us know that the script is running correctly
 print("Connecting...")
 
@@ -92,15 +90,6 @@ async def on_ready():
     logger.info("Bot started successfully.")
 
     await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
-
-    # Set "playing" status
-    if diff_cmas.days < 2:
-        print("Merry Christmas!")
-        game = "Merry Christmas! <3"
-    else:
-        game = "a!"
-    await client.change_presence(status=discord.Status.online, activity=discord.Game(game))
-
 
 @client.command()
 async def time(ctx):
@@ -629,6 +618,7 @@ async def load(ctx):
 #christmas countdown!
 @client.command(aliases=['xmas', 'chrimbo'])
 async def christmas(ctx):
+    diff_cmas = datetime.datetime(now.year, 12, 25) - \
     """Christmas countdown!"""
     await ctx.send("**{0}** day(s) left until Christmas day! :christmas_tree:".format(str(diff_cmas.days)))  # Convert the 'diff' integer into a string and say the message
 
@@ -636,6 +626,7 @@ async def christmas(ctx):
 #new year countdown!	
 @client.command(aliases=['newyears'])
 async def newyear(ctx):
+    diff_ny = datetime.datetime(now.year + 1, 1, 1) - \
     """new year countdown!"""
     await ctx.send("**{0}** day(s) left until 2020! :confetti_ball:".format(str(diff_ny.days)))  # Convert the 'diff' integer into a string and say the message
 
