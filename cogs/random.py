@@ -1,5 +1,6 @@
 import discord
 import aiohttp
+import sr_api
 
 from io import BytesIO
 from discord.ext import commands
@@ -8,6 +9,7 @@ from discord.ext import commands
 class Random(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
 
     @commands.command()
     @commands.guild_only()
@@ -52,5 +54,18 @@ class Random(commands.Cog):
             message += f"⚫ {', '.join(offline)}\n"
 
         await ctx.send(f"Mods in **{ctx.guild.name}**\n{message}")
+
+    @commands.command()
+    @commands.guild_only()
+    async def base64(self, ctx, function, *, text):
+        srapi = sr_api.Client()
+
+        if(function == 'encode'):
+            result = await srapi.encode_base64(text)
+            await ctx.send(result)
+        else:
+            result = await srapi.decode_base64(text)
+            await ctx.send(result)
+
 def setup(bot):
     bot.add_cog(Random(bot))

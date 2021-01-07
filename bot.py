@@ -235,11 +235,8 @@ async def ping(ctx):
                             "I'm a little tea pot, short and stout", "I'm not crying, my eyeballs "
                                                                     "are sweating!",
                             "When will the pain end?"])
-    before = time.monotonic()
     ping_msg = await ctx.send("Pinging Server...")
-    after = time.monotonic()
-    ping = (after - before) * 1000
-    await ping_msg.edit(content=joke + f" // ***{ping:.0f}ms***")
+    await ping_msg.edit(content=joke + f" // ***{client.latency*1000:.0f}ms***")
 
 
 #credits contributors
