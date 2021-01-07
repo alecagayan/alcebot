@@ -7,7 +7,6 @@ import sys
 import os
 import random
 import requests
-import urllib.request
 import json
 import time
 import pyowm
@@ -22,8 +21,6 @@ import urllib.request
 import logging
 import psutil
 import aiohttp
-from concurrent.futures._base import CancelledError
-import glob
 
 now = datetime.datetime.now()
 start_time = time.time()
