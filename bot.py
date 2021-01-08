@@ -21,6 +21,7 @@ import urllib.request
 import logging
 import psutil
 import aiohttp
+import wikipedia
 
 now = datetime.datetime.now()
 start_time = time.time()
@@ -54,6 +55,19 @@ def get_prefix(client, message):
 def file_age_in_seconds(pathname):
     st = os.stat(pathname)
     return (time.time() - st.st_mtime)
+
+def get_wiki_image(search_term):
+    try:
+        result = wikipedia.search(search_term, results = 1)
+        wikipedia.set_lang('en')
+        wkpage = wikipedia.WikipediaPage(title = result[0])
+        title = wkpage.title
+        response  = requests.get(WIKI_REQUEST+title)
+        json_data = json.loads(response.text)
+        img_link = list(json_data['query']['pages'].values())[0]['original']['source']
+        return img_link        
+    except:
+        return 0
 
 
 # IMPORTANT - DO NOT TOUCH! Setup bot as "client", with description and prefix from config.py
@@ -325,6 +339,43 @@ async def weather(ctx, a, t = None):
     await ctx.send(embed=embed)
     #await ctx.send('foobar')
 
+@client.command()
+async def forecast(ctx, a, t = None):
+    comma = ','
+    mgr = owm.weather_manager()
+
+    if comma in a:
+        observation = mgr.forecast_at_place(a, 'daily').forecast
+    else:
+        observation = mgr.forecast_at_zip_code(a + ',US', 'daily').forecast
+
+    weather = observation.weather
+    embedColor = random.randint(0, 0xffffff)
+
+    if(t == 'f'):
+        cf = 'fahrenheit'
+        label = ' F'
+    elif(t == 'fahrenheit'):
+        cf = 'fahrenheit'
+        label = ' F'
+    elif(t == 'celsius'):
+        cf = 'celsius'
+        label = ' C'
+    else:
+        cf = 'celsius'
+        label = ' C'
+
+    embed = discord.Embed(title="Daily forecast for  " + a + ": ", color=embedColor) #embed title with zip
+    embed.add_field(name="Temperature :thermometer:", value=str(weather.temperature(cf)['temp']) + label, inline=True) #temperature
+    embed.add_field(name="Feels like :snowflake:", value=str(weather.temperature(cf)['feels_like']) + label, inline=True) #temperature
+    embed.add_field(name="Conditions :white_sun_rain_cloud:", value=weather.detailed_status, inline=True) #conditions header with emoji conditions
+    embed.add_field(name="Wind Speed :wind_blowing_face:", value=str(round(weather.wind('miles_hour')['speed'], 1)) + ' mph', inline=True) #wind speed
+    embed.add_field(name="Wind Direction :dash:", value=str(round(weather.wind('miles_hour')['deg'], 1)) + '°', inline=True) #wind speed
+    embed.add_field(name="Humidity :droplet:", value=str(weather.humidity) + '%', inline=True) #humidity
+    embed.add_field(name="Visibility :eye:", value=str(round(weather.visibility_distance/1609.344, 1)) + ' miles', inline=True) #visibility
+    embed.set_footer(text='Requested on ' + str(datetime.datetime.now())) #prints time
+    await ctx.send(embed=embed)
+
 #shows bot info	
 @client.command()
 async def info(ctx): 
@@ -413,7 +464,8 @@ async def help(ctx):
     embed5.add_field(name=prefix + "prefix <prefix>", value="Changes the bot prefix", inline=False)
     embed5.add_field(name=prefix + "enlarge <user>", value="Enlarge a user's profile photo", inline=False)
     embed5.add_field(name=prefix + "servericon", value="Shows the server's icon", inline=False)
-    embed5.add_field(name=prefix + "mods", value="**In Beta**. Shows the moderators that are online", inline=False)
+    embed5.add_field(name=prefix + "base64 <encode | decode>", value="Encodes or decodes base64", inline=False)
+    embed5.add_field(name=prefix + "lyrics <song>", value="Gets song lyrics", inline=False)
     embed5.set_footer(text='Requested on ' + str(datetime.datetime.now())) #prints time
 
     def check(reaction, user):
