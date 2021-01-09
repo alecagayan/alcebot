@@ -128,3 +128,5 @@ config.py
 config.py
 prefixes.json
 test.py
+
+./botdir

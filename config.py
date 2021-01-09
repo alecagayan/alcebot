@@ -1,11 +1,12 @@
 
-bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XaT3TA.-rHHTkUMLSCIb6FgDGX4d0L6s9A"
+bbtoken = "NTgxMjQ5NzI3OTU4MzUxODkx.XOcg_g.ai-3NFViZYdbuUuu9dYyWGhpt5Y"
 owm_key = 'edfb0cd2f5f17a2319a2bdc8b94431cd'
 startup_extensions = [] #put extensions here
 
 logfile = 'discord.log' # Name of the file to log to (eg. 'discord.log')
-pref = "a!" # Command prefix
-des = "oopsie#1412's bot" # Description shown on using the help command
+pref = "j!" # Command prefix
+des = "alcebot but dev and better" # Description shown on using the help command
+botdir = "./botdir"
 
 # Error messages
 err_mesg_generic = ":x: **An unknown error occurred.**"

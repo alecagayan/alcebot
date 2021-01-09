@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import json
+import os
+import config
 
 async def is_guild_owner(ctx):
     return ctx.message.author.guild_permissions.administrator
@@ -12,13 +14,13 @@ class Prefix(commands.Cog):
     @commands.command()
     @commands.check(is_guild_owner)
     async def prefix(self, ctx, *, pre):
-        with open(r"/opt/alcebot/alcebot/prefixes.json", 'r') as f:
+        with open(os.path.join(config.botdir, "prefixes.json"), 'r') as f:
             prefixes = json.load(f)
 
         prefixes[str(ctx.guild.id)] = pre
         await ctx.send("Prefix set to `" + pre + "`")
 
-        with open(r"/opt/alcebot/alcebot/prefixes.json", 'w') as f:
+        with open(os.path.join(config.botdir, "/prefixes.json"), 'w') as f:
             json.dump(prefixes, f, indent=4)
 
 def setup(bot):

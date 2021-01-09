@@ -22,6 +22,7 @@ import logging
 import psutil
 import aiohttp
 import wikipedia
+import sr_api
 
 now = datetime.datetime.now()
 start_time = time.time()
@@ -29,10 +30,10 @@ datetime.datetime.today()  # Days until Christmas
 passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
-filename_state = "/opt/alcebot/alcebot/us-states.csv"
-filename_county = "/opt/alcebot/alcebot/us-counties.csv"
-county_graph = '/opt/alcebot/alcebot/plot-county.png'
-state_graph = '/opt/alcebot/alcebot/plot-state.png'
+filename_state = os.path.join(config.botdir, "us-states.csv")
+filename_county = os.path.join(config.botdir, "/us-counties.csv")
+county_graph = os.path.join(config.botdir, 'plot-county.png')
+state_graph = os.path.join(config.botdir, 'plot-state.png')
 
 # This code logs all events including chat to discord.log. This file will be overwritten when the bot is restarted - rename the file if you want to keep it.
 logger = logging.getLogger('discord')
@@ -40,6 +41,10 @@ logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename=config.logfile, encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+
+#Define handler early to prevent overhead
+srapi = sr_api.Client()
+
 
 def get_prefix(client, message):
     if not message.guild:
