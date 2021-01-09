@@ -46,13 +46,14 @@ logger.addHandler(handler)
 srapi = sr_api.Client()
 
 
+
 def get_prefix(client, message):
     if not message.guild:
-        return commands.when_mentioned_or('a!')(client, message)
+        return commands.when_mentioned_or(config.pref)(client, message)
     with open('prefixes.json', 'r') as f:
         prefixes=json.load(f)
     if str(message.guild.id) not in prefixes:
-        return commands.when_mentioned_or('a!')(client, message)
+        return commands.when_mentioned_or(config.pref)(client, message)
 
     prefix = prefixes[str(message.guild.id)]
     return commands.when_mentioned_or(prefix)(client, message)
@@ -95,6 +96,11 @@ print("Connecting...")
 # Start bot and print status to console
 @client.event
 async def on_ready():
+    #add symlink for cogs to see prefixes
+    os.symlink( os.path.join(config.botdir, 'prefixes.json'), "tmp")
+    os.replace("tmp", "prefixes.json")
+    
+    
     print("Bot online!\n")
     print("Discord.py API version:", discord.__version__)
     print("Python version:", platform.python_version())
@@ -104,7 +110,7 @@ async def on_ready():
     print("Currently active on " + str(len(client.guilds)) + " server(s).\n")
     logger.info("Bot started successfully.")
 
-    await client.change_presence(status=discord.Status.online, activity=discord.Game('a!'))
+    await client.change_presence(status=discord.Status.online, activity=discord.Game(config.pref))
 
 @client.command()
 async def time(ctx):

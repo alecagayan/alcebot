@@ -30,10 +30,10 @@ class Random(commands.Cog):
     @commands.guild_only()
     async def base64(self, ctx, function, *, text):
         if (function == 'encode'):
-            result = await base64.b64encode(text.encode('utf-8')).decode('utf-8')
+            result = base64.b64encode(text.encode('utf-8')).decode('utf-8')
             await ctx.send(result)
         elif (function == 'decode'):
-            result = await base64.b64decode(text.encode('utf-8')).decode('utf-8')
+            result = base64.b64decode(text.encode('utf-8')).decode('utf-8')
             await ctx.send(result)
         else:
             ctx.send("Please specify encode or decode! See the help command for more info")
