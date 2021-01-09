@@ -1,6 +1,7 @@
 import discord
 import aiohttp
 import sr_api
+import base64
 import random
 
 from io import BytesIO
@@ -28,19 +29,20 @@ class Random(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def base64(self, ctx, function, *, text):
-        srapi = sr_api.Client()
-        if(function == 'encode'):
-            result = await srapi.encode_base64(text)
+        if (function == 'encode'):
+            result = base64.b64encode(text.encode('utf-8')).decode('utf-8')
+            await ctx.send(result)
+        elif (function == 'decode'):
+            result = base64.b64decode(text.encode('utf-8')).decode('utf-8')
             await ctx.send(result)
         else:
-            result = await srapi.decode_base64(text)
-            await ctx.send(result)
+            ctx.send("Please specify encode or decode! See the help command for more info")
+
 
     @commands.command()
     @commands.guild_only()
     async def lyrics(self, ctx, *, title):
-        srapi = sr_api.Client()
-        response = await srapi.get_lyrics(title)
+        response = await ctx.bot.srapi.get_lyrics(title)
         lyric = response.lyrics
         finallyric = (lyric[:1020] + '...') if len(lyric) > 1020 else lyric
 
