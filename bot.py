@@ -96,13 +96,13 @@ print("Connecting...")
 # Start bot and print status to console
 @client.event
 async def on_ready():
-    
-    if platform.system() == "Linux":     
-        #add symlink for cogs to see prefixes
-        os.symlink( os.path.join(config.botdir, 'prefixes.json'), "tmp")
-        os.replace("tmp", "prefixes.json")
-    else:
-        print("PLEASE ADD A SYMLINK FROM FILE {} TO THE DIRECTORY WITH 'bot.py'", os.path.join(config.botdir, 'prefixes.json'))    
+    if config.botdir != "./":
+        if platform.system() == "Linux":     
+            #add symlink for cogs to see prefixes
+            os.symlink( os.path.join(config.botdir, 'prefixes.json'), "tmp")
+            os.replace("tmp", "prefixes.json")
+        else:
+            print("PLEASE ADD A SYMLINK FROM FILE {} TO THE DIRECTORY WITH 'bot.py'", os.path.join(config.botdir, 'prefixes.json'))    
     
     print("Bot online!\n")
     print("Discord.py API version:", discord.__version__)
