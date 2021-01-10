@@ -1,5 +1,5 @@
 
-bbtoken = "lol no"
+bbtoken = "NjMzNDMxNzYxMDk0NzA1MTYz.XaT3TA.qx20UQXhzq9oHvjqGu7Q4BpafgE"
 owm_key = 'edfb0cd2f5f17a2319a2bdc8b94431cd'
 startup_extensions = [] #put extensions here
 
