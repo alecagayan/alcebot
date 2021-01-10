@@ -86,8 +86,7 @@ client.load_extension("cogs.mod")
 client.load_extension("cogs.music")
 client.load_extension("cogs.poll")
 client.load_extension("cogs.info")
-
-
+client.load_extension("cogs.weather")
 
 # This message lets us know that the script is running correctly
 print("Connecting...")
@@ -313,45 +312,6 @@ async def netdiskcpu(ctx):
 async def suggestion(ctx, *, a):
     await ctx.send("Thank you for the suggestion! I will get back to you soon!")
     print ("suggestion: " + a)
-
-#Shows the current weather at zip code	
-@client.command()
-async def weather(ctx, a, t = None):
-    comma = ','
-    mgr = owm.weather_manager()
-
-    if comma in a:
-        observation = mgr.weather_at_place(a)
-    else:
-        observation = mgr.weather_at_zip_code(a, 'US')
-
-    weather = observation.weather
-    embedColor = random.randint(0, 0xffffff)
-
-    if(t == 'f'):
-        cf = 'fahrenheit'
-        label = ' F'
-    elif(t == 'fahrenheit'):
-        cf = 'fahrenheit'
-        label = ' F'
-    elif(t == 'celsius'):
-        cf = 'celsius'
-        label = ' C'
-    else:
-        cf = 'celsius'
-        label = ' C'
-
-    embed = discord.Embed(title="Weather in " + a + " right now:", color=embedColor) #embed title with zip
-    embed.add_field(name="Temperature :thermometer:", value=str(weather.temperature(cf)['temp']) + label, inline=True) #temperature
-    embed.add_field(name="Feels like :snowflake:", value=str(weather.temperature(cf)['feels_like']) + label, inline=True) #temperature
-    embed.add_field(name="Conditions :white_sun_rain_cloud:", value=weather.detailed_status, inline=True) #conditions header with emoji conditions
-    embed.add_field(name="Wind Speed :wind_blowing_face:", value=str(round(weather.wind('miles_hour')['speed'], 1)) + ' mph', inline=True) #wind speed
-    embed.add_field(name="Wind Direction :dash:", value=str(round(weather.wind('miles_hour')['deg'], 1)) + '°', inline=True) #wind speed
-    embed.add_field(name="Humidity :droplet:", value=str(weather.humidity) + '%', inline=True) #humidity
-    embed.add_field(name="Visibility :eye:", value=str(round(weather.visibility_distance/1609.344, 1)) + ' miles', inline=True) #visibility
-    embed.set_footer(text='Requested on ' + str(datetime.datetime.now())) #prints time
-    await ctx.send(embed=embed)
-    #await ctx.send('foobar')
 
 @client.command()
 async def forecast(ctx, a, t = None):
