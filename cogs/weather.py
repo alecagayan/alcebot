@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 import datetime
 
-owm = pyowm.OWM(config.owm_key)
+owm = pyowm.OWM('edfb0cd2f5f17a2319a2bdc8b94431cd')
 
 class Weather(commands.Cog):
     def __init__(self, bot):
@@ -58,9 +58,9 @@ class Weather(commands.Cog):
         mgr = owm.weather_manager()
 
         if comma in a:
-            observation = mgr.forecast_at_place(a, 'daily').forecast
+            observation = mgr.forecast_at_place(a, '3h').forecast
         else:
-            observation = mgr.forecast_at_place(a + ',US', 'daily').forecast
+            observation = mgr.forecast_at_place(a + ',US', '3h').forecast
 
         weather = observation.weather
         embedColor = random.randint(0, 0xffffff)

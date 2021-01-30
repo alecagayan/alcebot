@@ -114,6 +114,12 @@ async def on_ready():
 
     await client.change_presence(status=discord.Status.online, activity=discord.Game(config.pref))
 
+@client.event
+async def on_member_join(member):
+    if(member.server.id == '805105685485846549'):
+        role = discord.utils.get(member.server.roles, id='805107005605937202')
+        await client.add_roles(member, role)
+
 @client.command()
 async def time(ctx):
     await ctx.send(datetime.datetime.now())
