@@ -127,6 +127,7 @@ async def emergency(ctx, reason):
     embed.set_author(name=str(ctx.author) + " (id: " + str(ctx.author.id) + ")", icon_url=ctx.author.avatar_url)
     embed.add_field(name="Message sent in #" + str(client.get_channel(ctx.message.channel.id)), value=reason, inline=False)
     await channel.send(embed=embed)
+    await client.delete_message(ctx.message)
 
 
 @client.command()
