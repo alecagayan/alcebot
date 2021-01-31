@@ -122,11 +122,11 @@ async def on_member_join(member):
 
 @client.command()
 async def emergency(ctx, reason):
-    channel = client.get_channel('805113731481731104')
+    channel = client.get_channel(805113731481731104)
     embed=discord.Embed(title="Emergency Alert Recieved", color=0xff0000)
     embed.set_author(name=str(ctx.author) + " (id: " + str(ctx.author.id) + ")", icon_url=ctx.author.avatar_url)
-    embed.add_field(name="Message", value=reason, inline=False)
-    await ctx.channel.send(embed=embed)
+    embed.add_field(name="Message sent in #" + str(ctx.get_channel(ctx.message.channel.id)), value=reason, inline=False)
+    await channel.send(embed=embed)
 
 
 @client.command()
