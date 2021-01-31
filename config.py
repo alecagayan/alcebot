@@ -6,7 +6,7 @@ startup_extensions = [] #put extensions here
 logfile = 'discord.log' # Name of the file to log to (eg. 'discord.log')
 pref = "a!" # Command prefix
 des = "alcebot but dev and better" # Description shown on using the help command
-botdir = "./botdir"
+botdir = "./"
 
 # Error messages
 err_mesg_generic = ":x: **An unknown error occurred.**"
