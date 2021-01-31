@@ -120,7 +120,7 @@ async def on_member_join(member):
         role = discord.utils.get(member.server.roles, id='805107005605937202')
         await client.add_roles(member, role)
 
-@client.event()
+@client.command()
 async def emergency(ctx, reason):
     channel = client.get_channel('805113731481731104')
     embed=discord.Embed(title="Emergency Alert Recieved", color=0xff0000)
