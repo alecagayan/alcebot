@@ -98,7 +98,7 @@ async def on_ready():
     if config.botdir != "./":
         if platform.system() == "Linux":     
             #add symlink for cogs to see prefixes
-            os.symlink( os.path.join(config.botdir, 'prefixes.json'), "tmp")
+            os.symlink(os.path.join(config.botdir, 'prefixes.json'), "tmp")
             os.replace("tmp", "prefixes.json")
         else:
             print("PLEASE ADD A SYMLINK FROM FILE {} TO THE DIRECTORY WITH 'bot.py'", os.path.join(config.botdir, 'prefixes.json'))    
@@ -119,6 +119,15 @@ async def on_member_join(member):
     if(member.server.id == '805105685485846549'):
         role = discord.utils.get(member.server.roles, id='805107005605937202')
         await client.add_roles(member, role)
+
+@client.event()
+async def emergency(ctx, reason):
+    channel = client.get_channel('805113731481731104')
+    embed=discord.Embed(title="Emergency Alert Recieved", color=0xff0000)
+    embed.set_author(name=ctx.author + " (id: " + ctx.author.id + ")", icon_url=ctx.author.avatar_url)
+    embed.add_field(name="Message", value=reason, inline=False)
+    await ctx.channel.send(embed=embed)
+
 
 @client.command()
 async def time(ctx):
