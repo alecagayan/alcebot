@@ -2,6 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
+from discord.utils import get
 import platform
 import sys
 import os
@@ -87,6 +88,8 @@ client.load_extension("cogs.music")
 client.load_extension("cogs.poll")
 client.load_extension("cogs.info")
 client.load_extension("cogs.weather")
+client.load_extension("cogs.reactionroles")
+
 
 # This message lets us know that the script is running correctly
 print("Connecting...")
@@ -121,13 +124,31 @@ async def on_member_join(member):
         await client.add_roles(member, role)
 
 @client.command()
-async def emergency(ctx, reason):
-    channel = client.get_channel(805113731481731104)
-    embed=discord.Embed(title="Emergency Alert Recieved", color=0xff0000)
-    embed.set_author(name=str(ctx.author) + " (id: " + str(ctx.author.id) + ")", icon_url=ctx.author.avatar_url)
-    embed.add_field(name="Message sent in #" + str(client.get_channel(ctx.message.channel.id)), value=reason, inline=False)
-    await channel.send(embed=embed)
-    await ctx.message.delete()
+async def emergency(ctx, reason = None):
+    if(ctx.server.id == '805105685485846549'):
+        channel = client.get_channel(805113731481731104)
+        embed=discord.Embed(title="Emergency Alert Recieved", color=0xff0000)
+        embed.set_author(name=str(ctx.author) + " (id: " + str(ctx.author.id) + ")", icon_url=ctx.author.avatar_url)
+        embed.add_field(name="Message sent in #" + str(client.get_channel(ctx.message.channel.id)), value=reason, inline=False)
+        await channel.send(embed=embed)
+        await ctx.message.delete()
+
+@client.command()
+async def confirm(ctx):
+    confirmEmoji = '\U00002328'    
+    message = await ctx.send("Confirm")
+    await message.add_reaction(emoji=confirmEmoji)
+    def check(reaction, user):
+        if reaction.emoji == confirmEmoji:
+            return True
+        else: 
+            return False
+    while True:
+        try:
+            reaction, user = await client.wait_for("reaction_add", check=check, timeout=10)
+        roleToAdd = get(ctx.guild.roles,name="Member")
+        memberToRemoveRole = get(ctx.guild.members,name=user.display_name)
+        await memberToRemoveRole.add_roles(roleToAdd)
 
 
 @client.command()
