@@ -134,24 +134,6 @@ async def emergency(ctx, reason = None):
         await ctx.message.delete()
 
 @client.command()
-async def confirm(ctx):
-    confirmEmoji = '\U00002328'    
-    message = await ctx.send("Confirm")
-    await message.add_reaction(emoji=confirmEmoji)
-    def check(reaction, user):
-        if reaction.emoji == confirmEmoji:
-            return True
-        else: 
-            return False
-    while True:
-        try:
-            reaction, user = await client.wait_for("reaction_add", check=check, timeout=10)
-        roleToAdd = get(ctx.guild.roles,name="Member")
-        memberToRemoveRole = get(ctx.guild.members,name=user.display_name)
-        await memberToRemoveRole.add_roles(roleToAdd)
-
-
-@client.command()
 async def time(ctx):
     await ctx.send(datetime.datetime.now())
 
