@@ -86,7 +86,6 @@ client.load_extension("cogs.random")
 client.load_extension("cogs.mod")
 client.load_extension("cogs.music")
 client.load_extension("cogs.poll")
-client.load_extension("cogs.info")
 client.load_extension("cogs.weather")
 client.load_extension("cogs.keyboard")
 
