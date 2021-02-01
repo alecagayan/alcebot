@@ -16,9 +16,9 @@ class Keyboard(commands.Cog):
         suggestEmbed.set_author(name=f'Suggested by {ctx.message.author}', icon_url = f'{ctx.author.avatar_url}')
         suggestEmbed.add_field(name = 'New suggestion!', value = f'{suggestion}')
 
-        await channel.send(embed=suggestEmbed)
-        await channel.add_reaction('✅')
-        await channel.add_reaction('❌')
+        msg = await channel.send(embed=suggestEmbed)
+        await msg.add_reaction('✅')
+        await msg.add_reaction('❌')
 
 def setup(bot):
     bot.add_cog(Keyboard(bot))
