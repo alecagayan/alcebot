@@ -32,7 +32,7 @@ passcode = str(random.randint(10000000000000000000,99999999999999999999))
 devID = 401063536618373121
 owm = pyowm.OWM(config.owm_key)
 filename_state = os.path.join(config.botdir, "us-states.csv")
-filename_county = os.path.join(config.botdir, "/us-counties.csv")
+filename_county = os.path.join(config.botdir, "us-counties.csv")
 county_graph = os.path.join(config.botdir, 'plot-county.png')
 state_graph = os.path.join(config.botdir, 'plot-state.png')
 
@@ -88,7 +88,7 @@ client.load_extension("cogs.music")
 client.load_extension("cogs.poll")
 client.load_extension("cogs.info")
 client.load_extension("cogs.weather")
-client.load_extension("cogs.reactionroles")
+client.load_extension("cogs.keyboard")
 
 
 # This message lets us know that the script is running correctly
@@ -325,12 +325,6 @@ async def netdiskcpu(ctx):
         await ctx.send(embed=embed)
     else:
         await ctx.send(config.err_mesg_permission)
-
-#marks a suggestion in log
-@client.command()
-async def suggestion(ctx, *, a):
-    await ctx.send("Thank you for the suggestion! I will get back to you soon!")
-    print ("suggestion: " + a)
 
 #shows bot info	
 @client.command()

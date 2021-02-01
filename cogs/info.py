@@ -14,8 +14,8 @@ class Info(commands.Cog):
         embed.add_field(name='Description', value=description)
         channel = ctx.guild.get_channel(662755821373095960)
         msg = await channel.send(embed=embed)
-        await msg.add_reaction('👍')
-        await msg.add_reaction('👎')
+        await msg.add_reaction('✅')
+        await msg.add_reaction('❌')
 
 def setup(bot):
     bot.add_cog(Info(bot))
