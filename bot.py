@@ -24,6 +24,7 @@ import psutil
 import aiohttp
 import wikipedia
 import sr_api
+import plotly.express as px
 
 now = datetime.datetime.now()
 start_time = time.time()
@@ -35,6 +36,8 @@ filename_state = os.path.join(config.botdir, "us-states.csv")
 filename_county = os.path.join(config.botdir, "us-counties.csv")
 county_graph = os.path.join(config.botdir, 'plot-county.png')
 state_graph = os.path.join(config.botdir, 'plot-state.png')
+us_graph = os.path.join(config.botdir, 'plot-nation.png')
+
 
 # This code logs all events including chat to discord.log. This file will be overwritten when the bot is restarted - rename the file if you want to keep it.
 logger = logging.getLogger('discord')
@@ -60,8 +63,7 @@ def get_prefix(client, message):
     return commands.when_mentioned_or(prefix)(client, message)
 
 def file_age_in_seconds(pathname):
-    st = os.stat(pathname)
-    return (time.time() - st.st_mtime)
+    return os.path.getmtime(pathname)
 
 def get_wiki_image(search_term):
     try:
@@ -153,17 +155,19 @@ async def math(ctx, m, a: float, b: float):
         await ctx.send(a**b)
 
 @client.command()
-async def covid(ctx, type, *, state):
-    
+async def covid(ctx, type = None, *, location = None):
+
+    await ctx.send('⚠️ `Please wait, this may take a while`')
+
     if(type == "state"):
 
         if (not os.path.exists(filename_state) or file_age_in_seconds(filename_state) > 3600):
             urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv", filename_state)
-
+        location = location.title()
         df = pd.read_csv(filename_state)
-        df_state = df[ df['state'] == state ]
-        df_state.plot(x='date', y=['cases', 'deaths'], label=['Cases', 'Deaths'], linestyle='-', linewidth=4)
-        plt.savefig(state_graph)
+        df_state = df[ df['state'] == location ]
+        fig = px.line(df_state, x = 'date', y = ['cases', 'deaths'], title='Cases and Deaths in ' + location)
+        fig.write_image(state_graph)
         await ctx.send(file=discord.File(state_graph))
 
 
@@ -171,11 +175,22 @@ async def covid(ctx, type, *, state):
 
         if (not os.path.exists(filename_county) or file_age_in_seconds(filename_county) > 3600):
             urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv", filename_county)
+        location = location.title()
         df = pd.read_csv(filename_county)
-        df_county = df[ df['county'] == state ]
-        df_county.plot(x='date', y=['cases', 'deaths'], label=['Cases', 'Deaths'], linestyle='-', linewidth=4)
-        plt.savefig(county_graph)
+        df_county = df[ df['county'] == location ]
+        fig = px.line(df_county, x = 'date', y = ['cases', 'deaths'], title='Cases and Deaths in ' + location)
+        fig.write_image(county_graph)
         await ctx.send(file=discord.File(county_graph))
+
+    else:
+
+        if (not os.path.exists(filename_state) or file_age_in_seconds(filename_state) > 3600):
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv", filename_state)
+        df = pd.read_csv(filename_county)
+        fig = px.pie(df, values='cases', names='state', color_discrete_sequence=px.colors.sequential.RdBu)
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+        fig.write_image('plot-nation.png')
+        await ctx.send(file=discord.File(us_graph))
 
 #sends github link
 @client.command()
