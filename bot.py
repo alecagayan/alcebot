@@ -138,6 +138,10 @@ async def emergency(ctx, reason = None):
 async def time(ctx):
     await ctx.send(datetime.datetime.now())
 
+@client.command()
+async def based(ctx):
+    await ctx.send('dont ask me man...')
+
 #math
 @client.command()
 async def math(ctx, m, a: float, b: float):
