@@ -140,7 +140,7 @@ async def time(ctx):
 
 @client.command()
 async def based(ctx):
-    await ctx.send('dont ask me man...')
+    await ctx.send('chris says based is good')
 
 #math
 @client.command()
