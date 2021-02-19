@@ -130,10 +130,9 @@ async def math(ctx, m, a: float, b: float):
         await ctx.send(a*b)
     elif(m == 'divide'):
         await ctx.send(a/b)
-    elif(m == 'power'):
+    elif(m == 'power' or m == "exponent"):
         await ctx.send(a**b)
-    elif(m == 'exponent'):
-        await ctx.send(a**b)
+
 
 @client.command()
 async def covid(ctx, type, *, state):
