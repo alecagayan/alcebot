@@ -42,7 +42,8 @@ class Random(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def lyrics(self, ctx, *, title):
-        response = await ctx.bot.srapi.get_lyrics(title)
+        srapi = sr_api.Client()
+        response = await srapi.get_lyrics(title)
         lyric = response.lyrics
         finallyric = (lyric[:1020] + '...') if len(lyric) > 1020 else lyric
 
